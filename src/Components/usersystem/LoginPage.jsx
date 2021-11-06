@@ -1,24 +1,130 @@
 import styled from "styled-components"
-import React from "react"
 import logoURL from "../imageinfo"
+import React, { useState, useEffect } from "react"
+import { useAuthState } from 'react-firebase-hooks/auth'
+import firebase, { auth, db } from '../Firebase/firebase';
 
 import "./LoginPage.css";
 
 
 function LoginPage(props) {
 
-  const {
-          email ,
-          setEmail, 
-          setPassword,
-          password,
-          handleLogin,
-          handleSignup,
-          hasAccount,
-          setHasAccount,
-          emailError,
-          passwordError
-        } = props;
+        const [user, setUser] = useState('');
+        const [email, setEmail] = useState('');
+        const [password, setPassword] = useState('');
+        const [emailError, setEmailError] = useState('');
+        const [passwordError, setPasswordError] = useState('');
+        const [hasAccount, setHasAccount] = useState(false);
+      
+      
+      
+        const clearInputs = () => {
+          setEmail('');
+          setPassword('');
+        };
+      
+        const clearErrors = () => {
+          setEmailError('');
+          setPasswordError('');
+        }
+      
+        const handleLogin = () => {
+          clearErrors();
+          firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .catch(err => {
+              switch (err.code) {
+                case "auth/invalid-email":
+      
+                case "auth/user-disabled":
+      
+                case "auth/user-not-found":
+      
+                  setEmailError(err.message);
+                  break;
+      
+                case "auth/wrong-password":
+                  setPasswordError(err.message);
+                  break;
+              }
+            });
+        };
+        let registerd = false;
+      
+        const handleSignup = () => {
+          clearErrors();
+          firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .catch(err => {
+              switch (err.code) {
+                case "auth/email-already-in-use":
+                  setEmailError(err.message);
+                  break;
+      
+                case "auth/invalid-email":
+                  setEmailError(err.message);
+                  break;
+      
+                case "auth/weak-password":
+                  setPasswordError(err.message);
+                  break;
+              }
+            });
+      
+          registerd = true;
+        }
+      
+        const saveNewUserToDb = (user) => {
+          db.collection('users').doc(user.uid).add({
+            registerd: firebase.firestore.FieldValue.serverTimestamp(),
+            username: user.email,
+            uid: user.uid,
+            banned: 0,
+            admin: 0,
+            lastlogin: 0,
+          });
+        }
+      
+        const [users] = useAuthState(auth);
+        useEffect(() => {
+          if (users) {
+            db.collection('users').doc(users.uid).set(
+              {
+                email: users.email,
+                lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
+                photoURL: users.photoURL,
+                banned: 0,
+                admin: 0,
+              },
+              { merge: true }
+            );
+          }
+        }, [users]);
+    
+        const authListener = () => {
+          firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+              if (registerd) {
+                registerd = false;
+                saveNewUserToDb(user);
+              }
+              clearInputs();
+              setUser(user);
+            } else {
+              setUser('');
+            }
+          })
+        }
+      
+      
+      
+      
+        useEffect(() => {
+          authListener();
+        })
+      
 
   return (
     <Container>
