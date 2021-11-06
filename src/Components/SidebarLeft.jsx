@@ -1,43 +1,27 @@
 import React from "react";
 import NewChannel from "./channel/NewChannel";
+import ListChannels from "./channel/ListChannels";
 
 function SidebarLeft(props) {
   return (
     <ul className="nav flex-column fixed-top pt-5 p-3">
       <li className="nav-item">
-        <h3 className="nav-link ">
+        <i className="nav-link ">
           <NewChannel />
-        </h3>
+        </i>
       </li>
       <li className="nav-item">
-        <h5
+        <ListChannels />
+      </li>
+      <li className="nav-item">
+        <i
           style={{ cursor: "pointer" }}
-          className="fas fa-headset mt-3 text-info"
+          className="fas fa-comment-alt mt-3 text-info"
           variant="primary"
         >
           {" "}
-          Hemma
-        </h5>
-      </li>
-      <li className="nav-item">
-        <h5
-          style={{ cursor: "pointer" }}
-          className="fas fa-headset mt-3 text-info"
-          variant="primary"
-        >
-          {" "}
-          Hemma
-        </h5>
-      </li>
-      <li className="nav-item">
-        <h5
-          style={{ cursor: "pointer" }}
-          className="fas fa-headset mt-3 text-info"
-          variant="primary"
-        >
-          {" "}
-          Hemma
-        </h5>
+          ALL CHAT
+        </i>
       </li>
     </ul>
   );

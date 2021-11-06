@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import firebase, { db } from "../Firebase/firebase";
 import { Button, Modal } from "react-bootstrap";
-import { useRouter } from "next/router";
 import { useCollection } from "react-firebase-hooks/firestore";
 
 function NewChannel(props) {
   /* MODAL STUFF */
   const [show, setShow] = useState(false);
-  const router = useRouter();
 
   /* Ej funktionel för tillfället */
   const [channelsSnapshot] = useCollection(
@@ -19,7 +17,9 @@ function NewChannel(props) {
   );
 
   const handleClose = () => {
+    /* Debugg Console Log */
     console.log(name, props.user.email, props.user.uid);
+  
     db.collection("channels").add({
       datecreated: firebase.firestore.FieldValue.serverTimestamp(),
       channel_name: name,
@@ -66,7 +66,7 @@ function NewChannel(props) {
           </label>
         </form>
         <Modal.Body>
-          <h5>Do you want this channel to be permenant?</h5>
+          <h5>Chatt Chanel?</h5>
           <fieldset class="form-group">
             <div class="row">
               <div class="col">
