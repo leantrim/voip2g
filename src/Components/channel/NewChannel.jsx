@@ -18,11 +18,13 @@ function NewChannel(props) {
 
   const handleClose = () => {
     /* Debugg Console Log */
-    console.log(name, props.user.email, props.user.uid);
-  
+    console.log(name, props.user.email, props.user.uid, isChat);
+    console.log(isChat);
+
     db.collection("channels").add({
       datecreated: firebase.firestore.FieldValue.serverTimestamp(),
       channel_name: name,
+      channelisChat: isChat,
       channel_creator: props.user.email,
       channel_creator_userid: props.user.uid,
     });
@@ -37,18 +39,21 @@ function NewChannel(props) {
 
   /* FORM STUFF */
   const [name, setName] = useState("");
+  const [isChat, setIsChat] = useState("");
 
   /* END OF FORM */
 
   return (
     <>
-        <h5
-          // Plus knapp för att lägga till kanaler
-          style={{ cursor: "pointer" }}
-          className="fas fa-plus text-success"
-          variant="primary"
-          onClick={handleShow}
-        >Skapa Ny Kanal</h5>
+      <h5
+        // Plus knapp för att lägga till kanaler
+        style={{ cursor: "pointer" }}
+        className="fas fa-plus text-success"
+        variant="primary"
+        onClick={handleShow}
+      >
+        Skapa Ny Kanal
+      </h5>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -66,7 +71,7 @@ function NewChannel(props) {
           </label>
         </form>
         <Modal.Body>
-          <h5>Chatt Chanel?</h5>
+          <h5>Chat Channel?</h5>
           <fieldset class="form-group">
             <div class="row">
               <div class="col">
@@ -76,8 +81,8 @@ function NewChannel(props) {
                     type="radio"
                     name="gridRadios"
                     id="gridRadios1"
-                    value="option1"
-                    checked
+                    value="true"
+                    onChange={(e) => setIsChat(e.target.value)}
                   />
                   <label class="form-check-label" for="gridRadios1">
                     Yes
@@ -89,7 +94,9 @@ function NewChannel(props) {
                     type="radio"
                     name="gridRadios"
                     id="gridRadios2"
-                    value="option2"
+                    value="false"
+                    onChange={(e) => setIsChat(e.target.value)}
+                    checked
                   />
                   <label class="form-check-label" for="gridRadios2">
                     No

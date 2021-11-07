@@ -1,9 +1,9 @@
 import React from 'react'
+import ListChannels from './channel/ListChannels'
 
-function Body() {
+function Body(props) {
     return (
         <div style={{color: 'white'}} className="container">
-            <h5>Body</h5>
         </div>
     )
 }
