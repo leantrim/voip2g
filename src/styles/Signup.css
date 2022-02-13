@@ -1,0 +1,104 @@
+.register-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.register-form-container {
+  margin-top: 5em;
+  grid-column: 3;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rgba(34, 36, 37, 0.2) 0px 8px 24px;
+  border-radius: 8px;
+  padding-bottom: 20px;
+  background-color: #1b3d60;
+  text-align: center;
+  font-weight: 900;
+}
+
+.logo {
+  width: 100px;
+  margin: 10px;
+}
+
+.register-signup-title {
+  margin-top: 10px;
+  font-size: 28px;
+  color: white;
+}
+
+.register-errorresponse {
+  text-align: center;
+  background-color: rgb(157 7 7 / 87%);
+  font-weight: bold;
+  animation: blinker 3s linear infinite;
+}
+
+.register-button {
+  background-color: #0d6efd;
+  color: black;
+  border-radius: 8px;
+  cursor: pointer;
+  transform: translate(0.3);
+  border: none;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 5px;
+  width: 72%;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.register-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+  border: none;
+}
+
+.register-form-label {
+  display: inline-block;
+  min-width: 360px;
+  color: white;
+}
+
+.register-form-control {
+  border-radius: 8px;
+  box-shadow: none;
+  border: 1px solid #777;
+  text-align: center;
+  font-size: 14px;
+  margin: 10px;
+  padding: 5px;
+  width: 70%;
+}
+
+.register-form-select {
+  border-radius: 8px;
+  box-shadow: none;
+  border: 1px solid #777;
+  text-align: center;
+  font-size: 18px;
+  margin: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 73%;
+  cursor: pointer;
+}
+
+.register-alert {
+  text-align: center;
+  background-color: rgb(157 7 7 / 87%);
+  font-weight: bold;
+  font-size: 10px;
+  border-radius: 8px;
+  display: inline-block;
+  padding: 5px;
+  margin-bottom: 10px;
+  animation: blinker 3s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0.3;
+  }
+}
