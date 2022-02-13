@@ -1,33 +1,14 @@
 import React, { useState } from "react";
-import firebase, { db } from "../Firebase/firebase";
 import { Button, Modal } from "react-bootstrap";
-import { useCollection } from "react-firebase-hooks/firestore";
 
 function NewChannel(props) {
   /* MODAL STUFF */
   const [show, setShow] = useState(false);
 
-  /* Ej funktionel för tillfället */
-  const [channelsSnapshot] = useCollection(
-    db
-      .collection("chats")
-      .doc("channels")
-      .collection("messages")
-      .orderBy("timestamp", "asc")
-  );
-
   const handleClose = () => {
     /* Debugg Console Log */
     console.log(name, props.user.email, props.user.uid, isChat);
     console.log(isChat);
-
-    db.collection("channels").add({
-      datecreated: firebase.firestore.FieldValue.serverTimestamp(),
-      channel_name: name,
-      channelisChat: isChat,
-      channel_creator: props.user.email,
-      channel_creator_userid: props.user.uid,
-    });
 
     setShow(false);
   };
@@ -45,15 +26,13 @@ function NewChannel(props) {
 
   return (
     <>
-      <h5
+      <i
         // Plus knapp för att lägga till kanaler
         style={{ cursor: "pointer" }}
         className="fas fa-plus text-success"
         variant="primary"
         onClick={handleShow}
-      >
-        Skapa Ny Kanal
-      </h5>
+      ></i>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

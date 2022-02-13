@@ -2,23 +2,15 @@ const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev')
 
-// function createWindow() {
-//     const win = new BrowserWindow({
-//         width: 100,
-//         height: 100
-//     })
-
-//     win.loadURL(
-//         isDev ? "http://localhost:3000" : `file://$path.join(__dirname, "../
-//         buid/index.html")}`
-//     )
-// }
 
 function createWindow() {
+
     // Create the browser window.
     win = new BrowserWindow({
-        show: false,
-     //TODO:Enabble this later!   autoHideMenuBar: true,
+        title: 'VOIP2G Speak better with friends',
+        show: true,
+        icon: __dirname + '/icon.png',
+        //TODO:Enabble this later!   autoHideMenuBar: true,
         webPreferences: {
             nodeIntegration: true,
         }
@@ -31,6 +23,20 @@ function createWindow() {
 
     win.maximize();
     win.show();
+
+    mainWindow.on('minimize', function (event) {
+        event.preventDefault();
+        mainWindow.hide();
+    });
+
+    mainWindow.on('close', function (event) {
+        if (!application.isQuiting) {
+            event.preventDefault();
+            mainWindow.hide();
+        }
+
+        return false;
+    });
 }
 
 app.whenReady().then(() => {
@@ -40,3 +46,4 @@ app.whenReady().then(() => {
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 })
+
