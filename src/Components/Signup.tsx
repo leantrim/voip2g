@@ -7,6 +7,7 @@ import { logo } from "../config.json";
 import { signup } from "../types/Signup";
 import { RegisterType } from "../types/RegisterFormType";
 import "../styles/Signup.css";
+import { Link } from "react-router-dom";
 
 export default function Signup() {
   const data = { email: "", password: "", name: "" };
@@ -51,14 +52,23 @@ export default function Signup() {
   return (
     <div className={style + "-container"}>
       <form onSubmit={handleSubmit} className={style + "-form-container"}>
-        <h1 className={style + "-signup-title"}> {RegisterType.title}</h1>
+        <h1 className={style + `-signup-title`}> {RegisterType.title}</h1>
         <img className="logo" src={logo} alt="pic-of-brand-Logo" />
-        {errors && <h4 className="register-errorresponse">{errors}</h4>}
-        {renderInput("email", RegisterType.emailSubject)}
-        {renderInput("password", RegisterType.passwordSubject, "password")}
-        {renderInput("name", RegisterType.nameSubject)}
+        {errors && <h4 className={`${style}-errorresponse`}>{errors}</h4>}
+        {renderInput(RegisterType.email, RegisterType.emailSubject)}
+        {renderInput(
+          RegisterType.password,
+          RegisterType.passwordSubject,
+          "password"
+        )}
+        {renderInput(RegisterType.name, RegisterType.nameSubject)}
         {renderButton(RegisterType.button)}
-        <h5 className="has-account">Har du redan ett konto? Logga in här</h5>
+        <h5 className="has-account">
+          Har du redan ett konto? Logga in{" "}
+          <Link className="here" to="/login">
+            här
+          </Link>
+        </h5>
       </form>
     </div>
   );

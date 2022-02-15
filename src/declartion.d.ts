@@ -11,6 +11,7 @@ declare module "react" {
     value?: any;
     type?: any;
     style?: string;
+    variant?: any;
   }
 }
 

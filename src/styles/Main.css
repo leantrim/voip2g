@@ -1,0 +1,10 @@
+.main-container {
+  display: grid;
+  grid-template-columns: 20em 70% 15%;
+  grid-template-rows: 3em;
+}
+
+.sidebar-left {
+  grid-column: 1;
+  grid-row: 2;
+}

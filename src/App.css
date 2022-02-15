@@ -1,3 +1,9 @@
+* {
+  font-family: "Cairo", sans-serif;
+}
+
 body {
-  background-color: red;
+  background-color: #080d20;
+  height: 100%;
+  margin: 0;
 }

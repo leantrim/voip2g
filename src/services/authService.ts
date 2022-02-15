@@ -1,5 +1,6 @@
 import jwtDecode from "jwt-decode";
 import http from "./httpService";
+import { LoginType } from "../types/LoginFormType";
 
 const SECOND_URL = "auth";
 const tokenKey = "token";
@@ -10,8 +11,8 @@ async function login(user: any) {
   const { data: jwt } = await http.post(
     `http://localhost:5000/api/${SECOND_URL}`,
     {
-      email: user.username,
-      password: user.password,
+      [LoginType.email]: user[LoginType.email],
+      [LoginType.password]: user[LoginType.password],
     }
   );
   localStorage.setItem(tokenKey, jwt);
