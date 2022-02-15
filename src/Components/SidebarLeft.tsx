@@ -105,7 +105,7 @@ function SidebarLeft() {
       <ul>
         Channels
         {channels.map((channel) => (
-          <li>
+          <li key={channel.name}>
             <i className={renderChannelIcon(channel)}></i>
             <div
               onClick={() => handleChannelClick(channel)}
@@ -116,6 +116,7 @@ function SidebarLeft() {
             </div>
             {channel.members.map((channelMember) => (
               <h5
+                key={channelMember.user}
                 onClick={() => handleUserClickMember(channelMember)}
                 onContextMenu={() => handleUserRightClick(channelMember)}
                 className="channel-user"
