@@ -4,7 +4,7 @@ import Main from "./Components/Main";
 import "./App.css";
 
 function App() {
-  // if (!auth.getCurrentUser()) return <Login />;
+  if (!auth.getCurrentUser()) return <Login />;
 
   return <Main />;
 }

@@ -1,12 +1,17 @@
-import auth from "../services/authService";
-import "../styles/SidebarLeft.css";
+import { useContext, useEffect } from "react";
+import { SocketContext } from "../context/SocketContext";
+import { userContext } from "../context/userContext";
 import { userLogoExample } from "../config.json";
+import "../styles/SidebarLeft.css";
 
 function SidebarLeft() {
   //TODO: userContext should be used for current user!
   // const [user, setUser] = useState({});
+  const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } =
+    useContext(SocketContext);
+  const { user } = useContext(userContext);
 
-  const user: any = auth.getCurrentUser();
+  console.log(user);
 
   const channels = [
     {

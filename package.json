@@ -19,14 +19,16 @@
     "install": "^0.13.0",
     "joi": "^17.6.0",
     "jwt-decode": "^3.1.2",
-    "next": "^11.1.2",
+    "next": "^11.1.4",
     "nextjs": "0.0.3",
+    "peer": "^0.6.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.4",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.17.4",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "simple-peer": "^9.11.0",
     "socket.io-client": "^4.4.1",
     "sound-play": "^1.1.0",
     "typescript": "^4.5.5",
@@ -40,7 +42,7 @@
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
     "build": "npm run react-build && npm run electron-build",
-    "start": "concurrently \"cross-env BROWSER=nonne npm run react-start\" \"wait-on http://localhost:3000 && electron .\""
+    "start": "concurrently \"cross-env npm run react-start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "eslintConfig": {
     "extends": [
@@ -63,7 +65,7 @@
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3",
     "concurrently": "^6.3.0",
-    "electron": "^17.0.0",
+    "electron": "^17.0.1",
     "electron-builder": "^22.13.1",
     "save": "^2.4.0",
     "wait-on": "^6.0.0"

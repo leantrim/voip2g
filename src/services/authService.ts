@@ -9,7 +9,7 @@ http.setAuthHeader(getJwt());
 
 async function login(user: any) {
   const { data: jwt } = await http.post(
-    `http://localhost:5000/api/${SECOND_URL}`,
+    `http://192.168.1.52:5000/api/${SECOND_URL}`,
     {
       [LoginType.email]: user[LoginType.email],
       [LoginType.password]: user[LoginType.password],

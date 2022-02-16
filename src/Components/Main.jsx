@@ -1,10 +1,13 @@
+import { useContext, useEffect } from "react";
 import io from "socket.io-client";
+import { userContext } from "../context/userContext";
 import SidebarLeft from "./SidebarLeft";
-import auth from "../services/authService";
 import "../styles/Main.css";
-import { useEffect } from "react";
+
+//TODO usercontext, refactor socket(REWORK?) connection code to services file
 
 function Main() {
+  const { user, logOutUser, getCustomUser } = useContext(userContext);
   const socket = io.connect("http://192.168.1.52:5001");
   console.log(socket);
 
@@ -14,24 +17,22 @@ function Main() {
     console.log("Connected to the socket", socket);
   }
 
-  let socketTimer;
   let isTimerStarted = false;
   function checkConnection() {
     if (!socket.connected && !isTimerStarted) {
       isTimerStarted = true;
-      socketTimer = setTimeout(socketConnection, 1500);
+      setTimeout(socketConnection, 3000);
     }
   }
 
   const socketConnection = async () => {
     if (!socket.connected) {
       console.log("Attempting connection to the socket");
-      socketTimer = setTimeout(socketConnection, 1500);
+      setTimeout(socketConnection, 3000);
     } else {
-      const user = auth.getCurrentUser();
       console.log("Connection successfull to the socket", socket);
       await socket.emit("join_room", "room_id");
-      sendMessage("is now online!");
+      sendMessage(`${user.name} is now online!`);
     }
   };
 
@@ -50,6 +51,9 @@ function Main() {
 
   return (
     <div className="main-container">
+      <div className="header-container">
+        <button onClick={() => logOutUser()}></button>
+      </div>
       <div className="sidebar-left">
         <SidebarLeft />
       </div>
