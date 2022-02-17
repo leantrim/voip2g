@@ -1,87 +1,18 @@
 import { useContext, useEffect } from "react";
 import { SocketContext } from "../context/SocketContext";
+import { channelContext } from "../context/channelContext";
 import { userContext } from "../context/userContext";
 import { userLogoExample } from "../config.json";
 import "../styles/SidebarLeft.css";
+import Channels from "./Channels";
 
 function SidebarLeft() {
-  //TODO: userContext should be used for current user!
-  // const [user, setUser] = useState({});
-  const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } =
-    useContext(SocketContext);
+  const { channel, loadChannels } = useContext(channelContext);
   const { user } = useContext(userContext);
 
-  console.log(user);
-
-  const channels = [
-    {
-      name: "Hemma",
-      isChat: false,
-      members: [],
-    },
-    {
-      name: "Gaming",
-      isChat: false,
-      members: [],
-    },
-    {
-      name: "RedBull Racing",
-      isChat: false,
-      members: [
-        {
-          user: "LEO =D",
-          userLogo: userLogoExample,
-          isMuted: false,
-        },
-        {
-          user: "recoba789",
-          userLogo: userLogoExample,
-          isMuted: false,
-        },
-        {
-          user: "hnsstatic",
-          userLogo: userLogoExample,
-          isMuted: false,
-        },
-        {
-          user: "MjolkaD",
-          userLogo: userLogoExample,
-          isMuted: true,
-        },
-        {
-          user: "oskaaarn",
-          userLogo: userLogoExample,
-          isMuted: false,
-        },
-      ],
-    },
-    {
-      name: "All Chat",
-      isChat: true,
-      members: [],
-    },
-    {
-      name: "AFK",
-      isChat: false,
-      members: [
-        {
-          user: "b-bad",
-          userLogo: userLogoExample,
-          isMuted: true,
-        },
-        {
-          user: "majoo",
-          userLogo: userLogoExample,
-          isMuted: true,
-        },
-        {
-          user: "beep",
-          userLogo: userLogoExample,
-          isMuted: true,
-        },
-      ],
-    },
-  ];
+  useEffect(() => {
+    loadChannels();
+  }, []);
 
   const renderChannelIcon = (channel: any) => {
     let classes = "channel-icon fas ";
@@ -105,36 +36,36 @@ function SidebarLeft() {
     console.log(`${user.name} right clicked on client `, channelMember);
   };
 
+  //return channel.map((chan: any) => <Channels channel={chan} />);
   return (
     <div className="container">
       <ul>
         Channels
-        {channels.map((channel) => (
-          <li key={channel.name}>
-            <i className={renderChannelIcon(channel)}></i>
+        {channel.map((chan: any) => (
+          <li key={chan.name}>
+            <i className={renderChannelIcon(chan)}></i>
             <div
-              onClick={() => handleChannelClick(channel)}
-              onContextMenu={() => handleChannelRightClick(channel)}
+              onClick={() => handleChannelClick(chan)}
+              onContextMenu={() => handleChannelRightClick(chan)}
               className="channel-list"
             >
-              {channel.name}
+              {chan.name}
             </div>
-            {channel.members.map((channelMember) => (
+            {chan.currentUsers.map((channelMember: any) => (
               <h5
                 key={channelMember.user}
                 onClick={() => handleUserClickMember(channelMember)}
                 onContextMenu={() => handleUserRightClick(channelMember)}
                 className="channel-user"
               >
-                <img
-                  className="channel-user-image"
-                  src={channelMember.userLogo}
-                  alt="userLogo"
-                />
-                {channelMember.user}
-                {channelMember.isMuted && (
-                  <i className="user-muted-icon fas fa-microphone-alt-slash"></i>
+                {channelMember.userLogo && (
+                  <img
+                    className="channel-user-image"
+                    src={channelMember.userLogo}
+                    alt="userLogo"
+                  />
                 )}
+                {channelMember.name}
               </h5>
             ))}
           </li>
