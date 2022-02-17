@@ -1,5 +1,6 @@
 import http from "./httpService";
 import { RegisterType } from "../types/RegisterFormType";
+import { DATABASE_URL } from "../config.json";
 
 const SECOND_URL = "users";
 
@@ -10,7 +11,7 @@ interface User {
 }
 
 function register(user: User) {
-  return http.post(`http://192.168.1.52:5000/api/${SECOND_URL}`, {
+  return http.post(`${DATABASE_URL}/api/${SECOND_URL}`, {
     [RegisterType.email]: user[RegisterType.email],
     [RegisterType.name]: user[RegisterType.name],
     [RegisterType.password]: user[RegisterType.password],
@@ -18,12 +19,12 @@ function register(user: User) {
 }
 
 function getUser() {
-  return http.get(`http://192.168.1.52:5000/api/users/me`);
+  return http.get(`${DATABASE_URL}/api/users/me`);
 }
 
 function getCustomUser(_id: string) {
   console.log(_id);
-  return http.get(`http://192.168.1.52:5000/api/users/${_id}`);
+  return http.get(`${DATABASE_URL}/api/users/${_id}`);
 }
 
 const exportObject = {
