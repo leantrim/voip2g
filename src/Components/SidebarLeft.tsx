@@ -5,6 +5,12 @@ import { userContext } from "../context/userContext";
 import { userLogoExample } from "../config.json";
 import "../styles/SidebarLeft.css";
 
+interface Channel {
+  isChat: boolean;
+  name: string;
+  currentUsers: [string];
+}
+
 function SidebarLeft() {
   const { channel, loadChannels } = useContext(channelContext);
   const { user } = useContext(userContext);
@@ -13,25 +19,25 @@ function SidebarLeft() {
     loadChannels();
   }, []);
 
-  const renderChannelIcon = (channel: any) => {
+  const renderChannelIcon = (channel: Channel) => {
     let classes = "channel-icon fas ";
     classes += channel.isChat ? "fa-regular fa-comment-dots" : "fa-headset";
     return classes;
   };
 
-  const handleChannelClick = (channel: any) => {
+  const handleChannelClick = (channel: Channel) => {
     console.log(`${user.name} clicked `, channel);
   };
 
-  const handleChannelRightClick = (channel: any) => {
+  const handleChannelRightClick = (channel: Channel) => {
     console.log(`${user.name} right clicked `, channel);
   };
 
-  const handleUserClickMember = (channelMember: any) => {
+  const handleUserClickMember = (channelMember: Channel) => {
     console.log(`${user.name} clicked on user `, channelMember);
   };
 
-  const handleUserRightClick = (channelMember: any) => {
+  const handleUserRightClick = (channelMember: Channel) => {
     console.log(`${user.name} right clicked on client `, channelMember);
   };
 
@@ -40,7 +46,7 @@ function SidebarLeft() {
     <div className="container">
       <ul>
         Channels
-        {channel.map((chan: any) => (
+        {channel.map((chan: Channel) => (
           <li key={chan.name}>
             <i className={renderChannelIcon(chan)}></i>
             <div
