@@ -1,9 +1,14 @@
 const { app, BrowserWindow } = require('electron')
-const path = require('path')
 const isDev = require('electron-is-dev')
 
 
+let win;
+let mainWindow;
+
+app.disableHardwareAcceleration();
+
 function createWindow() {
+
 
     // Create the browser window.
     win = new BrowserWindow({
@@ -13,6 +18,8 @@ function createWindow() {
         //TODO:Enabble this later!   autoHideMenuBar: true,
         webPreferences: {
             nodeIntegration: true,
+            enableRemoteModule: true,
+            contextIsolation: false
         }
     });
 
@@ -37,11 +44,15 @@ function createWindow() {
 
         return false;
     });
+
 }
 
+
+
 app.whenReady().then(() => {
-    createWindow()
+    createWindow();
 })
+
 
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()

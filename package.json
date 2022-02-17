@@ -8,20 +8,30 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^17.0.17",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
+    "axios": "^0.26.0",
     "better-react-spinkit": "^2.0.4",
     "cross-env": "^7.0.3",
     "electron-is-dev": "^2.0.0",
     "install": "^0.13.0",
-    "next": "^11.1.2",
+    "joi": "^17.6.0",
+    "jwt-decode": "^3.1.2",
+    "next": "^11.1.4",
     "nextjs": "0.0.3",
+    "peer": "^0.6.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.4",
     "react-dom": "^17.0.2",
-    "react-firebase-hooks": "^3.0.4",
     "react-hook-form": "^7.17.4",
+    "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "simple-peer": "^9.11.0",
+    "socket.io-client": "^4.4.1",
     "sound-play": "^1.1.0",
-    "styled-components": "^5.3.1",
+    "typescript": "^4.5.5",
     "use-sound": "^4.0.1",
     "web-vitals": "^1.1.2"
   },
@@ -32,7 +42,7 @@
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
     "build": "npm run react-build && npm run electron-build",
-    "start": "concurrently \"cross-env BROWSER=nonne npm run react-start\" \"wait-on http://localhost:3000 && electron .\""
+    "start": "concurrently \"cross-env npm run react-start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "eslintConfig": {
     "extends": [
@@ -53,9 +63,11 @@
     ]
   },
   "devDependencies": {
+    "@types/react-router-dom": "^5.3.3",
     "concurrently": "^6.3.0",
-    "electron": "^15.2.0",
+    "electron": "^17.0.1",
     "electron-builder": "^22.13.1",
+    "save": "^2.4.0",
     "wait-on": "^6.0.0"
   }
 }
