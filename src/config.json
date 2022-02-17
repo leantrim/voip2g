@@ -1,4 +1,5 @@
 {
+  "DATABASE_URL": "http://192.168.1.52:5000",
   "logo": "https://media.discordapp.net/attachments/767507305410985996/891677533538484264/vp3-nobg.png?width=676&height=676",
   "userLogoExample": "https://logos-world.net/wp-content/uploads/2020/12/Lays-Logo.png"
 }
