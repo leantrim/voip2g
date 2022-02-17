@@ -1,5 +1,6 @@
 import jwtDecode from "jwt-decode";
 import http from "./httpService";
+import { DATABASE_URL } from "../config.json";
 import { LoginType } from "../types/LoginFormType";
 
 const SECOND_URL = "auth";
@@ -8,13 +9,10 @@ const tokenKey = "token";
 http.setAuthHeader(getJwt());
 
 async function login(user: any) {
-  const { data: jwt } = await http.post(
-    `http://192.168.1.52:5000/api/${SECOND_URL}`,
-    {
-      [LoginType.email]: user[LoginType.email],
-      [LoginType.password]: user[LoginType.password],
-    }
-  );
+  const { data: jwt } = await http.post(`${DATABASE_URL}/api/${SECOND_URL}`, {
+    [LoginType.email]: user[LoginType.email],
+    [LoginType.password]: user[LoginType.password],
+  });
   localStorage.setItem(tokenKey, jwt);
 }
 
