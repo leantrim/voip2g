@@ -10,17 +10,6 @@ const UserContextProvider = ({ children }) => {
     const [user, setUser] = useState({});
 
 
-    navigator.mediaDevices.getUserMedia({ video: false, audio: true })
-        .then((currentStream) => {
-            console.log('STRM', currentStream);
-            const audioTracks = window;
-
-            console.log(audioTracks);
-
-            //myVideo.current.srcObject = currentStream;
-        });
-
-
     const logOutUser = () => {
         auth.logout();
     }
@@ -28,7 +17,6 @@ const UserContextProvider = ({ children }) => {
     const loadUserInfo = async () => {
         const user = await client.getUser();
         setUser({ user: user.data });
-        console.log("called", user);
     }
 
     const getCustomUser = async (id) => {
