@@ -9,7 +9,6 @@ import "../styles/Main.css";
 function Main() {
   const { user, logOutUser, getCustomUser } = useContext(userContext);
   const socket = io.connect("http://192.168.1.52:5001");
-  console.log(socket);
 
   if (!socket.connected) {
     console.log("Not connected to the socket server, awaiting connection");
@@ -36,17 +35,14 @@ function Main() {
     }
   };
 
-  checkConnection();
+  //checkConnection();
 
   const sendMessage = async (message) => {
     await socket.emit("send_message", message);
   };
 
   useEffect(() => {
-    console.log("called");
-    socket.on("receive_message", (data) => {
-      console.log(data);
-    });
+    socket.on("receive_message", (data) => {});
   }, [socket]);
 
   return (

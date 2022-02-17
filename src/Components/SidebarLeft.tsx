@@ -4,7 +4,6 @@ import { channelContext } from "../context/channelContext";
 import { userContext } from "../context/userContext";
 import { userLogoExample } from "../config.json";
 import "../styles/SidebarLeft.css";
-import Channels from "./Channels";
 
 function SidebarLeft() {
   const { channel, loadChannels } = useContext(channelContext);

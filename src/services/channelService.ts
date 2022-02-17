@@ -1,8 +1,13 @@
 import http from "./httpService";
-import { ChannelType } from "../types/channelType";
 import { DATABASE_URL } from "../config.json";
 
 const SECOND_URL = "channels";
+
+export enum ChannelType {
+  name = "name",
+  isChat = "isChat",
+  author = "author",
+}
 
 interface Channel {
   [ChannelType.name]: string;
