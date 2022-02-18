@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { channelContext } from "../context/channelContext";
 import { userContext } from "../context/userContext";
 import "../styles/SidebarLeft.css";
@@ -25,7 +25,7 @@ function SidebarLeft() {
 
   const { userJoinChanSocketMsg } = useContext(clientSocketContext);
 
-  const { user: user } = useContext(userContext);
+  const { user } = useContext(userContext);
 
   const [play] = useSound(boopSfx);
 
@@ -59,14 +59,14 @@ function SidebarLeft() {
   const handleUserRightClick = (channelMember: Channel) => {};
 
   return (
-    <div className="container">
+    <div className="sidebar-container">
       <ul>
         Channels
         <button onClick={() => removeUserFromChannel(user, currentChannel)}>
-          DISCONNECT TEST!
+          DISCONNECT
         </button>
         {channel.map((chan: Channel) => (
-          <li key={chan.name}>
+          <li key={channel._id}>
             <i className={renderChannelIcon(chan)}></i>
             <div
               onClick={() => handleChannelClick(chan)}
@@ -77,13 +77,14 @@ function SidebarLeft() {
             </div>
             {chan.currentUsers.map((channelMember: any) => (
               <h5
-                key={channelMember.user}
                 onClick={() => handleUserClickMember(channelMember)}
                 onContextMenu={() => handleUserRightClick(channelMember)}
                 className="channel-user"
+                key={channelMember._id}
               >
                 {channelMember.userLogo && (
                   <img
+                    key={channelMember._id}
                     className="channel-user-image"
                     src={channelMember.userLogo}
                     alt="userLogo"
