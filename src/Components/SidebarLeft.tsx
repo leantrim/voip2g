@@ -1,25 +1,33 @@
-import { useContext, useEffect } from "react";
-import { SocketContext } from "../context/SocketContext";
+import { useContext } from "react";
 import { channelContext } from "../context/channelContext";
 import { userContext } from "../context/userContext";
-import { userLogoExample } from "../config.json";
 import "../styles/SidebarLeft.css";
+import useSound from "use-sound";
+
+import boopSfx from "../sounds/chanjoin.mp3";
+import { clientSocketContext } from "../context/clientSocketContext";
 
 interface Channel {
   isChat: boolean;
   name: string;
+  _id: string;
   currentUsers: [string];
 }
 
 function SidebarLeft() {
-  const { channel, loadChannels } = useContext(channelContext);
-  const { user: user } = useContext(userContext);
+  const {
+    channel,
+    loadChannels,
+    addUserToChannel,
+    removeUserFromChannel,
+    currentChannel,
+  } = useContext(channelContext);
 
-  useEffect(() => {
-    loadChannels();
-  }, []);
+  const { userJoinChanSocketMsg } = useContext(clientSocketContext);
 
-  console.log(user);
+  const { user } = useContext(userContext);
+
+  const [play] = useSound(boopSfx);
 
   const renderChannelIcon = (channel: Channel) => {
     let classes = "channel-icon fas ";
@@ -27,29 +35,38 @@ function SidebarLeft() {
     return classes;
   };
 
-  const handleChannelClick = (channel: Channel) => {
-    console.log(`${user.name} clicked `, channel);
+  window.onbeforeunload = function () {
+    //If user left the page
+    removeUserFromChannel(user, currentChannel);
   };
 
-  const handleChannelRightClick = (channel: Channel) => {
-    console.log(`${user.name} right clicked `, channel);
+  const handleChannelClick = async (channel: Channel) => {
+    if (currentChannel === channel._id) return;
+
+    if (currentChannel) {
+      removeUserFromChannel(user, currentChannel);
+    }
+    await addUserToChannel(user, channel);
+    userJoinChanSocketMsg();
+    play();
+    loadChannels();
   };
 
-  const handleUserClickMember = (channelMember: Channel) => {
-    console.log(`${user.name} clicked on user `, channelMember);
-    console.log(user);
-  };
+  const handleChannelRightClick = (channel: Channel) => {};
 
-  const handleUserRightClick = (channelMember: Channel) => {
-    console.log(`${user.name} right clicked on client `, channelMember);
-  };
+  const handleUserClickMember = (channelMember: Channel) => {};
+
+  const handleUserRightClick = (channelMember: Channel) => {};
 
   return (
-    <div className="container">
+    <div className="sidebar-container">
       <ul>
         Channels
+        <button onClick={() => removeUserFromChannel(user, currentChannel)}>
+          DISCONNECT
+        </button>
         {channel.map((chan: Channel) => (
-          <li key={chan.name}>
+          <li key={channel._id}>
             <i className={renderChannelIcon(chan)}></i>
             <div
               onClick={() => handleChannelClick(chan)}
@@ -60,13 +77,14 @@ function SidebarLeft() {
             </div>
             {chan.currentUsers.map((channelMember: any) => (
               <h5
-                key={channelMember.user}
                 onClick={() => handleUserClickMember(channelMember)}
                 onContextMenu={() => handleUserRightClick(channelMember)}
                 className="channel-user"
+                key={channelMember._id}
               >
                 {channelMember.userLogo && (
                   <img
+                    key={channelMember._id}
                     className="channel-user-image"
                     src={channelMember.userLogo}
                     alt="userLogo"

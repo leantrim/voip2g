@@ -1,0 +1,20 @@
+.head-container {
+  display: inline-grid;
+  grid-row: 1;
+  grid-template-columns: repeat(12, minmax(70px, 1fr));
+  justify-content: center;
+}
+
+.logo {
+  grid-column: 1;
+}
+
+.user {
+  grid-column: 12;
+}
+
+.logo > img {
+  grid-column: 3;
+  width: 60%;
+  height: 80%;
+}
