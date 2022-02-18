@@ -7,6 +7,9 @@ function Main() {
   return (
     <>
       <div className="main-container">
+        <div className="footer">
+          <h1>footer</h1>
+        </div>
         <div className="header-container">
           <Header />
         </div>
