@@ -4,7 +4,7 @@ export default interface DropDownInput {
   error: string;
   data: any;
   options: any;
-  onChange: () => void;
+  onChange: any;
   restProps?: any;
   value: string;
   style: string;

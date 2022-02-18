@@ -13,11 +13,13 @@ interface Channel {
 
 function SidebarLeft() {
   const { channel, loadChannels } = useContext(channelContext);
-  const { user } = useContext(userContext);
+  const { user: user } = useContext(userContext);
 
   useEffect(() => {
     loadChannels();
   }, []);
+
+  console.log(user);
 
   const renderChannelIcon = (channel: Channel) => {
     let classes = "channel-icon fas ";
@@ -35,13 +37,13 @@ function SidebarLeft() {
 
   const handleUserClickMember = (channelMember: Channel) => {
     console.log(`${user.name} clicked on user `, channelMember);
+    console.log(user);
   };
 
   const handleUserRightClick = (channelMember: Channel) => {
     console.log(`${user.name} right clicked on client `, channelMember);
   };
 
-  //return channel.map((chan: any) => <Channels channel={chan} />);
   return (
     <div className="container">
       <ul>
