@@ -6,6 +6,6 @@ export default interface DropDownInput {
   options: any;
   onChange: any;
   restProps?: any;
-  value: any;
+  value: string;
   style: string;
 }

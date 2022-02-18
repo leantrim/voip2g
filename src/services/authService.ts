@@ -8,7 +8,12 @@ const tokenKey = "token";
 
 http.setAuthHeader(getJwt());
 
-async function login(user: any) {
+interface User {
+  email: string;
+  password: string;
+}
+
+async function login(user: User) {
   const { data: jwt } = await http.post(`${DATABASE_URL}/api/${SECOND_URL}`, {
     [LoginType.email]: user[LoginType.email],
     [LoginType.password]: user[LoginType.password],
@@ -16,7 +21,7 @@ async function login(user: any) {
   localStorage.setItem(tokenKey, jwt);
 }
 
-function loginWithJwt(jwt: any) {
+function loginWithJwt(jwt: string) {
   localStorage.setItem(tokenKey, jwt);
 }
 

@@ -4,6 +4,6 @@ export default interface Input {
   error: string;
   restProps?: any;
   type: any;
-  value: any;
+  value: string;
   onChange: any;
 }

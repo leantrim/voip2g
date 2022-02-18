@@ -2,7 +2,6 @@ import { useState } from "react";
 import DropDownInput from "../common/DropdownInput";
 import Input from "../common/Input";
 import "../../styles/Signup.css";
-import { ValidateProperty } from "../../types/Form";
 import { ObjectSchema } from "joi";
 
 interface Form<Type> {
@@ -33,6 +32,11 @@ export default function useForm<Type>({
     }
     return errors;
   };
+
+  interface ValidateProperty {
+    name: string;
+    value: string;
+  }
 
   const validateProperty = ({ name, value }: ValidateProperty) => {
     const schema = joiSchema.extract(name);

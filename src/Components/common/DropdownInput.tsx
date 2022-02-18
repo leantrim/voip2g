@@ -19,7 +19,6 @@ function DropDownInput({
       <select
         name={name}
         onChange={onChange}
-        selected={options.selected}
         className={style + "-form-select"}
       >
         {options.map((opt: any) => (
