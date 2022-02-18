@@ -8,16 +8,19 @@ import "../styles/SidebarLeft.css";
 interface Channel {
   isChat: boolean;
   name: string;
+  _id: string;
   currentUsers: [string];
 }
 
 function SidebarLeft() {
-  const { channel, loadChannels } = useContext(channelContext);
+  const {
+    channel,
+    loadChannels,
+    addUserToChannel,
+    removeUserFromChannel,
+    currentChannel,
+  } = useContext(channelContext);
   const { user: user } = useContext(userContext);
-
-  useEffect(() => {
-    loadChannels();
-  }, []);
 
   console.log(user);
 
@@ -27,7 +30,19 @@ function SidebarLeft() {
     return classes;
   };
 
-  const handleChannelClick = (channel: Channel) => {
+  window.onbeforeunload = function () {
+    //If user left the page
+    removeUserFromChannel(user, currentChannel);
+  };
+
+  const handleChannelClick = async (channel: Channel) => {
+    if (currentChannel === channel._id) return;
+
+    if (currentChannel) {
+      removeUserFromChannel(user, currentChannel);
+    }
+    await addUserToChannel(user, channel);
+    loadChannels();
     console.log(`${user.name} clicked `, channel);
   };
 
@@ -48,6 +63,9 @@ function SidebarLeft() {
     <div className="container">
       <ul>
         Channels
+        <button onClick={() => removeUserFromChannel(user, currentChannel)}>
+          DISCONNECT TEST!
+        </button>
         {channel.map((chan: Channel) => (
           <li key={chan.name}>
             <i className={renderChannelIcon(chan)}></i>

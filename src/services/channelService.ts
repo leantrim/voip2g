@@ -38,7 +38,7 @@ function addClientToChannel(user: string, _id: string) {
 }
 function removeClientFromChannel(user: string, _id: string) {
   return http.put(
-    `${DATABASE_URL}/api/${SECOND_URL}/removeMember//${_id}`,
+    `${DATABASE_URL}/api/${SECOND_URL}/removeMember/${_id}`,
     user
   );
 }
