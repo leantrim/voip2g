@@ -7,7 +7,7 @@ const userContext = createContext();
 
 
 const UserContextProvider = ({ children }) => {
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState();
 
 
     const logOutUser = () => {
@@ -15,8 +15,8 @@ const UserContextProvider = ({ children }) => {
     }
 
     const loadUserInfo = async () => {
-        const user = await client.getUser();
-        setUser({ user: user.data });
+        const { data: user } = await client.getUser();
+        setUser(user);
     }
 
     const getCustomUser = async (id) => {
@@ -28,6 +28,7 @@ const UserContextProvider = ({ children }) => {
         loadUserInfo();
     }, []);
 
+    console.log(user);
 
     return (
         <userContext.Provider value={{
