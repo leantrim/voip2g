@@ -2,13 +2,14 @@ import SidebarLeft from "./SidebarLeft";
 import "../styles/Main.css";
 import Header from "./Header";
 import Chat from "./Chat";
+import Footer from "./Footer";
 
 function Main() {
   return (
     <>
       <div className="main-container">
         <div className="footer">
-          <h1>footer</h1>
+          <Footer />
         </div>
         <div className="header-container">
           <Header />

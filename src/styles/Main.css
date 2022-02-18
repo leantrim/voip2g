@@ -1,8 +1,8 @@
 .main-container {
   display: grid;
-  height: 97%;
+  height: 93%;
   padding: 10px;
-  grid-template-rows: 7% 1fr 7%;
+  grid-template-rows: 7% 1fr 5%;
   grid-gap: 8px;
   padding-top: 28px;
   padding-left: 16px;
