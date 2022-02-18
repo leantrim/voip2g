@@ -23,7 +23,6 @@ const ChannelContextProvider = ({ children }) => {
     const loadChannels = async () => {
         const { data: channel } = await chan.getChannels();
         setChannels([...channel]);
-        console.log(channel);
     }
 
     const loadChannel = async (id) => {
@@ -33,13 +32,11 @@ const ChannelContextProvider = ({ children }) => {
 
     const addUserToChannel = async (user, channelId) => {
         const channel = await chan.addClientToChannel(user, channelId._id);
-        console.log(`${user} was added to the channel(${channelId})!`);
         setCurrentChannel(channelId._id);
         return channel;
     }
     const removeUserFromChannel = async (user, channelId) => {
         if (!currentChannel) return;
-        console.log(user, channelId);
         setCurrentChannel('');
         const channel = await chan.removeClientFromChannel(user, channelId);
         loadChannels();

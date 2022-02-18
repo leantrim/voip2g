@@ -1,9 +1,11 @@
 import { useContext, useEffect } from "react";
-import { SocketContext } from "../context/SocketContext";
 import { channelContext } from "../context/channelContext";
 import { userContext } from "../context/userContext";
-import { userLogoExample } from "../config.json";
 import "../styles/SidebarLeft.css";
+import useSound from "use-sound";
+
+import boopSfx from "../sounds/chanjoin.mp3";
+import { clientSocketContext } from "../context/clientSocketContext";
 
 interface Channel {
   isChat: boolean;
@@ -20,9 +22,12 @@ function SidebarLeft() {
     removeUserFromChannel,
     currentChannel,
   } = useContext(channelContext);
+
+  const { userJoinChanSocketMsg } = useContext(clientSocketContext);
+
   const { user: user } = useContext(userContext);
 
-  console.log(user);
+  const [play] = useSound(boopSfx);
 
   const renderChannelIcon = (channel: Channel) => {
     let classes = "channel-icon fas ";
@@ -42,22 +47,16 @@ function SidebarLeft() {
       removeUserFromChannel(user, currentChannel);
     }
     await addUserToChannel(user, channel);
+    userJoinChanSocketMsg();
+    play();
     loadChannels();
-    console.log(`${user.name} clicked `, channel);
   };
 
-  const handleChannelRightClick = (channel: Channel) => {
-    console.log(`${user.name} right clicked `, channel);
-  };
+  const handleChannelRightClick = (channel: Channel) => {};
 
-  const handleUserClickMember = (channelMember: Channel) => {
-    console.log(`${user.name} clicked on user `, channelMember);
-    console.log(user);
-  };
+  const handleUserClickMember = (channelMember: Channel) => {};
 
-  const handleUserRightClick = (channelMember: Channel) => {
-    console.log(`${user.name} right clicked on client `, channelMember);
-  };
+  const handleUserRightClick = (channelMember: Channel) => {};
 
   return (
     <div className="container">
