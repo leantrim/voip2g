@@ -14,7 +14,7 @@ function createWindow() {
     win = new BrowserWindow({
         title: 'VOIP2G Speak better with friends',
         show: true,
-        icon: __dirname + '/icon.png',
+        icon: __dirname + './icon.png',
         //TODO:Enabble this later!   autoHideMenuBar: true,
         webPreferences: {
             nodeIntegration: true,

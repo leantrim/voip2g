@@ -1,5 +1,6 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 import chan from "../services/channelService";
+import { clientSocketContext } from './clientSocketContext';
 
 const channelContext = createContext();
 
@@ -8,6 +9,7 @@ const channelContext = createContext();
 const ChannelContextProvider = ({ children }) => {
     const [channel, setChannels] = useState([]);
     const [currentChannel, setCurrentChannel] = useState([]);
+
 
     useEffect(() => {
         loadChannels();

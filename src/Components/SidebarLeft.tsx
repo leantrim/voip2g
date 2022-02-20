@@ -1,8 +1,8 @@
+import useSound from "use-sound";
 import { useContext } from "react";
 import { channelContext } from "../context/channelContext";
 import { userContext } from "../context/userContext";
 import "../styles/SidebarLeft.css";
-import useSound from "use-sound";
 
 import boopSfx from "../sounds/chanjoin.mp3";
 import { clientSocketContext } from "../context/clientSocketContext";
@@ -25,7 +25,7 @@ function SidebarLeft() {
 
   const { userJoinChanSocketMsg } = useContext(clientSocketContext);
 
-  const { user } = useContext(userContext);
+  const { user, setUser } = useContext(userContext);
 
   const [play] = useSound(boopSfx);
 
@@ -38,6 +38,7 @@ function SidebarLeft() {
   window.onbeforeunload = function () {
     //If user left the page
     removeUserFromChannel(user, currentChannel);
+    userJoinChanSocketMsg();
   };
 
   const handleChannelClick = async (channel: Channel) => {
@@ -58,15 +59,21 @@ function SidebarLeft() {
 
   const handleUserRightClick = (channelMember: Channel) => {};
 
+  console.log(user);
+
+  //   <button onClick={() => removeUserFromChannel(user, currentChannel)}>
+  //   DISCONNECT
+  // </button>
+
   return (
     <div className="sidebar-container">
+      <span className="create-new-channel">
+        <i className="plus-sign fa-solid fa-plus"></i>
+        <i className="new-channel-text">Create a new channel</i>
+      </span>
       <ul>
-        Channels
-        <button onClick={() => removeUserFromChannel(user, currentChannel)}>
-          DISCONNECT
-        </button>
         {channel.map((chan: Channel) => (
-          <li key={channel._id}>
+          <li className="li-style" key={channel._id}>
             <i className={renderChannelIcon(chan)}></i>
             <div
               onClick={() => handleChannelClick(chan)}
@@ -75,6 +82,7 @@ function SidebarLeft() {
             >
               {chan.name}
             </div>
+            <i className="gear-icon fa-solid fa-gear"></i>
             {chan.currentUsers.map((channelMember: any) => (
               <h5
                 onClick={() => handleUserClickMember(channelMember)}
@@ -96,6 +104,20 @@ function SidebarLeft() {
           </li>
         ))}
       </ul>
+      {user && (
+        <div className="user-container">
+          <img
+            key={user._id}
+            className="user-bottom-logo channel-user-image"
+            src={user.userLogo}
+            alt="userLogo"
+          />
+          <i className="user-bottom-name">{user.name}</i>
+          <i className="user-microphone fa-solid fa-microphone"></i>
+          <i className="user-headset fa-solid fa-headphones"></i>
+          <i className="user-settings fa-solid fa-gear"></i>
+        </div>
+      )}
     </div>
   );
 }

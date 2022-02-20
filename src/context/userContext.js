@@ -17,7 +17,6 @@ const UserContextProvider = ({ children }) => {
     const loadUserInfo = async () => {
         const { data: user } = await client.getUser();
         setUser(user);
-        console.log(user);
     }
 
     const getCustomUser = async (id) => {
@@ -29,7 +28,6 @@ const UserContextProvider = ({ children }) => {
         loadUserInfo();
     }, []);
 
-    console.log(user);
 
     return (
         <userContext.Provider value={{

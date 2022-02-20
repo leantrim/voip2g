@@ -9,19 +9,20 @@ import Home from "./App"
 import Login from './Components/Login';
 import Signup from './Components/Signup';
 
+
 ReactDOM.render(
-  <ChannelContextProvider>
-    <ClientSocketProvider>
-      <UserContextProvider>
+  <UserContextProvider>
+    <ChannelContextProvider>
+      <ClientSocketProvider>
         <ContextProvider>
           <Router>
             <Route exact path="/" component={Home} />
             <Route path="/register" component={Signup} />
             <Route path="/login" component={Login} />
           </Router>
-        </ContextProvider>,
-      </UserContextProvider>,
-    </ClientSocketProvider>,
-  </ChannelContextProvider>,
+        </ContextProvider>
+      </ClientSocketProvider>
+    </ChannelContextProvider>
+  </UserContextProvider>,
   document.getElementById("root")
 );
