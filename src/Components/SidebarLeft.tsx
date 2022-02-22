@@ -1,11 +1,12 @@
 import useSound from "use-sound";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { channelContext } from "../context/channelContext";
 import { userContext } from "../context/userContext";
 import "../styles/SidebarLeft.css";
 
 import boopSfx from "../sounds/chanjoin.mp3";
 import { clientSocketContext } from "../context/clientSocketContext";
+import NewChannel from "./NewChannel";
 
 interface Channel {
   isChat: boolean;
@@ -48,7 +49,7 @@ function SidebarLeft() {
       removeUserFromChannel(user, currentChannel);
     }
     await addUserToChannel(user, channel);
-    userJoinChanSocketMsg();
+    userJoinChanSocketMsg(channel);
     play();
     loadChannels();
   };
@@ -59,21 +60,18 @@ function SidebarLeft() {
 
   const handleUserRightClick = (channelMember: Channel) => {};
 
-  console.log(user);
-
-  //   <button onClick={() => removeUserFromChannel(user, currentChannel)}>
-  //   DISCONNECT
-  // </button>
+  useEffect(() => {
+    loadChannels();
+  }, [currentChannel, user]);
 
   return (
     <div className="sidebar-container">
-      <span className="create-new-channel">
-        <i className="plus-sign fa-solid fa-plus"></i>
-        <i className="new-channel-text">Create a new channel</i>
-      </span>
+      <div className="create-new-channel">
+        <NewChannel />
+      </div>
       <ul>
         {channel.map((chan: Channel) => (
-          <li className="li-style" key={channel._id}>
+          <li key={channel._id} className="li-style">
             <i className={renderChannelIcon(chan)}></i>
             <div
               onClick={() => handleChannelClick(chan)}
@@ -83,29 +81,38 @@ function SidebarLeft() {
               {chan.name}
             </div>
             <i className="gear-icon fa-solid fa-gear"></i>
-            {chan.currentUsers.map((channelMember: any) => (
-              <h5
-                onClick={() => handleUserClickMember(channelMember)}
-                onContextMenu={() => handleUserRightClick(channelMember)}
-                className="channel-user"
-                key={channelMember._id}
-              >
-                {channelMember.userLogo && (
-                  <img
-                    key={channelMember._id}
-                    className="channel-user-image"
-                    src={channelMember.userLogo}
-                    alt="userLogo"
-                  />
-                )}
-                {channelMember.name}
-              </h5>
-            ))}
+            {chan.currentUsers &&
+              chan.currentUsers.map((channelMember: any) => (
+                <h5
+                  onClick={() => handleUserClickMember(channelMember)}
+                  onContextMenu={() => handleUserRightClick(channelMember)}
+                  className="channel-user"
+                >
+                  {channelMember.userLogo && (
+                    <img
+                      className="channel-user-image"
+                      src={channelMember.userLogo}
+                      alt="userLogo"
+                    />
+                  )}
+                  {channelMember.name}
+                </h5>
+              ))}
           </li>
         ))}
       </ul>
       {user && (
         <div className="user-container">
+          {currentChannel && (
+            <>
+              <i className="connection-signal fa-solid fa-signal"></i>
+              <i className="voice-connected">Voice Connected</i>
+              <i
+                onClick={() => removeUserFromChannel(user, currentChannel)}
+                className="disconnect-logo fa-solid fa-phone-slash"
+              ></i>
+            </>
+          )}
           <img
             key={user._id}
             className="user-bottom-logo channel-user-image"

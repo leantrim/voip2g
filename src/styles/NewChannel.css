@@ -1,0 +1,43 @@
+.new-channel-form-container {
+  display: inline-grid;
+}
+
+.new-channel-createChannel-title {
+  grid-row: 1;
+}
+
+.new-channel-errorresponse {
+}
+
+.new-channel-button {
+  background-color: #0d6efd;
+  color: black;
+  border-radius: 8px;
+  cursor: pointer;
+  transform: translate(0.3);
+  border: none;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 5px;
+  width: 72%;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.new-channel-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+  border: none;
+}
+
+.new-channel-form-label {
+}
+
+.new-channel-form-control {
+}
+
+.new-channel-form-select {
+}
+
+.new-channel-alert {
+}

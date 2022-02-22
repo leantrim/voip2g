@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import chan from "../services/channelService";
-import { clientSocketContext } from './clientSocketContext';
 
 const channelContext = createContext();
 
@@ -8,7 +7,7 @@ const channelContext = createContext();
 
 const ChannelContextProvider = ({ children }) => {
     const [channel, setChannels] = useState([]);
-    const [currentChannel, setCurrentChannel] = useState([]);
+    const [currentChannel, setCurrentChannel] = useState();
 
 
     useEffect(() => {
@@ -17,7 +16,7 @@ const ChannelContextProvider = ({ children }) => {
 
 
 
-    const createChannel = async (chan) => {
+    const createNewChannel = async (chan) => {
         const channel = await chan.createChannel(chan);
         return channel;
     }
@@ -39,6 +38,7 @@ const ChannelContextProvider = ({ children }) => {
     }
     const removeUserFromChannel = async (user, channelId) => {
         if (!currentChannel) return;
+        console.log(user);
         setCurrentChannel('');
         const channel = await chan.removeClientFromChannel(user, channelId);
         loadChannels();
@@ -53,7 +53,7 @@ const ChannelContextProvider = ({ children }) => {
             setChannels,
             loadChannels,
             loadChannel,
-            createChannel,
+            createNewChannel,
             addUserToChannel,
             removeUserFromChannel,
         }}>

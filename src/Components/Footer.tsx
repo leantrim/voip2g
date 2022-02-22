@@ -4,7 +4,6 @@ import "../styles/Footer.css";
 
 //TODO SOCKET NEEDS TO BE DONE HERE
 function Footer() {
-  console.log("Footer called");
   const { socket } = useContext(clientSocketContext);
 
   useEffect(() => {}, [socket]);

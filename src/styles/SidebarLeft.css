@@ -33,10 +33,6 @@ li {
   background-color: #152355;
 }
 
-.create-new-channel:hover {
-  background-color: grey;
-}
-
 .plus-sign {
   padding: 10px;
   font-size: 28px;
@@ -50,7 +46,7 @@ li {
 .new-channel-text:hover,
 .plus-sign:hover {
   transform: scale(0.54);
-  color: grey;
+  filter: brightness(70%);
 }
 
 .channel-icon {
@@ -97,10 +93,39 @@ li {
   color: #8f742f;
 }
 
+.inChannel {
+  grid-row: 1;
+}
+
+.connection-signal {
+  color: green;
+  font-size: 24px;
+  grid-column: 2;
+  margin-top: 10px;
+}
+
+.voice-connected {
+  grid-column: 3;
+  margin-top: 10px;
+  font-weight: bold;
+  color: green;
+}
+
+.disconnect-logo {
+  font-size: 18px;
+  grid-column: 7;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.disconnect-logo:hover {
+  color: red;
+}
+
 .user-container {
   display: grid;
   grid-template-rows: 50%;
-  grid-template-columns: 7px 2.5em 25% 2.5em auto auto auto;
+  grid-template-columns: 7px 2.5em auto;
   background-color: #152355;
 }
 
@@ -144,6 +169,7 @@ li {
 .user-microphone:hover,
 .user-headset:hover,
 .user-settings:hover {
+  padding-top: 20px;
   font-size: 18px;
   color: #767882;
 }
