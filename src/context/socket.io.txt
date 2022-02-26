@@ -1,0 +1,25 @@
+SOCKET CHEAT SHEAT
+
+        //TODO STORAGE FOR BRAIN(tbr), Send custom message to server
+        const msg = 'ASD';
+        lobby.emit('chatMessage', msg);
+
+
+          // Emits only to the connecting client
+  socket.emit('user-notification', 'You are succefully connected to socket Lobby.');
+
+  // Send to everyone expect client
+  socket.broadcast.emit('user-notification', 'User has joined the chat');
+
+  socket.on('disconnect', () => {
+    socket.broadcast.emit('user-notification', 'User is now offline')
+
+  });
+
+  // Listen for custom message from client
+  socket.on('chatMessage', msg => {
+    // send to ALL. Including triggering client
+    lobbyIO.emit('user-notification', msg);
+
+    // Send to everyone EXPECT triggering client
+    socket.broadcast.emit("user-notification", msg);

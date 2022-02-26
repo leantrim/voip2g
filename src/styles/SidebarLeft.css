@@ -1,21 +1,65 @@
+.sidebar-container {
+  display: grid;
+  grid-template-rows: 3em 4fr 6em;
+  height: 100%;
+}
+
+.user-info {
+  grid-row: 3;
+}
+
+.li-style {
+  margin-left: -38px;
+}
+
 li {
   list-style-type: none;
+  grid-column: 1;
 }
 
 .channel-list {
   color: rgb(225 181 22);
   display: inline;
-  margin: 10px;
   font-size: 16px;
   cursor: pointer;
+  font-weight: 900;
 }
 .title {
   color: #888;
 }
 
+.create-new-channel {
+  cursor: pointer;
+  background-color: #152355;
+}
+
+.plus-sign {
+  padding: 10px;
+  font-size: 28px;
+  color: rgb(255, 250, 250);
+}
+
+.new-channel-text {
+  font-size: 18px;
+  color: white;
+}
+.new-channel-text:hover,
+.plus-sign:hover {
+  transform: scale(0.54);
+  filter: brightness(70%);
+}
+
 .channel-icon {
   font-size: 24px;
-  color: rgb(131 106 41);
+  color: rgb(225, 181, 22);
+  margin: 10px;
+}
+
+.gear-icon {
+  cursor: pointer;
+  float: right;
+  margin-right: 10px;
+  margin-top: 18px;
 }
 
 .fa-comment-alt {
@@ -23,22 +67,109 @@ li {
 }
 
 .channel-user {
-  color: white;
   font-size: 16px;
-  margin-top: 0;
+  margin-top: 0px;
   margin-bottom: 4px;
-  margin-left: 18px;
+  margin-left: 35px;
+  cursor: pointer;
+  color: #767882;
+}
+
+.sidebar-container .gear {
+  grid-column: 2;
   cursor: pointer;
 }
 
 .channel-user-image {
-  width: 50px;
+  width: 30px;
   border-radius: 50%;
   vertical-align: middle;
+  padding-right: 5px;
 }
 
 .user-muted-icon {
   margin-left: 5px;
   font-size: 15px;
   color: #8f742f;
+}
+
+.inChannel {
+  grid-row: 1;
+}
+
+.connection-signal {
+  color: green;
+  font-size: 24px;
+  grid-column: 2;
+  margin-top: 10px;
+}
+
+.voice-connected {
+  grid-column: 3;
+  margin-top: 10px;
+  font-weight: bold;
+  color: green;
+}
+
+.disconnect-logo {
+  font-size: 18px;
+  grid-column: 7;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.disconnect-logo:hover {
+  color: red;
+}
+
+.user-container {
+  display: grid;
+  grid-template-rows: 50%;
+  grid-template-columns: 7px 2.5em auto;
+  background-color: #152355;
+}
+
+.user-bottom-name {
+  grid-row: 2;
+  grid-column: 3;
+  width: 30px;
+  margin-top: 10px;
+  font-weight: 900;
+}
+
+.user-bottom-logo {
+  grid-row: 2;
+  grid-column: 2;
+  width: 30px;
+  margin-top: 10px;
+}
+
+.user-microphone {
+  grid-row: 2;
+  grid-column: 5;
+}
+
+.user-headset {
+  grid-row: 2;
+  grid-column: 6;
+}
+
+.user-settings {
+  grid-row: 2;
+  grid-column: 7;
+}
+
+.user-microphone,
+.user-headset,
+.user-settings {
+  padding-top: 20px;
+  cursor: pointer;
+}
+
+.user-microphone:hover,
+.user-headset:hover,
+.user-settings:hover {
+  padding-top: 20px;
+  font-size: 18px;
+  color: #767882;
 }

@@ -1,11 +1,15 @@
-import { createContext, useState, useRef, useEffect } from 'react';
+import React, { createContext, useState, useRef, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
 
 const SocketContext = createContext();
-const socket = io('http://192.168.1.52:5001');
 
-const ContextProvider = ({ children }) => {
+const socket = io.connect('http://localhost:5002', {
+    reconnection: false
+});
+
+
+const VoiceContextProvider = ({ children }) => {
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
     const [stream, setStream] = useState();
@@ -13,12 +17,22 @@ const ContextProvider = ({ children }) => {
     const [call, setCall] = useState({});
     const [me, setMe] = useState('');
 
-    const myVideo = useRef();
-    const userVideo = useRef();
+    const myAudio = useRef();
+    const userAudio = useRef();
     const connectionRef = useRef();
 
+    // make socket for channel 
+    // when a users join a channel pair them 
 
     useEffect(() => {
+        // navigator.mediaDevices.getUserMedia({ audio: true })
+        //     .then((currentStream) => {
+        //         setStream(currentStream);
+
+        //         console.log(currentStream);
+
+        //         myAudio.current = currentStream;
+        //     });
 
         socket.on('me', (id) => setMe(id));
 
@@ -37,7 +51,7 @@ const ContextProvider = ({ children }) => {
         });
 
         peer.on('stream', (currentStream) => {
-            userVideo.current.srcObject = currentStream;
+            userAudio.current = currentStream;
         });
 
         peer.signal(call.signal);
@@ -53,7 +67,7 @@ const ContextProvider = ({ children }) => {
         });
 
         peer.on('stream', (currentStream) => {
-            userVideo.current.srcObject = currentStream;
+            userAudio.current = currentStream;
         });
 
         socket.on('callAccepted', (signal) => {
@@ -70,14 +84,15 @@ const ContextProvider = ({ children }) => {
 
         connectionRef.current.destroy();
 
+        window.location.reload();
     };
 
     return (
         <SocketContext.Provider value={{
             call,
             callAccepted,
-            myVideo,
-            userVideo,
+            myAudio,
+            userAudio,
             stream,
             name,
             setName,
@@ -93,4 +108,4 @@ const ContextProvider = ({ children }) => {
     );
 };
 
-export { ContextProvider, SocketContext };
+export { VoiceContextProvider, SocketContext };

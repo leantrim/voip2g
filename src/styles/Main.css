@@ -1,35 +1,28 @@
 .main-container {
-  display: grid;
-  height: 93%;
-  padding: 10px;
-  grid-template-rows: 7% 1fr 5%;
+  display: inline-grid;
+  height: 100vh;
+  grid-template-rows: auto 1fr auto;
   grid-gap: 8px;
-  padding-top: 28px;
-  padding-left: 16px;
-  padding-right: 16px;
+  width: 98vw;
 }
 
 .header-container {
   justify-content: center;
   grid-row: 1;
   background-color: #1a2b6a;
-  border-radius: 8px;
 }
 
 .sub-container {
   grid-gap: 8px;
-  height: 100%;
   display: inline-grid;
   grid-template-columns: 15em 1fr;
 }
 
 .sidebar-left {
-  border-radius: 8px;
   background-color: #1a2b6a;
 }
 
 .body-container {
-  border-radius: 8px;
   grid-row: 1;
   grid-column: 2;
   background-color: #1a2b6a;

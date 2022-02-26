@@ -1,49 +1,45 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
-import { channelContext } from './channelContext';
+import auth from "../services/authService";
+
 
 const clientSocketContext = createContext();
-const client = io('http://192.168.1.52:5001');
 
-const DEFAULT_ROOM = 'default_room';
-const JOIN_CHANNEL = 'channel_join'
+const jwtToken = auth.getJwt();
+const namespace = 'lobby';
+
+
+const lobbySocketConnection = io(`http://192.168.1.52:5001/${namespace}`, { auth: { token: jwtToken } });
 
 const ClientSocketProvider = ({ children }) => {
-    const { loadChannels } = useContext(channelContext);
-
-    client.emit('join_room', DEFAULT_ROOM);
+    const [lobby] = useState(lobbySocketConnection);
 
     useEffect(() => {
-        client.on("receive_message", (data) => {
-            console.log(data);
-            socketMsgRecive(data);
+        lobby.on("connect_error", error => {
+            // User failed authentication
+            console.log(error);
+        });
+        lobby.on("user-notification", (data) => {
+            // Reading the message in a function
+            lobbySocketMessage(data);
         });
 
-        return () => client.disconnect();
-    }, [client]);
-
-
-    const socketMsgRecive = (data) => {
-        switch (data) {
-            case JOIN_CHANNEL: {
-                console.log('something happend =D');
-                loadChannels();
-            }
+        return () => {
+            lobby.disconnect();
         }
-    }
 
-    const userJoinChanSocketMsg = () => {
-        console.log('sent');
-        client.emit("send_message", JOIN_CHANNEL);
-    }
+    }, [lobby]);
 
+
+    const lobbySocketMessage = (data) => {
+        console.log(data);
+        //TODO friends list should reload here
+        // GetFriendList();
+    }
 
 
     return (
-        <clientSocketContext.Provider value={{
-            userJoinChanSocketMsg,
-        }}
-        >
+        <clientSocketContext.Provider value={{ lobby }}>
             {children}
         </clientSocketContext.Provider>
     );
