@@ -5,7 +5,7 @@ import { userContext } from "../context/userContext";
 import "../styles/SidebarLeft.css";
 
 import boopSfx from "../sounds/chanjoin.mp3";
-import { clientSocketContext } from "../context/clientSocketContext";
+import { channelSocketContext } from "../context/channelSocketContext";
 import NewChannel from "./NewChannel";
 
 interface Channel {
@@ -24,7 +24,7 @@ function SidebarLeft() {
     currentChannel,
   } = useContext(channelContext);
 
-  const { userJoinChanSocketMsg } = useContext(clientSocketContext);
+  const { userJoinChannel } = useContext(channelSocketContext);
 
   const { user, setUser } = useContext(userContext);
 
@@ -39,7 +39,6 @@ function SidebarLeft() {
   window.onbeforeunload = function () {
     //If user left the page
     removeUserFromChannel(user, currentChannel);
-    userJoinChanSocketMsg();
   };
 
   const handleChannelClick = async (channel: Channel) => {
@@ -49,8 +48,8 @@ function SidebarLeft() {
       removeUserFromChannel(user, currentChannel);
     }
     await addUserToChannel(user, channel);
-    userJoinChanSocketMsg(channel);
     play();
+    userJoinChannel(channel, user);
     loadChannels();
   };
 

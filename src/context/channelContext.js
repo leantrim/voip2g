@@ -10,7 +10,9 @@ const ChannelContextProvider = ({ children }) => {
     const [currentChannel, setCurrentChannel] = useState();
 
 
+
     useEffect(() => {
+        console.log('loadchannels initated!');
         loadChannels();
     }, []);
 

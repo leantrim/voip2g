@@ -16,7 +16,11 @@ function createWindow() {
         show: true,
         icon: __dirname + './icon.png',
         //TODO:Enabble this later!   autoHideMenuBar: true,
-        webPreferences: { worldSafeExecuteJavaScript: true, contextIsolation: true }
+        webPreferences: {
+            nodeIntegration: true,
+            enableRemoteModule: true,
+            contextIsolation: false
+        }
     });
 
     win.loadURL(

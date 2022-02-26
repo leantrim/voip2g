@@ -9,7 +9,7 @@ const socket = io.connect('http://localhost:5002', {
 });
 
 
-const ContextProvider = ({ children }) => {
+const VoiceContextProvider = ({ children }) => {
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
     const [stream, setStream] = useState();
@@ -108,4 +108,4 @@ const ContextProvider = ({ children }) => {
     );
 };
 
-export { ContextProvider, SocketContext };
+export { VoiceContextProvider, SocketContext };
