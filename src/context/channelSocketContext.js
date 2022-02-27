@@ -1,6 +1,7 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import auth from "../services/authService";
+import chan from "../services/channelService";
 
 
 const channelSocketContext = createContext();
@@ -13,33 +14,6 @@ const channelSocketConnection = io(`http://192.168.1.52:5001/${namespace}`, { au
 
 const ChannelSocketProvider = ({ children }) => {
     const [channel] = useState(channelSocketConnection);
-
-    useEffect(() => {
-        channel.on("connect_error", error => {
-            // User failed authentication
-            console.log(error);
-        });
-        channel.on("channel-notification", (data) => {
-            // Reading the message in a function
-            channelSocketMessage(data);
-        });
-
-        channel.on('prive-channel-notification', (data) => {
-            channelSocketMessage(data);
-        });
-
-        return () => {
-            channel.disconnect();
-        }
-
-    }, [channel]);
-
-
-    const channelSocketMessage = (data) => {
-        console.log(data);
-        //TODO friends list should reload here
-        // GetFriendList();
-    }
 
 
     const userJoinChannel = (channelID, user) => {
@@ -54,7 +28,8 @@ const ChannelSocketProvider = ({ children }) => {
     return (
         <channelSocketContext.Provider value={{
             channel,
-            userJoinChannel
+            userJoinChannel,
+            userLeaveChannel
         }}>
             {children}
         </channelSocketContext.Provider>

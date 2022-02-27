@@ -36,19 +36,12 @@ function addClientToChannel(user: string, _id: string) {
     user,
   });
 }
-function removeClientFromChannel(user: string, _id: string) {
-  return http.put(
-    `${DATABASE_URL}/api/${SECOND_URL}/removeMember/${_id}`,
-    user
-  );
-}
 
 const exportObject = {
   createChannel,
   getChannels,
   getChannel,
   addClientToChannel,
-  removeClientFromChannel,
 };
 
 export default exportObject;

@@ -5,7 +5,6 @@ import { userContext } from "../context/userContext";
 import "../styles/SidebarLeft.css";
 
 import boopSfx from "../sounds/chanjoin.mp3";
-import { channelSocketContext } from "../context/channelSocketContext";
 import NewChannel from "./NewChannel";
 
 interface Channel {
@@ -23,8 +22,6 @@ function SidebarLeft() {
     removeUserFromChannel,
     currentChannel,
   } = useContext(channelContext);
-
-  const { userJoinChannel } = useContext(channelSocketContext);
 
   const { user, setUser } = useContext(userContext);
 
@@ -49,7 +46,6 @@ function SidebarLeft() {
     }
     await addUserToChannel(user, channel);
     play();
-    userJoinChannel(channel, user);
     loadChannels();
   };
 
