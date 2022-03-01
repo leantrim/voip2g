@@ -1,17 +1,21 @@
 import { useContext, useEffect } from "react";
-import { clientSocketContext } from "../context/clientSocketContext";
+import { channelSocketContext } from "../context/channelSocketContext";
+import { mediaStreamContext } from "../context/mediaStreamContext";
 import "../styles/Footer.css";
 
 function Footer() {
-  const { lobby } = useContext(clientSocketContext);
+  const { channel } = useContext(channelSocketContext);
+  const { peersRef } = useContext(mediaStreamContext);
 
-  useEffect(() => {}, [lobby]);
+  console.log(peersRef.current[0]);
 
   return (
     <div className="footer-container">
       <h3 className="conn-info">Connection Info: </h3>
-      <h4 className="socket">{lobby?.connected ? "online" : "offline"}</h4>
-      <h4 className="peer">RTCConnection: OFFLINE</h4>
+      <h4 className="socket">{channel?.connected ? "online" : "offline"}</h4>
+      <h4 className="peer">
+        RTCConnection: {peersRef.current[0] ? "online" : "offline"}
+      </h4>
     </div>
   );
 }

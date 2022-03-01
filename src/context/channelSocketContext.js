@@ -15,31 +15,11 @@ const ChannelSocketProvider = ({ children }) => {
     const [channel] = useState(channelSocketConnection);
 
     useEffect(() => {
-        channel.on("connect_error", error => {
-            // User failed authentication
-            console.log(error);
+        channel.on("user joined", payload => {
+            console.log('DETECTED');
         });
-        channel.on("channel-notification", (data) => {
-            // Reading the message in a function
-            channelSocketMessage(data);
-        });
+    }, [channel])
 
-        channel.on('prive-channel-notification', (data) => {
-            channelSocketMessage(data);
-        });
-
-        return () => {
-            channel.disconnect();
-        }
-
-    }, [channel]);
-
-
-    const channelSocketMessage = (data) => {
-        console.log(data);
-        //TODO friends list should reload here
-        // GetFriendList();
-    }
 
 
     const userJoinChannel = (channelID, user) => {
@@ -54,7 +34,8 @@ const ChannelSocketProvider = ({ children }) => {
     return (
         <channelSocketContext.Provider value={{
             channel,
-            userJoinChannel
+            userJoinChannel,
+            userLeaveChannel
         }}>
             {children}
         </channelSocketContext.Provider>
