@@ -3,6 +3,7 @@ import "../styles/Main.css";
 import Header from "./Header";
 import Chat from "./Chat";
 import Footer from "./Footer";
+import VoiceChat from "./VoiceChat";
 
 function Main() {
   return (
@@ -20,6 +21,7 @@ function Main() {
           </div>
           <div className="body-container">
             <Chat />
+            <VoiceChat />
           </div>
         </div>
       </div>

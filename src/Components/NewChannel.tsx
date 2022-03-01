@@ -3,7 +3,6 @@ import Joi from "joi";
 import Modal from "react-modal";
 import "../styles/NewChannel.css";
 import useForm from "./common/Form";
-import { channelContext } from "../context/channelContext";
 import chan from "../services/channelService";
 
 interface newchannel {

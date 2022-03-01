@@ -1,7 +1,6 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import auth from "../services/authService";
-import chan from "../services/channelService";
 
 
 const channelSocketContext = createContext();
@@ -14,6 +13,13 @@ const channelSocketConnection = io(`http://192.168.1.52:5001/${namespace}`, { au
 
 const ChannelSocketProvider = ({ children }) => {
     const [channel] = useState(channelSocketConnection);
+
+    useEffect(() => {
+        channel.on("user joined", payload => {
+            console.log('DETECTED');
+        });
+    }, [channel])
+
 
 
     const userJoinChannel = (channelID, user) => {

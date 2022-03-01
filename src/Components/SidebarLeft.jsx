@@ -1,44 +1,58 @@
 import useSound from "use-sound";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { channelContext } from "../context/channelContext";
 import { userContext } from "../context/userContext";
 import "../styles/SidebarLeft.css";
 
 import boopSfx from "../sounds/chanjoin.mp3";
 import NewChannel from "./NewChannel";
+import { mediaStreamContext } from "../context/mediaStreamContext";
 
-interface Channel {
-  isChat: boolean;
-  name: string;
-  _id: string;
-  currentUsers: [string];
-}
+// interface Channel {
+//   isChat: boolean;
+//   name: string;
+//   _id: string;
+//   currentUsers: [string];
+// }
 
 function SidebarLeft() {
+  function downHandler({ key }) {
+    if (key === "Shift") {
+    }
+  }
+
+  function upHandler({ key }) {
+    if (key === "Shift") {
+    }
+  }
+
   const {
     channel,
     loadChannels,
+    loadChannel,
     addUserToChannel,
     removeUserFromChannel,
     currentChannel,
   } = useContext(channelContext);
 
-  const { user, setUser } = useContext(userContext);
+  const { toggleMic, enableMic, disableMic } = useContext(mediaStreamContext);
+
+  const { user } = useContext(userContext);
 
   const [play] = useSound(boopSfx);
 
-  const renderChannelIcon = (channel: Channel) => {
+  useEffect(() => {
+    loadChannels();
+    console.log("Called");
+  }, []);
+
+  const renderChannelIcon = (channel) => {
     let classes = "channel-icon fas ";
     classes += channel.isChat ? "fa-regular fa-comment-dots" : "fa-headset";
     return classes;
   };
 
-  window.onbeforeunload = function () {
-    //If user left the page
-    removeUserFromChannel(user, currentChannel);
-  };
-
-  const handleChannelClick = async (channel: Channel) => {
+  const handleChannelClick = async (channel) => {
     if (currentChannel === channel._id) return;
 
     if (currentChannel) {
@@ -49,15 +63,22 @@ function SidebarLeft() {
     loadChannels();
   };
 
-  const handleChannelRightClick = (channel: Channel) => {};
+  const handleChannelRightClick = (channel) => {};
 
-  const handleUserClickMember = (channelMember: Channel) => {};
+  const handleUserClickMember = (channelMember) => {};
 
-  const handleUserRightClick = (channelMember: Channel) => {};
+  const handleUserRightClick = (channelMember) => {};
 
-  useEffect(() => {
+  const renderMic = () => {
+    let style = "user-microphone fa-solid fa-microphone";
+    if (user.micMuted) style += "-slash";
+    return style;
+  };
+
+  const handleClickMic = () => {
+    toggleMic();
     loadChannels();
-  }, [currentChannel, user]);
+  };
 
   return (
     <div className="sidebar-container">
@@ -65,7 +86,7 @@ function SidebarLeft() {
         <NewChannel />
       </div>
       <ul>
-        {channel.map((chan: Channel) => (
+        {channel.map((chan) => (
           <li key={channel._id} className="li-style">
             <i className={renderChannelIcon(chan)}></i>
             <div
@@ -77,21 +98,26 @@ function SidebarLeft() {
             </div>
             <i className="gear-icon fa-solid fa-gear"></i>
             {chan.currentUsers &&
-              chan.currentUsers.map((channelMember: any) => (
-                <h5
-                  onClick={() => handleUserClickMember(channelMember)}
-                  onContextMenu={() => handleUserRightClick(channelMember)}
-                  className="channel-user"
-                >
-                  {channelMember.userLogo && (
-                    <img
-                      className="channel-user-image"
-                      src={channelMember.userLogo}
-                      alt="userLogo"
-                    />
+              chan.currentUsers.map((channelMember) => (
+                <div>
+                  <h5
+                    onClick={() => handleUserClickMember(channelMember)}
+                    onContextMenu={() => handleUserRightClick(channelMember)}
+                    className="channel-user"
+                  >
+                    {channelMember.userLogo && (
+                      <img
+                        className="channel-user-image"
+                        src={channelMember.userLogo}
+                        alt="userLogo"
+                      />
+                    )}
+                    {channelMember.name}
+                  </h5>
+                  {channelMember.micMuted && (
+                    <span className="fa-solid fa-microphone-slash"></span>
                   )}
-                  {channelMember.name}
-                </h5>
+                </div>
               ))}
           </li>
         ))}
@@ -115,7 +141,7 @@ function SidebarLeft() {
             alt="userLogo"
           />
           <i className="user-bottom-name">{user.name}</i>
-          <i className="user-microphone fa-solid fa-microphone"></i>
+          <i onClick={() => handleClickMic()} className={renderMic()}></i>
           <i className="user-headset fa-solid fa-headphones"></i>
           <i className="user-settings fa-solid fa-gear"></i>
         </div>
