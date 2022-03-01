@@ -1,9 +1,7 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import useSound from "use-sound";
 import chan from "../services/channelService";
 import { channelSocketContext } from './channelSocketContext';
 
-import UserJoinSound from "../sounds/userjoin.m4a";
 
 const channelContext = createContext();
 
@@ -20,7 +18,6 @@ const ChannelContextProvider = ({ children }) => {
     } = useContext(channelSocketContext);
 
 
-    const [playNotice] = useSound(UserJoinSound);
 
 
     useEffect(() => {
@@ -38,28 +35,24 @@ const ChannelContextProvider = ({ children }) => {
             channelJoinPrivate(msg, id);
         });
 
+
+        const channelJoinPrivate = (msg, id) => {
+            switch (msg) {
+                case "USER_JOIN_PRIVATE_CHANNEL":
+                    break;
+
+                default:
+                    break;
+            }
+            loadChannels();
+        }
+
+
         return () => {
             channelSocket.disconnect();
         }
 
     }, [channelSocket]);
-
-    const playsound = () => {
-        playNotice();
-        console.log('SOUND SHOULD PLAY!');
-    }
-
-    const channelJoinPrivate = (msg, id) => {
-        console.log(msg, id);
-        switch (msg) {
-            case "USER_JOIN_PRIVATE_CHANNEL":
-                break;
-
-            default:
-                break;
-        }
-        loadChannels();
-    }
 
 
 

@@ -7,8 +7,6 @@ import chan from "../services/channelService";
 
 interface newchannel {
   name: string;
-  isChat: boolean;
-  author: string;
 }
 
 function NewChannel() {
@@ -16,7 +14,7 @@ function NewChannel() {
 
   // Form
   const [errors, setErrors] = useState<any>();
-  const data = { name: "", isChat: false, author: "lean" };
+  const data = { name: "" };
   const style = "new-channel";
 
   const joiSchema = Joi.object({
@@ -50,8 +48,6 @@ function NewChannel() {
   // Form
   const doSubmit = async (data: newchannel) => {
     try {
-      data.isChat = false;
-      data.author = "Lean";
       await chan.createChannel(data);
       console.log(data);
     } catch (error: any) {

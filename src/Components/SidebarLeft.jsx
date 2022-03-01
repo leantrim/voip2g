@@ -1,5 +1,5 @@
 import useSound from "use-sound";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext } from "react";
 import { channelContext } from "../context/channelContext";
 import { userContext } from "../context/userContext";
 import "../styles/SidebarLeft.css";
@@ -16,35 +16,21 @@ import { mediaStreamContext } from "../context/mediaStreamContext";
 // }
 
 function SidebarLeft() {
-  function downHandler({ key }) {
-    if (key === "Shift") {
-    }
-  }
-
-  function upHandler({ key }) {
-    if (key === "Shift") {
-    }
-  }
-
   const {
     channel,
     loadChannels,
-    loadChannel,
     addUserToChannel,
     removeUserFromChannel,
     currentChannel,
   } = useContext(channelContext);
 
-  const { toggleMic, enableMic, disableMic } = useContext(mediaStreamContext);
+  const { toggleMic } = useContext(mediaStreamContext);
 
   const { user } = useContext(userContext);
 
   const [play] = useSound(boopSfx);
 
-  useEffect(() => {
-    loadChannels();
-    console.log("Called");
-  }, []);
+  loadChannels();
 
   const renderChannelIcon = (channel) => {
     let classes = "channel-icon fas ";
@@ -87,7 +73,7 @@ function SidebarLeft() {
       </div>
       <ul>
         {channel.map((chan) => (
-          <li key={channel._id} className="li-style">
+          <li key={chan._id} className="li-style">
             <i className={renderChannelIcon(chan)}></i>
             <div
               onClick={() => handleChannelClick(chan)}
@@ -99,7 +85,7 @@ function SidebarLeft() {
             <i className="gear-icon fa-solid fa-gear"></i>
             {chan.currentUsers &&
               chan.currentUsers.map((channelMember) => (
-                <div>
+                <div key={channelMember._id}>
                   <h5
                     onClick={() => handleUserClickMember(channelMember)}
                     onContextMenu={() => handleUserRightClick(channelMember)}
