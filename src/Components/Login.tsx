@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
 import Joi from "joi";
 import auth from "../services/authService";
 import useForm from "./common/Form";
@@ -57,13 +58,21 @@ export default function Login() {
         {renderInput("email", LoginType.emailSubject)}
         {renderInput("password", LoginType.passwordSubject, "password")}
         {renderButton(LoginType.button)}
-        <h5 className="has-account">
+        <h3 className="has-account">
           Har du inget konto? Registrera dig{" "}
           <Link className="here" to="/register">
             här
           </Link>
-        </h5>
+        </h3>
+        <EarlyText>
+          {`This application is in EARLY ACCESS STAGE, CTRL + R to reload the
+          application.`}
+        </EarlyText>
       </form>
     </div>
   );
 }
+
+const EarlyText = styled.h5`
+  color: #b40606;
+`;

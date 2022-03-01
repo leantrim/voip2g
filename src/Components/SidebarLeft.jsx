@@ -70,6 +70,17 @@ function SidebarLeft() {
     play();
   };
 
+  let userBeingDragged = {};
+  let channelDraggedTo;
+
+  const handleUserMoveOfficial = () => {
+    console.log(
+      "user was moved to channel",
+      userBeingDragged.name,
+      channelDraggedTo.name
+    );
+  };
+
   return (
     <div className="sidebar-container">
       <div className="create-new-channel">
@@ -83,6 +94,7 @@ function SidebarLeft() {
               onClick={() => handleChannelClick(chan)}
               onContextMenu={() => handleChannelRightClick(chan)}
               className="channel-list"
+              onDragEnter={() => (channelDraggedTo = chan)}
             >
               {chan.name}
             </div>
@@ -94,6 +106,9 @@ function SidebarLeft() {
                     onClick={() => handleUserClickMember(channelMember)}
                     onContextMenu={() => handleUserRightClick(channelMember)}
                     className="channel-user"
+                    draggable={true}
+                    onDrag={() => (userBeingDragged = channelMember)}
+                    onDragEnd={() => handleUserMoveOfficial()}
                   >
                     {channelMember.userLogo && (
                       <img

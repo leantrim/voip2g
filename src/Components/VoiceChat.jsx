@@ -1,33 +1,29 @@
 import { useContext, useEffect, useRef } from "react";
-import styled from "styled-components";
 import { mediaStreamContext } from "../context/mediaStreamContext";
 
-const Container = styled.div``;
-
-const StyledVideo = styled.video``;
-
-const Video = (props) => {
+const Audio = (props) => {
   const ref = useRef();
 
   useEffect(() => {
-    props.peer.on("stream", (stream) => {
-      ref.current.srcObject = stream;
-    });
+    if (props?.peer?.on) {
+      props?.peer?.on("stream", (stream) => {
+        ref.current.srcObject = stream;
+      });
+    }
   });
 
-  return <StyledVideo playsInline autoPlay ref={ref} />;
+  return <audio autoPlay ref={ref} />;
 };
 
 const Room = () => {
-  const { userVideo, peers } = useContext(mediaStreamContext);
+  const { peers } = useContext(mediaStreamContext);
 
   return (
-    <Container>
-      <StyledVideo muted ref={userVideo} playsInline />
+    <>
       {peers.map((peer, index) => {
-        return <Video key={index} peer={peer} />;
+        return <Audio key={index} peer={peer} />;
       })}
-    </Container>
+    </>
   );
 };
 
