@@ -20,6 +20,7 @@ function SidebarLeft() {
     channel,
     loadChannels,
     addUserToChannel,
+    setCurrentChannel,
     removeUserFromChannel,
     currentChannel,
   } = useContext(channelContext);
@@ -29,8 +30,6 @@ function SidebarLeft() {
   const { user } = useContext(userContext);
 
   const [play] = useSound(boopSfx);
-
-  loadChannels();
 
   const renderChannelIcon = (channel) => {
     let classes = "channel-icon fas ";
@@ -42,7 +41,7 @@ function SidebarLeft() {
     if (currentChannel === channel._id) return;
 
     if (currentChannel) {
-      removeUserFromChannel(user, currentChannel);
+      await removeUserFromChannel(user, currentChannel);
     }
     await addUserToChannel(user, channel);
     play();

@@ -22,6 +22,8 @@ const ChannelContextProvider = ({ children }) => {
 
     useEffect(() => {
         loadChannels();
+
+
         channelSocket.on("connect_error", error => {
             // User failed authentication
             console.log(error);
@@ -62,9 +64,11 @@ const ChannelContextProvider = ({ children }) => {
     }
 
     const loadChannels = async () => {
+        console.log('loadChannels RAN!');
         const { data: channel } = await chan.getChannels();
         setChannels([...channel]);
     }
+
 
     const loadChannel = async (id) => {
         const channel = await chan.getChannel(id);
@@ -97,6 +101,7 @@ const ChannelContextProvider = ({ children }) => {
             createNewChannel,
             addUserToChannel,
             removeUserFromChannel,
+            setCurrentChannel
         }}>
             {children}
 
