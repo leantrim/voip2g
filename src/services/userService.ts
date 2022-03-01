@@ -8,6 +8,7 @@ interface User {
   [RegisterType.email]: string;
   [RegisterType.name]: string;
   [RegisterType.password]: string;
+  userLogo?: String;
 }
 
 function register(user: User) {
@@ -27,10 +28,15 @@ function getCustomUser(_id: string) {
   return http.get(`${DATABASE_URL}/api/users/${_id}`);
 }
 
+function updateUser(_id: string, user: User) {
+  return http.put(`${DATABASE_URL}/api/users/${_id}`, user);
+}
+
 const exportObject = {
   register,
   getUser,
   getCustomUser,
+  updateUser,
 };
 
 export default exportObject;

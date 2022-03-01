@@ -62,7 +62,12 @@ function SidebarLeft() {
 
   const handleClickMic = () => {
     toggleMic();
+  };
+
+  const handleClickDisconnect = async () => {
+    await removeUserFromChannel(user, currentChannel);
     loadChannels();
+    play();
   };
 
   return (
@@ -114,7 +119,7 @@ function SidebarLeft() {
               <i className="connection-signal fa-solid fa-signal"></i>
               <i className="voice-connected">Voice Connected</i>
               <i
-                onClick={() => removeUserFromChannel(user, currentChannel)}
+                onClick={() => handleClickDisconnect()}
                 className="disconnect-logo fa-solid fa-phone-slash"
               ></i>
             </>

@@ -21,6 +21,7 @@ const ChannelContextProvider = ({ children }) => {
 
 
     useEffect(() => {
+        console.log('useEffect channelContext');
         loadChannels();
 
 
@@ -46,7 +47,6 @@ const ChannelContextProvider = ({ children }) => {
                 default:
                     break;
             }
-            loadChannels();
         }
 
 
@@ -75,6 +75,7 @@ const ChannelContextProvider = ({ children }) => {
         return channel;
     }
 
+
     const addUserToChannel = async (user, channelId) => {
         const channel = await chan.addClientToChannel(user, channelId._id);
         setCurrentChannel(channelId._id);
@@ -85,7 +86,6 @@ const ChannelContextProvider = ({ children }) => {
         if (!currentChannel) return;
         await chan.removeClientFromChannel(user, channelId);
         setCurrentChannel('');
-        loadChannels();
         userLeaveChannel(channelId, user);
         return channel;
     }

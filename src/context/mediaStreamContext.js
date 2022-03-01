@@ -22,6 +22,7 @@ const MediaStreamProvider = ({ children }) => {
     socketRef.current = socket;
 
     useEffect(() => {
+        if (!user) return;
         navigator.mediaDevices.getUserMedia({
             audio: {
                 autoGainControl: false,

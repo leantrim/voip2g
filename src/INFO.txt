@@ -1,0 +1,1 @@
+    "start": "concurrently \"cross-env npm run react-start\" \"wait-on http://localhost:3000 && electromon src/electron .\""
