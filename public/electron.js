@@ -1,8 +1,10 @@
 const { app, BrowserWindow, ipcMain, Notification } = require('electron')
-const isDev = require('electron-is-dev');
+const isDev = require('electron-is-dev')
 const path = require('path');
 
+
 let win;
+let mainWindow;
 
 app.disableHardwareAcceleration();
 
@@ -13,7 +15,7 @@ function createWindow() {
     win = new BrowserWindow({
         title: 'VOIP2G Speak better with friends',
         show: true,
-        icon: './icon.png',
+        icon: __dirname + './icon.png',
         //TODO:Enabble this later!   autoHideMenuBar: true,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
@@ -36,29 +38,16 @@ function createWindow() {
         win.hide();
     });
 
-    // Open window?
-    win.webContents.setWindowOpenHandler(({ url }) => {
-        if (url.startsWith('https://github.com/')) {
-            return { action: 'allow' }
-        }
-        return { action: 'deny' }
-    })
-
     win.on('close', function (event) {
         if (!application.isQuiting) {
             event.preventDefault();
-            mainWindow.hide();
+            win.hide();
         }
 
         return false;
     });
 
 }
-
-ipcMain.on('notify', (_, options) => {
-    new Notification(options).show();
-})
-
 
 
 
@@ -70,6 +59,3 @@ app.whenReady().then(() => {
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 })
-
-
-

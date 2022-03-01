@@ -5,7 +5,6 @@ contextBridge.exposeInMainWorld('App', {
         sendNotification(options) {
             ipcRenderer.send('notify', options);
         }
-    },
-    getAppVersion: () => ipcRenderer.invoke('appVersion'),
+    }
 
 })

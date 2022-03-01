@@ -1,7 +1,7 @@
 {
   "name": "voip2g",
   "version": "0.1.0",
-  "main": "src/electron.js",
+  "main": "public/electron.js",
   "private": true,
   "author": "Leutrim Bunjaku@leutrimbunjaku5@gmail.com",
   "dependencies": {
