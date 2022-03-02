@@ -1,9 +1,9 @@
 import SidebarLeft from "./SidebarLeft";
 import "../styles/Main.css";
 import Header from "./Header";
-import Chat from "./Chat";
+import Chat from "./chat/ChatContainer";
 import Footer from "./Footer";
-import VoiceChat from "./VoiceChat";
+import VoiceChat from "./voiceSystem/VoiceChat";
 
 function Main() {
   return (

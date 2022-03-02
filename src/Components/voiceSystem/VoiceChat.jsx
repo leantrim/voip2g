@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef } from "react";
-import { mediaStreamContext } from "../context/mediaStreamContext";
+import { mediaStreamContext } from "../../context/mediaStreamContext";
 
 const Audio = (props) => {
   const ref = useRef();

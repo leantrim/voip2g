@@ -7,8 +7,8 @@ import { ClientSocketProvider } from './context/clientSocketContext';
 import { ChannelSocketProvider } from './context/channelSocketContext';
 import { MediaStreamProvider } from './context/mediaStreamContext';
 import Home from "./App"
-import Login from './Components/Login';
-import Signup from './Components/Signup';
+import Login from './Components/user/Login';
+import Signup from './Components/user/Signup';
 
 
 ReactDOM.render(

@@ -5,7 +5,7 @@ import { userContext } from "../context/userContext";
 import "../styles/SidebarLeft.css";
 
 import boopSfx from "../sounds/chanjoin.mp3";
-import NewChannel from "./NewChannel";
+import NewChannel from "./voiceSystem/NewChannel";
 import { mediaStreamContext } from "../context/mediaStreamContext";
 
 function SidebarLeft() {

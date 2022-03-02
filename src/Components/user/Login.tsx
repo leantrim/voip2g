@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Joi from "joi";
-import auth from "../services/authService";
-import useForm from "./common/Form";
-import { logo } from "../config.json";
-import { login } from "../types/LoginType";
-import { LoginType } from "../types/LoginFormType";
+import auth from "../../services/authService";
+import useForm from "../common/Form";
+import { logo } from "../../config.json";
+import { login } from "../../types/LoginType";
+import { LoginType } from "../../types/LoginFormType";
 import { Link, useLocation } from "react-router-dom";
-import "../styles/Login.css";
+import "../../styles/Login.css";
 
 export default function Login() {
   const data = { email: "", password: "" };

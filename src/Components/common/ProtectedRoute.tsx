@@ -1,6 +1,6 @@
 import { Redirect, Route } from "react-router";
 import auth from "../../services/authService";
-import Login from "../Login";
+import Login from "../user/Login";
 
 function ProtectedRoute({ component: Component, render, ...restProps }: any) {
   return (

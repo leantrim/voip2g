@@ -33,12 +33,12 @@ function createWindow() {
 
 
     // Open window?
-    win.webContents.setWindowOpenHandler(({ url }) => {
-        if (url.startsWith('https://github.com/')) {
-            return { action: 'allow' }
-        }
-        return { action: 'deny' }
-    })
+    // win.webContents.setWindowOpenHandler(({ url }) => {
+    //     if (url.startsWith('https://github.com/')) {
+    //         return { action: 'allow' }
+    //     }
+    //     return { action: 'deny' }
+    // })
 
     win.on('close', function (event) {
         if (!application.isQuiting) {

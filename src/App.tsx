@@ -1,5 +1,5 @@
 import auth from "./services/authService";
-import Login from "./Components/Login";
+import Login from "./Components/user/Login";
 import Main from "./Components/Main";
 import "./App.css";
 

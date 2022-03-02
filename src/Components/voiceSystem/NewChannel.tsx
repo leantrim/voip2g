@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Joi from "joi";
 import Modal from "react-modal";
-import "../styles/NewChannel.css";
-import useForm from "./common/Form";
-import chan from "../services/channelService";
+import "../../styles/NewChannel.css";
+import useForm from "../common/Form";
+import chan from "../../services/channelService";
 
 interface newchannel {
   name: string;

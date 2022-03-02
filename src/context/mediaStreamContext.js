@@ -18,11 +18,11 @@ const MediaStreamProvider = ({ children }) => {
     const userVideo = useRef();
     const peersRef = useRef([]);
     const [micMuted, setMicMuted] = useState(false);
-    const [stream, setStream] = useState();
 
     socketRef.current = socket;
 
-    const loadMediaDevices = () => {
+
+    useEffect(() => {
         navigator.mediaDevices.getUserMedia({
             audio: {
                 autoGainControl: false,
@@ -35,7 +35,6 @@ const MediaStreamProvider = ({ children }) => {
                 volume: 1
             }
         }).then((stream) => {
-            setStream(stream);
             userVideo.current = stream;
             socketRef.current.on("all users", (users) => {
                 const peers = [];
@@ -49,34 +48,31 @@ const MediaStreamProvider = ({ children }) => {
                 });
                 setPeers(peers);
             });
-        });
-    }
 
-    useEffect(() => {
-        loadMediaDevices();
-        socketRef.current.on("user joined", (payload) => {
-            const peer = addPeer(payload.signal, payload.callerID, stream);
-            peersRef.current.push({
-                peerID: payload.callerID,
-                peer,
+            socketRef.current.on("user joined", (payload) => {
+                const peer = addPeer(payload.signal, payload.callerID, stream);
+                peersRef.current.push({
+                    peerID: payload.callerID,
+                    peer,
+                });
+
+                setPeers((users) => [...users, peer]);
             });
 
-            setPeers((users) => [...users, peer]);
-        });
+            socketRef.current.on("receiving returned signal", (payload) => {
+                const item = peersRef.current.find((p) => p.peerID === payload.id);
+                item.peer.signal(payload.signal);
+            });
 
-        socketRef.current.on("receiving returned signal", (payload) => {
-            const item = peersRef.current.find((p) => p.peerID === payload.id);
-            item.peer.signal(payload.signal);
-        });
-
-        socketRef.current.on("user left", (id) => {
-            const peerObj = peersRef.current.find((p) => p.peerID === id);
-            if (peerObj) {
-                peerObj.peer.destroy();
-            }
-            const peers = peersRef.current.filter((p) => p.peerID !== id);
-            peersRef.current = peers;
-            setPeers(peers);
+            socketRef.current.on("user left", (id) => {
+                const peerObj = peersRef.current.find((p) => p.peerID === id);
+                if (peerObj) {
+                    peerObj.peer.destroy();
+                }
+                const peers = peersRef.current.filter((p) => p.peerID !== id);
+                peersRef.current = peers;
+                setPeers(peers);
+            });
         });
     }, []);
 
