@@ -8,19 +8,11 @@ import boopSfx from "../sounds/chanjoin.mp3";
 import NewChannel from "./NewChannel";
 import { mediaStreamContext } from "../context/mediaStreamContext";
 
-// interface Channel {
-//   isChat: boolean;
-//   name: string;
-//   _id: string;
-//   currentUsers: [string];
-// }
-
 function SidebarLeft() {
   const {
     channel,
     loadChannels,
     addUserToChannel,
-    setCurrentChannel,
     removeUserFromChannel,
     currentChannel,
   } = useContext(channelContext);

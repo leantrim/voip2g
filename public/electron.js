@@ -33,12 +33,15 @@ function createWindow() {
     win.maximize();
     win.show();
 
-    win.on('minimize', function (event) {
+    //! Minimize bug here!
+    mainWindow.on('minimize', function (event) {
+        console.log('Should minimize!');
         event.preventDefault();
         win.hide();
     });
 
     win.on('close', function (event) {
+        console.log('CLOSED?');
         if (!application.isQuiting) {
             event.preventDefault();
             win.hide();
