@@ -5,7 +5,6 @@ import client from "../services/userService";
 const userContext = createContext();
 
 
-
 const UserContextProvider = ({ children }) => {
     const [user, setUser] = useState();
 

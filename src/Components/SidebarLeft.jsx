@@ -1,5 +1,5 @@
 import useSound from "use-sound";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext } from "react";
 import { channelContext } from "../context/channelContext";
 import { userContext } from "../context/userContext";
 import "../styles/SidebarLeft.css";
@@ -8,43 +8,20 @@ import boopSfx from "../sounds/chanjoin.mp3";
 import NewChannel from "./NewChannel";
 import { mediaStreamContext } from "../context/mediaStreamContext";
 
-// interface Channel {
-//   isChat: boolean;
-//   name: string;
-//   _id: string;
-//   currentUsers: [string];
-// }
-
 function SidebarLeft() {
-  function downHandler({ key }) {
-    if (key === "Shift") {
-    }
-  }
-
-  function upHandler({ key }) {
-    if (key === "Shift") {
-    }
-  }
-
   const {
     channel,
     loadChannels,
-    loadChannel,
     addUserToChannel,
     removeUserFromChannel,
     currentChannel,
   } = useContext(channelContext);
 
-  const { toggleMic, enableMic, disableMic } = useContext(mediaStreamContext);
+  const { toggleMic } = useContext(mediaStreamContext);
 
   const { user } = useContext(userContext);
 
   const [play] = useSound(boopSfx);
-
-  useEffect(() => {
-    loadChannels();
-    console.log("Called");
-  }, []);
 
   const renderChannelIcon = (channel) => {
     let classes = "channel-icon fas ";
@@ -56,7 +33,7 @@ function SidebarLeft() {
     if (currentChannel === channel._id) return;
 
     if (currentChannel) {
-      removeUserFromChannel(user, currentChannel);
+      await removeUserFromChannel(user, currentChannel);
     }
     await addUserToChannel(user, channel);
     play();
@@ -77,7 +54,23 @@ function SidebarLeft() {
 
   const handleClickMic = () => {
     toggleMic();
+  };
+
+  const handleClickDisconnect = async () => {
+    await removeUserFromChannel(user, currentChannel);
     loadChannels();
+    play();
+  };
+
+  let userBeingDragged = {};
+  let channelDraggedTo;
+
+  const handleUserMoveOfficial = () => {
+    console.log(
+      "user was moved to channel",
+      userBeingDragged.name,
+      channelDraggedTo.name
+    );
   };
 
   return (
@@ -87,23 +80,27 @@ function SidebarLeft() {
       </div>
       <ul>
         {channel.map((chan) => (
-          <li key={channel._id} className="li-style">
+          <li key={chan._id} className="li-style">
             <i className={renderChannelIcon(chan)}></i>
             <div
               onClick={() => handleChannelClick(chan)}
               onContextMenu={() => handleChannelRightClick(chan)}
               className="channel-list"
+              onDragEnter={() => (channelDraggedTo = chan)}
             >
               {chan.name}
             </div>
             <i className="gear-icon fa-solid fa-gear"></i>
             {chan.currentUsers &&
               chan.currentUsers.map((channelMember) => (
-                <div>
+                <div key={channelMember._id}>
                   <h5
                     onClick={() => handleUserClickMember(channelMember)}
                     onContextMenu={() => handleUserRightClick(channelMember)}
                     className="channel-user"
+                    draggable={true}
+                    onDrag={() => (userBeingDragged = channelMember)}
+                    onDragEnd={() => handleUserMoveOfficial()}
                   >
                     {channelMember.userLogo && (
                       <img
@@ -129,7 +126,7 @@ function SidebarLeft() {
               <i className="connection-signal fa-solid fa-signal"></i>
               <i className="voice-connected">Voice Connected</i>
               <i
-                onClick={() => removeUserFromChannel(user, currentChannel)}
+                onClick={() => handleClickDisconnect()}
                 className="disconnect-logo fa-solid fa-phone-slash"
               ></i>
             </>

@@ -1,9 +1,7 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import useSound from "use-sound";
 import chan from "../services/channelService";
 import { channelSocketContext } from './channelSocketContext';
 
-import UserJoinSound from "../sounds/userjoin.m4a";
 
 const channelContext = createContext();
 
@@ -20,11 +18,13 @@ const ChannelContextProvider = ({ children }) => {
     } = useContext(channelSocketContext);
 
 
-    const [playNotice] = useSound(UserJoinSound);
 
 
     useEffect(() => {
+        console.log('useEffect channelContext');
         loadChannels();
+
+
         channelSocket.on("connect_error", error => {
             // User failed authentication
             console.log(error);
@@ -38,28 +38,23 @@ const ChannelContextProvider = ({ children }) => {
             channelJoinPrivate(msg, id);
         });
 
+
+        const channelJoinPrivate = (msg, id) => {
+            switch (msg) {
+                case "USER_JOIN_PRIVATE_CHANNEL":
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+
         return () => {
             channelSocket.disconnect();
         }
 
     }, [channelSocket]);
-
-    const playsound = () => {
-        playNotice();
-        console.log('SOUND SHOULD PLAY!');
-    }
-
-    const channelJoinPrivate = (msg, id) => {
-        console.log(msg, id);
-        switch (msg) {
-            case "USER_JOIN_PRIVATE_CHANNEL":
-                break;
-
-            default:
-                break;
-        }
-        loadChannels();
-    }
 
 
 
@@ -69,14 +64,17 @@ const ChannelContextProvider = ({ children }) => {
     }
 
     const loadChannels = async () => {
+        console.log('loadChannels RAN!');
         const { data: channel } = await chan.getChannels();
         setChannels([...channel]);
     }
+
 
     const loadChannel = async (id) => {
         const channel = await chan.getChannel(id);
         return channel;
     }
+
 
     const addUserToChannel = async (user, channelId) => {
         const channel = await chan.addClientToChannel(user, channelId._id);
@@ -88,7 +86,6 @@ const ChannelContextProvider = ({ children }) => {
         if (!currentChannel) return;
         await chan.removeClientFromChannel(user, channelId);
         setCurrentChannel('');
-        loadChannels();
         userLeaveChannel(channelId, user);
         return channel;
     }
@@ -104,6 +101,7 @@ const ChannelContextProvider = ({ children }) => {
             createNewChannel,
             addUserToChannel,
             removeUserFromChannel,
+            setCurrentChannel
         }}>
             {children}
 

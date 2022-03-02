@@ -11,8 +11,6 @@ export enum ChannelType {
 
 interface Channel {
   [ChannelType.name]: string;
-  [ChannelType.isChat]: boolean;
-  [ChannelType.author]: string;
 }
 
 function createChannel(channel: Channel) {

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { channelSocketContext } from "../context/channelSocketContext";
 import { mediaStreamContext } from "../context/mediaStreamContext";
 import "../styles/Footer.css";
@@ -6,8 +6,6 @@ import "../styles/Footer.css";
 function Footer() {
   const { channel } = useContext(channelSocketContext);
   const { peersRef } = useContext(mediaStreamContext);
-
-  console.log(peersRef.current[0]);
 
   return (
     <div className="footer-container">

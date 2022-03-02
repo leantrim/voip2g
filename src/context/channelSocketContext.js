@@ -16,7 +16,6 @@ const ChannelSocketProvider = ({ children }) => {
 
     useEffect(() => {
         channel.on("user joined", payload => {
-            console.log('DETECTED');
         });
     }, [channel])
 
