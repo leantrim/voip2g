@@ -4,9 +4,11 @@ import styled from "styled-components";
 function Chat() {
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("SUBMITTED");
+  const handleKeyDown = (event) => event.key === "Enter" && handleSubmit();
+
+  const handleSubmit = () => {
+    console.log(message);
+    setMessage("");
   };
 
   return (
@@ -20,7 +22,7 @@ function Chat() {
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              onSubmit={(e) => handleSubmit(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
           </Form>
         </InputBox>
