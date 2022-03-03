@@ -14,10 +14,14 @@
 .sub-container {
   grid-gap: 8px;
   display: inline-grid;
-  grid-template-columns: 15em 1fr;
+  grid-template-columns: 15em 1fr 15em;
 }
 
 .sidebar-left {
+  background-color: #1a2b6a;
+}
+
+.sidebar-right {
   background-color: #1a2b6a;
 }
 

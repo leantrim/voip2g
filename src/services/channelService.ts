@@ -34,6 +34,13 @@ function addClientToChannel(user: string, _id: string) {
     user,
   });
 }
+
+function addChatToChannel(message: string, _id: string) {
+  return http.put(`${DATABASE_URL}/api/${SECOND_URL}/sendChat/${_id}`, {
+    message,
+  });
+}
+
 function removeClientFromChannel(user: string, _id: string) {
   return http.put(
     `${DATABASE_URL}/api/${SECOND_URL}/removeMember/${_id}`,
@@ -47,6 +54,7 @@ const exportObject = {
   getChannel,
   addClientToChannel,
   removeClientFromChannel,
+  addChatToChannel,
 };
 
 export default exportObject;

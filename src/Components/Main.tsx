@@ -4,6 +4,7 @@ import Header from "./Header";
 import Chat from "./chat/ChatContainer";
 import Footer from "./Footer";
 import VoiceChat from "./voiceSystem/VoiceChat";
+import SidebarRight from "./SidebarRight";
 
 function Main() {
   return (
@@ -18,6 +19,9 @@ function Main() {
         <div className="sub-container">
           <div className="sidebar-left">
             <SidebarLeft />
+          </div>
+          <div className="sidebar-right">
+            <SidebarRight />
           </div>
           <div className="body-container">
             <Chat />
