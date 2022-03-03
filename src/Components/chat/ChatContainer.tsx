@@ -22,12 +22,24 @@ const ChatHeader = styled.div`
 `;
 
 const Container = styled.div`
-  border: solid black 2px;
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 7% auto 10%;
+  grid-template-rows: 7% auto 7%;
+  grid-template-columns: 100%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
   justify-content: center;
 `;
+
+/* CSS Nice To have in future :)
+overflow: scroll;
+height: 100vh;
+
+::-webkit-scrollbar {
+    display:none;
+}
+*/
 
 export default SendChatMessage;

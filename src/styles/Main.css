@@ -1,9 +1,8 @@
 .main-container {
-  display: inline-grid;
+  display: grid;
   height: 100vh;
   grid-template-rows: auto 1fr auto;
   grid-gap: 8px;
-  width: 98vw;
 }
 
 .header-container {
