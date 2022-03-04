@@ -26,7 +26,7 @@ function Main() {
             <SidebarRight />
           </div>
           <div className="body-container">
-            <Suspense fallback={<Circle color="#e1b542" size={60} />}>
+            <Suspense fallback={<Circle color="#e1b542" size={65} />}>
               <Chat />
               <VoiceChat />
             </Suspense>
