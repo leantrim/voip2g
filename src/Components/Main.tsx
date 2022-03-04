@@ -1,10 +1,12 @@
+import React, { Suspense } from "react";
+import { Circle } from "better-react-spinkit";
 import SidebarLeft from "./SidebarLeft";
 import "../styles/Main.css";
 import Header from "./Header";
-import Chat from "./chat/ChatContainer";
 import Footer from "./Footer";
-import VoiceChat from "./voiceSystem/VoiceChat";
 import SidebarRight from "./SidebarRight";
+const Chat = React.lazy(() => import("./chat/ChatContainer"));
+const VoiceChat = React.lazy(() => import("./voiceSystem/VoiceChat"));
 
 function Main() {
   return (
@@ -24,8 +26,10 @@ function Main() {
             <SidebarRight />
           </div>
           <div className="body-container">
-            <Chat />
-            <VoiceChat />
+            <Suspense fallback={<Circle color="#e1b542" size={60} />}>
+              <Chat />
+              <VoiceChat />
+            </Suspense>
           </div>
         </div>
       </div>

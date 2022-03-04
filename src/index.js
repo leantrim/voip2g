@@ -6,6 +6,7 @@ import { ChannelContextProvider } from './context/channelContext';
 import { ClientSocketProvider } from './context/clientSocketContext';
 import { ChannelSocketProvider } from './context/channelSocketContext';
 import { MediaStreamProvider } from './context/mediaStreamContext';
+import { ChatContextProvider } from './context/chatContext';
 import Home from "./App"
 import Login from './Components/user/Login';
 import Signup from './Components/user/Signup';
@@ -13,19 +14,21 @@ import Signup from './Components/user/Signup';
 
 ReactDOM.render(
   <UserContextProvider>
-    <ChannelSocketProvider>
-      <MediaStreamProvider>
-        <ChannelContextProvider>
-          <ClientSocketProvider>
-            <Router>
-              <Route exact path="/" component={Home} />
-              <Route path="/register" component={Signup} />
-              <Route path="/login" component={Login} />
-            </Router>
-          </ClientSocketProvider>
-        </ChannelContextProvider>
-      </MediaStreamProvider>
-    </ChannelSocketProvider>
+    <ChatContextProvider>
+      <ChannelSocketProvider>
+        <MediaStreamProvider>
+          <ChannelContextProvider>
+            <ClientSocketProvider>
+              <Router>
+                <Route exact path="/" component={Home} />
+                <Route path="/register" component={Signup} />
+                <Route path="/login" component={Login} />
+              </Router>
+            </ClientSocketProvider>
+          </ChannelContextProvider>
+        </MediaStreamProvider>
+      </ChannelSocketProvider>
+    </ChatContextProvider>
   </UserContextProvider>,
   document.getElementById("root")
 );
