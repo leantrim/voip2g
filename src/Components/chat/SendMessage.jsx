@@ -12,24 +12,11 @@ const UseFocus = () => {
 };
 
 function SendMessage() {
-  const [message, setMessage] = useState("");
   const [chatRef, setChatFocus] = UseFocus();
-  const { toggleEmoji, emoji } = useContext(chatContext);
-
-  const handleSubmit = () => {
-    if (!message) return;
-    console.log(message);
-    toggleEmoji(false);
-    setMessage("");
-  };
-
-  useEffect(() => {
-    setMessage((m) => m + emoji);
-  }, [emoji]);
+  const { emoji, setMessage, handleMessageSubmit, message } =
+    useContext(chatContext);
 
   setChatFocus();
-
-  //{showEmoji && <Picker onEmojiClick={onEmojiClick} />}
 
   return (
     <>
@@ -41,13 +28,12 @@ function SendMessage() {
             placeholder="Message RedBull Racing..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={(event) => event.key === "Enter" && handleSubmit()}
+            onKeyDown={(event) =>
+              event.key === "Enter" && handleMessageSubmit()
+            }
           />
         </form>
-        <i
-          onClick={() => toggleEmoji()}
-          className="fa-solid fa-face-grin-wink"
-        ></i>
+        <i className="fa-solid fa-face-grin-wink"></i>
       </InputBox>
     </>
   );

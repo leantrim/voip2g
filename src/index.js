@@ -14,8 +14,8 @@ import Signup from './Components/user/Signup';
 
 ReactDOM.render(
   <UserContextProvider>
-    <ChatContextProvider>
-      <ChannelSocketProvider>
+    <ChannelSocketProvider>
+      <ChatContextProvider>
         <MediaStreamProvider>
           <ChannelContextProvider>
             <ClientSocketProvider>
@@ -27,8 +27,8 @@ ReactDOM.render(
             </ClientSocketProvider>
           </ChannelContextProvider>
         </MediaStreamProvider>
-      </ChannelSocketProvider>
-    </ChatContextProvider>
+      </ChatContextProvider>
+    </ChannelSocketProvider>
   </UserContextProvider>,
   document.getElementById("root")
 );

@@ -1,6 +1,22 @@
 import { useContext, useEffect, useRef } from "react";
 import { mediaStreamContext } from "../../context/mediaStreamContext";
 
+// Play Sound for user without actually clicking on anything! =DD
+// const PlaySound = () => {
+//   const HtmlSoundRef = useRef(null);
+//   const setSound = () => {
+//     HtmlSoundRef.current && HtmlSoundRef.current.click();
+//   };
+
+//   return [HtmlSoundRef, setSound];
+// };
+// const [soundRef, setSound] = PlaySound();
+// setSound();
+// <button ref={soundRef} onClick={() => handlePlayMusic()}></button>
+//   const handlePlayMusic = () => {
+//     play();
+//   };
+
 const Audio = (props) => {
   const ref = useRef();
 

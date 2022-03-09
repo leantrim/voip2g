@@ -21,7 +21,6 @@ const ChannelContextProvider = ({ children }) => {
 
 
     useEffect(() => {
-        console.log('useEffect channelContext');
         loadChannels();
 
 

@@ -29,12 +29,18 @@ const ChannelSocketProvider = ({ children }) => {
         channel.emit('user_leave_channel', channelID, user);
     }
 
+    const userSendMessageToChannel = (channelID, message) => {
+        console.log('message sent', channelID, message);
+        channel.emit('user_send_message_to_channel', channelID, message);
+    }
+
 
     return (
         <channelSocketContext.Provider value={{
             channel,
             userJoinChannel,
-            userLeaveChannel
+            userLeaveChannel,
+            userSendMessageToChannel
         }}>
             {children}
         </channelSocketContext.Provider>
