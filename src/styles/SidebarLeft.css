@@ -10,6 +10,9 @@
 
 .li-style {
   margin-left: -38px;
+  background-color: #2b2d3a;
+  margin-bottom: 25px;
+  border-radius: 18px;
 }
 
 li {
@@ -18,11 +21,11 @@ li {
 }
 
 .channel-list {
-  color: rgb(225 181 22);
+  color: #ffffff;
   display: inline;
-  font-size: 16px;
+  font-size: 22px;
   cursor: pointer;
-  font-weight: 900;
+  font-weight: 500;
 }
 .title {
   color: #888;
@@ -51,7 +54,7 @@ li {
 
 .channel-icon {
   font-size: 24px;
-  color: rgb(225, 181, 22);
+  color: #2e86ab;
   margin: 10px;
 }
 
@@ -69,10 +72,12 @@ li {
 .channel-user {
   font-size: 16px;
   margin-top: 0px;
-  margin-bottom: 4px;
-  margin-left: 35px;
+  margin-bottom: 0px;
   cursor: pointer;
+  background-color: #1b1e27;
   color: #767882;
+  padding-left: 35px;
+  padding-top: 10px;
 }
 
 .sidebar-container .gear {

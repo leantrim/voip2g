@@ -3,38 +3,39 @@
   height: 100vh;
   grid-template-rows: auto 1fr auto;
   grid-gap: 8px;
+  overflow: hidden;
 }
 
 .header-container {
   justify-content: center;
   grid-row: 1;
-  background-color: #1a2b6a;
+  background-color: #1b1e27;
 }
 
 .sub-container {
   grid-gap: 8px;
   display: inline-grid;
   grid-template-columns: 15em 1fr 15em;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .sidebar-left {
-  background-color: #1a2b6a;
+  background-color: #1b1e27;
 }
 
 .sidebar-right {
-  background-color: #1a2b6a;
+  background-color: #1b1e27;
 }
 
 .body-container {
   grid-row: 1;
   grid-column: 2;
-  background-color: #1a2b6a;
-  overflow: auto;
+  background-color: #1b1e27;
+  overflow: hidden;
 }
 
 .footer {
   border-radius: 8px;
   grid-row: 3;
-  background-color: #1a2b6a;
+  background-color: #1b1e27;
 }

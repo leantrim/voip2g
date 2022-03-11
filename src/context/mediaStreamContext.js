@@ -4,7 +4,6 @@ import Peer from "simple-peer";
 import { userContext } from './userContext';
 
 
-
 const mediaStreamContext = createContext();
 
 
@@ -149,19 +148,28 @@ const MediaStreamProvider = ({ children }) => {
         user.micMuted = true;
     };
 
+    const handle = () => {
+        console.log(peers);
+    }
+
 
     return (
-        <mediaStreamContext.Provider value={{
-            disableMic,
-            enableMic,
-            toggleMic,
-            micMuted,
-            userVideo,
-            peers,
-            peersRef
-        }}>
-            {children}
-        </mediaStreamContext.Provider>
+        <>
+            <button onClick={() => handle()}></button>
+
+            <mediaStreamContext.Provider value={{
+                disableMic,
+                enableMic,
+                toggleMic,
+                micMuted,
+                userVideo,
+                peers,
+                peersRef
+            }}>
+                {children}
+            </mediaStreamContext.Provider>
+        </>
+
     );
 };
 

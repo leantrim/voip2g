@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import chatService from "../services/chatService";
 import { channelSocketContext } from './channelSocketContext';
 import { userContext } from './userContext';
@@ -9,8 +10,8 @@ const chatContext = createContext();
 const ChatContextProvider = ({ children }) => {
     const [showEmoji, setShowEmoji] = useState(false);
     const [emoji, setEmoji] = useState('');
-    const [message, setMessage] = useState("");
     const [chatList, setChatList] = useState([]);
+    const { register, handleSubmit, watch, setValue, getValues } = useForm();
     const { user } = useContext(userContext);
 
     const {
@@ -24,28 +25,25 @@ const ChatContextProvider = ({ children }) => {
         console.log('Downloaded chat');
     };
 
-    const viewModelToDb = () => {
+    const viewModelToDb = (input) => {
         const chat = {
-            content: message,
+            content: input,
             author: user.name,
         };
         return chat;
     };
 
     const handleMessageSubmit = async (input) => {
-        if (!message) return;
-        setMessage(input);
+        if (!input.message) return;
 
-        const chat = viewModelToDb();
+        const chat = viewModelToDb(input.message);
         toggleEmoji(false);
-        setMessage("");
+        setValue("message", "");
 
         chatList.data.message.push(chat);
         setChatList({ ...chatList })
-        await chatService.addMessageToChat(chat, "622431824c5c5c847154d595");
         userSendMessageToChannel("622431824c5c5c847154d595", chatList);
-
-
+        await chatService.addMessageToChat(chat, "622431824c5c5c847154d595");
     };
 
     useEffect(() => {
@@ -54,8 +52,6 @@ const ChatContextProvider = ({ children }) => {
             setChatListMessage(message);
         });
 
-        console.log('getcurrentChat called');
-        getCurrentChat();
     }, [channelSocket])
 
     const setChatListMessage = (message) => {
@@ -71,7 +67,7 @@ const ChatContextProvider = ({ children }) => {
         }
     };
     const onEmojiClick = (event, emojiObject) => {
-        setMessage((m) => m + emojiObject.emoji);
+        setValue("message", getValues("message") + emojiObject.emoji);
         toggleEmoji(false);
     };
 
@@ -82,10 +78,12 @@ const ChatContextProvider = ({ children }) => {
             showEmoji,
             emoji,
             handleMessageSubmit,
-            setMessage,
-            message,
             getCurrentChat,
-            chatList
+            chatList,
+            register,
+            handleSubmit,
+            watch,
+            setValue
         }}>
             {children}
 

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
 import { useContext } from "react";
 import { channelContext } from "../../context/channelContext";
-import chatService from "../../services/chatService";
 import DisplayMessage from "./DisplayMessage";
 import { chatContext } from "../../context/chatContext";
 
@@ -11,13 +11,16 @@ function MessageList() {
 
   const { currentChannel } = useContext(channelContext);
 
-  useEffect(() => {}, [chatList]);
+  console.log(chatList);
+  useEffect(() => {
+    getCurrentChat();
+  }, []);
 
   return (
     <Container>
       <div className="message-container">
         {chatList?.data?.message?.map((chat: any) => (
-          <DisplayMessage message={chat} />
+          <DisplayMessage key={uuidv4()} message={chat} />
         ))}
       </div>
     </Container>

@@ -26,21 +26,22 @@ function DisplayMessage({ message }: any) {
 }
 
 const Container = styled.div`
-  margin: 20px;
+  padding-left: 43px;
 
   & .authorName {
     position: relative;
     bottom: 13px;
     left: 3px;
     font-weight: 900;
-    font-size: 18px;
-    color: #e1b516;
+    font-size: 20px;
+    color: #2E86AB;
 }
   }
 
   & .message {
     margin-left: 42px;
-    color: #b5a7a7;
+    font-size: 18px;
+    color: #ffffff;
 }
   }
 

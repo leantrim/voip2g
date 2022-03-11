@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef } from "react";
 import styled from "styled-components";
 import { chatContext } from "../../context/chatContext";
 
@@ -13,32 +13,25 @@ const UseFocus = () => {
 
 function SendMessage() {
   const [chatRef, setChatFocus] = UseFocus();
-  const { emoji, setMessage, handleMessageSubmit, message } =
+  const { handleMessageSubmit, register, handleSubmit } =
     useContext(chatContext);
 
   setChatFocus();
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setMessage(e.target.value);
+  const onSubmit = (data) => {
+    handleMessageSubmit(data);
   };
 
   return (
     <>
       <InputBox>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <input
             ref={chatRef}
-            type="text"
+            {...register("message")}
             placeholder="Message RedBull Racing..."
-            value={message}
-            onChange={(e) => handleChange(e)}
-            onKeyDown={(event) =>
-              event.key === "Enter" && handleMessageSubmit()
-            }
           />
         </form>
-        <i className="fa-solid fa-face-grin-wink"></i>
       </InputBox>
     </>
   );
@@ -67,7 +60,7 @@ const InputBox = styled.div`
   }
 
   & ::placeholder {
-    font-weight: 700;
+    font-weight: bold;
     font-size: 15px;
   }
 
@@ -87,13 +80,5 @@ const InputBox = styled.div`
   & .Picker {
   }
 `;
-
-// .fa-face-grin-wink::before {
-//   content: "\f58c";
-//   cursor: pointer;
-//   font-size: 28px;
-//   grid-column: 3;
-//   margin-top: 7px;
-// }
 
 export default SendMessage;

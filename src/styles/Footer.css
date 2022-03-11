@@ -1,6 +1,6 @@
 .footer-container {
   grid-row: 3;
-  background-color: #1a2b6a;
+  background-color: #1b1e27;
   display: grid;
   grid-template-columns: 15px repeat(8, 10em);
   grid-template-rows: 100%;
