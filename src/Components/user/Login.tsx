@@ -11,7 +11,6 @@ import "../../styles/Login.css";
 
 export default function Login() {
   const data = { email: "", password: "" };
-  const { state } = useLocation<stateType>();
   const [errors, setErrors] = useState<any>();
 
   const style = LoginType.classname;
@@ -33,7 +32,7 @@ export default function Login() {
   const doSubmit = async (data: login) => {
     try {
       await auth.login(data);
-      window.location.href = state ? state.from.pathname : "/";
+      window.location.href = "/";
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         const errors = error.response.data;

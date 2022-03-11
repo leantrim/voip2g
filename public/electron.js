@@ -51,8 +51,18 @@ function createWindow() {
 
 }
 
-ipcMain.on('notify', (_, options) => {
+ipcMain.on('notification', (_, options) => {
     new Notification(options).show();
+})
+
+ipcMain.on('newWindow', (_, url) => {
+    console.log(url);
+    const window = new BrowserWindow({
+        backgroundColor: '#2e2c29',
+        webPreferences: {
+        }
+    })
+    window.loadURL("http://localhost:3000/" + url);
 })
 
 

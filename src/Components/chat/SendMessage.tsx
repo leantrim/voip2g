@@ -1,25 +1,41 @@
 import { useContext, useRef } from "react";
 import styled from "styled-components";
 import { chatContext } from "../../context/chatContext";
+import electronApi from "services/electronApi";
 
-const UseFocus = () => {
-  const htmlElRef = useRef(null);
+function UseFocus<T extends HTMLInputElement>() {
+  const htmlElRef = useRef<T>(null);
   const setFocus = () => {
     htmlElRef.current && htmlElRef.current.focus();
   };
 
   return [htmlElRef, setFocus];
-};
+}
+
+interface data {
+  content: string;
+  message: string;
+}
 
 function SendMessage() {
   const [chatRef, setChatFocus] = UseFocus();
   const { handleMessageSubmit, register, handleSubmit } =
     useContext(chatContext);
 
-  setChatFocus();
+  //setChatFocus();
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: data) => {
     handleMessageSubmit(data);
+
+    const options = {
+      title: "VOIP2G",
+      subtitle: "POKE!",
+      body: data.message,
+    };
+
+    electronApi.sendCustomNotification(options);
+
+    electronApi.openNewWindow("/page.tsx");
   };
 
   return (

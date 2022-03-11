@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import { HashRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import "@fortawesome/fontawesome-free/css/all.css";
 import { UserContextProvider } from './context/userContext';
 import { ChannelContextProvider } from './context/channelContext';
@@ -10,6 +10,7 @@ import { ChatContextProvider } from './context/chatContext';
 import Home from "./App"
 import Login from './Components/user/Login';
 import Signup from './Components/user/Signup';
+import Page from "./pages/page"
 
 
 ReactDOM.render(
@@ -20,9 +21,12 @@ ReactDOM.render(
           <ChannelContextProvider>
             <ClientSocketProvider>
               <Router>
-                <Route exact path="/" component={Home} />
-                <Route path="/register" component={Signup} />
-                <Route path="/login" component={Login} />
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/register" element={<Signup />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/page" element={<Page />} />
+                </Routes>
               </Router>
             </ClientSocketProvider>
           </ChannelContextProvider>
