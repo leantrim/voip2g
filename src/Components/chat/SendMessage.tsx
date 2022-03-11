@@ -34,8 +34,6 @@ function SendMessage() {
     };
 
     electronApi.sendCustomNotification(options);
-
-    electronApi.openNewWindow("/page.tsx");
   };
 
   return (

@@ -7,6 +7,7 @@ import Footer from "Components/Footer";
 import Header from "Components/Header";
 import SidebarLeft from "Components/SidebarLeft";
 import SidebarRight from "Components/SidebarRight";
+import InitUser from "Components/user/InitUser";
 
 const Chat = React.lazy(() => import("Components/chat/ChatContainer"));
 const VoiceChat = React.lazy(() => import("Components/voiceSystem/VoiceChat"));

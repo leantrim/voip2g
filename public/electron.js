@@ -1,9 +1,22 @@
-const { app, BrowserWindow, ipcMain, Notification } = require('electron')
+const {
+    app,
+    BrowserWindow,
+    ipcMain,
+    Notification,
+    powerMonitor,
+    Menu,
+    Tray,
+} = require('electron')
 const isDev = require('electron-is-dev');
 const path = require('path');
 
+
+
 let win;
-let mainWindow;
+const icon = isDev ? 'public/icon.png' : (__dirname, 'build/icon.png');
+let tray
+
+app.disableHardwareAcceleration();
 
 
 function createWindow() {
@@ -13,7 +26,7 @@ function createWindow() {
     win = new BrowserWindow({
         title: 'VOIP2G Speak better with friends',
         show: true,
-        icon: (__dirname, 'build/icon.png'),
+        icon: icon,
         //TODO:Enabble this later!   autoHideMenuBar: true,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
@@ -21,6 +34,11 @@ function createWindow() {
             contextIsolation: true, // protect against prototype pollution
             enableRemoteModule: false, // turn off remote
             webSecurity: false
+        },
+        titleBarStyle: 'hidden',
+        titleBarOverlay: {
+            color: '#333',
+            symbolColor: '#74b1be'
         }
     });
 
@@ -46,10 +64,38 @@ function createWindow() {
             win.hide();
         }
 
+
         return false;
     });
 
 }
+
+
+app.whenReady().then(() => {
+    createWindow();
+
+    tray = new Tray(icon)
+    const contextMenu = Menu.buildFromTemplate([
+        { label: 'Mute Microphone' },
+        { label: 'Enable Microphone' },
+        { label: 'Item3', type: 'radio', checked: true },
+        { label: 'Item4', type: 'radio' }
+    ])
+
+    tray.setToolTip('VOIP2G');
+    tray.setContextMenu(contextMenu);
+})
+
+
+
+
+app.on('window-all-closed', function () {
+    if (process.platform !== 'darwin') {
+        ioHook.unload();
+        ioHook.stop();
+        app.quit()
+    }
+})
 
 ipcMain.on('notification', (_, options) => {
     new Notification(options).show();
@@ -66,19 +112,15 @@ ipcMain.on('newWindow', (_, url) => {
 })
 
 
-
-
-app.whenReady().then(() => {
-    createWindow();
+ipcMain.on('getIdleTime', (_) => {
+    const idleThreshold = powerMonitor.getSystemIdleTime();
+    console.log(idleThreshold);
+    win.webContents.send('message', idleThreshold);
 })
 
 
-app.disableHardwareAcceleration();
 
 
-app.on('window-all-closed', function () {
-    if (process.platform !== 'darwin') app.quit()
-})
 
 
 

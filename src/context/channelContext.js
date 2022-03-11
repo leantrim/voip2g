@@ -1,6 +1,8 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import chan from "../services/channelService";
 import { channelSocketContext } from './channelSocketContext';
+import { chatContext } from './chatContext';
+import chatService from "../services/chatService";
 
 
 const channelContext = createContext();
@@ -14,8 +16,14 @@ const ChannelContextProvider = ({ children }) => {
     const {
         channel: channelSocket,
         userJoinChannel,
-        userLeaveChannel
+        userLeaveChannel,
+        userSendMessageToChannel
     } = useContext(channelSocketContext);
+
+    const {
+        chatList,
+        setChatList
+    } = useContext(chatContext);
 
 
 
@@ -63,7 +71,6 @@ const ChannelContextProvider = ({ children }) => {
     }
 
     const loadChannels = async () => {
-        console.log('loadChannels RAN!');
         const { data: channel } = await chan.getChannels();
         setChannels([...channel]);
     }
@@ -75,17 +82,54 @@ const ChannelContextProvider = ({ children }) => {
     }
 
 
+    const viewModelToDb = (user, msg, type) => {
+        const chat = {
+            content: `${type} ${user.name} ${msg}`,
+            isLog: true,
+        };
+        if (type === '[CONNECT]') chat.isJoining = 1;
+        else chat.isJoining = 0;
+        return chat;
+    };
+
+    const addChannelLog = async (channel, user, msg, type) => {
+        // Channel logging
+        const message = viewModelToDb(user, msg, type);
+
+        chatList.data.message.push(message);
+
+        setChatList({ ...chatList })
+
+        console.log(channel);
+
+        userSendMessageToChannel(channel._id, message);
+
+        await chatService.addMessageToChat(message, channel._id);
+    }
+
+
     const addUserToChannel = async (user, channelId) => {
         const channel = await chan.addClientToChannel(user, channelId._id);
-        setCurrentChannel(channelId._id);
+
         userJoinChannel(channelId, user);
+
+        setCurrentChannel(channelId);
+
+        addChannelLog(channelId, user, 'has joined to the channel', '[CONNECT]');
+
         return channel;
     }
-    const removeUserFromChannel = async (user, channelId) => {
+
+    const removeUserFromChannel = async (user, channel) => {
         if (!currentChannel) return;
-        await chan.removeClientFromChannel(user, channelId);
+
+        // Logging
+        addChannelLog(channel, user, 'has left the channel', '[DISCONNECT]');
+
+        await chan.removeClientFromChannel(user, channel);
+
         setCurrentChannel('');
-        userLeaveChannel(channelId, user);
+
         return channel;
     }
 

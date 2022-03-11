@@ -11,9 +11,8 @@ function MessageList() {
 
   const { currentChannel } = useContext(channelContext);
 
-  console.log(chatList);
   useEffect(() => {
-    getCurrentChat();
+    getCurrentChat(currentChannel);
   }, []);
 
   return (

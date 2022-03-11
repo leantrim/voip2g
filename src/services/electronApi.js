@@ -5,10 +5,15 @@ const sendCustomNotification = async (options) => {
 const openNewWindow = async (options) => {
     window.App.notificationApi.openNewWindow(options);
 };
+const getIdleTime = async () => {
+    window.App.notificationApi.getSystemIdleTime();
+};
+
 
 const exportedObject = {
     sendCustomNotification,
-    openNewWindow
+    openNewWindow,
+    getIdleTime
 };
 
 export default exportedObject;

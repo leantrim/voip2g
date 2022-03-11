@@ -33,7 +33,7 @@ function SidebarLeft() {
     if (currentChannel === channel._id) return;
 
     if (currentChannel) {
-      await removeUserFromChannel(user, currentChannel);
+      await removeUserFromChannel(user, channel);
     }
     await addUserToChannel(user, channel);
     play();

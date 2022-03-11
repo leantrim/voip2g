@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import chatService from "../services/chatService";
+import { channelContext } from './channelContext';
 import { channelSocketContext } from './channelSocketContext';
 import { userContext } from './userContext';
 
@@ -19,8 +20,13 @@ const ChatContextProvider = ({ children }) => {
         userSendMessageToChannel,
     } = useContext(channelSocketContext);
 
-    const getCurrentChat = async () => {
-        const chat = await chatService.getChat("622431824c5c5c847154d595");
+    const getCurrentChat = async (userChannel) => {
+        if (!userChannel) {
+            channel.filter(channel => channel.isDefault);
+            // This is to be added to the users DB/cookie
+            userChannel = channel;
+        }
+        const chat = await chatService.getChat(userChannel._id);
         setChatList(chat);
         console.log('Downloaded chat');
     };
@@ -80,10 +86,11 @@ const ChatContextProvider = ({ children }) => {
             handleMessageSubmit,
             getCurrentChat,
             chatList,
+            setChatList,
             register,
             handleSubmit,
             watch,
-            setValue
+            setValue,
         }}>
             {children}
 
