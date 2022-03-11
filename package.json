@@ -1,5 +1,6 @@
 {
   "name": "voip2g",
+  "homepage": ".",
   "version": "0.1.0",
   "main": "public/electron.js",
   "private": true,
@@ -29,7 +30,7 @@
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.4",
     "react-dom": "^17.0.2",
-    "react-hook-form": "^7.17.4",
+    "react-hook-form": "^7.27.1",
     "react-modal": "^3.14.4",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
@@ -43,7 +44,16 @@
     "web-vitals": "^1.1.2"
   },
   "build": {
-    "appId": "Voip2G"
+    "appId": "voip2g",
+    "icon": "public/icon.png",
+    "files": [
+      "*.js",
+      "build",
+      "node_modules"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
   },
   "scripts": {
     "react-start": "react-scripts start",

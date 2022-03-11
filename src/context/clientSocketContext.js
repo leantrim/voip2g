@@ -9,7 +9,7 @@ const jwtToken = auth.getJwt();
 const namespace = 'lobby';
 
 
-const lobbySocketConnection = io(`http://192.168.1.52:5001/${namespace}`, { auth: { token: jwtToken } });
+const lobbySocketConnection = io(`http://176.10.174.108:5001/${namespace}`, { auth: { token: jwtToken } });
 
 const ClientSocketProvider = ({ children }) => {
     const [lobby] = useState(lobbySocketConnection);

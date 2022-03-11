@@ -13,19 +13,19 @@ function createWindow() {
     win = new BrowserWindow({
         title: 'VOIP2G Speak better with friends',
         show: true,
-        icon: 'icon.png',
+        icon: (__dirname, 'build/icon.png'),
         //TODO:Enabble this later!   autoHideMenuBar: true,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
             nodeIntegration: false, // is default value after Electron v5
             contextIsolation: true, // protect against prototype pollution
             enableRemoteModule: false, // turn off remote
+            webSecurity: false
         }
     });
 
     win.loadURL(
-        isDev ? "http://localhost:3000" : `file://$path.join(__dirname, "../
-            build/index.html")}`
+        isDev ? "http://localhost:3000" : path.join(__dirname, '/index.html')
     )
 
     win.maximize();

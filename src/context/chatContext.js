@@ -32,16 +32,20 @@ const ChatContextProvider = ({ children }) => {
         return chat;
     };
 
-    const handleMessageSubmit = async () => {
+    const handleMessageSubmit = async (input) => {
         if (!message) return;
+        setMessage(input);
 
         const chat = viewModelToDb();
         toggleEmoji(false);
         setMessage("");
+
         chatList.data.message.push(chat);
         setChatList({ ...chatList })
         await chatService.addMessageToChat(chat, "622431824c5c5c847154d595");
         userSendMessageToChannel("622431824c5c5c847154d595", chatList);
+
+
     };
 
     useEffect(() => {

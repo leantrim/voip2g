@@ -9,7 +9,7 @@ const jwtToken = auth.getJwt();
 const namespace = 'channel';
 
 
-const channelSocketConnection = io(`http://192.168.1.52:5001/${namespace}`, { auth: { token: jwtToken } });
+const channelSocketConnection = io(`http://176.10.174.108:5001/${namespace}`, { auth: { token: jwtToken } });
 
 const ChannelSocketProvider = ({ children }) => {
     const [channel] = useState(channelSocketConnection);

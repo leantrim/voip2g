@@ -18,6 +18,11 @@ function SendMessage() {
 
   setChatFocus();
 
+  const handleChange = (e) => {
+    e.preventDefault();
+    setMessage(e.target.value);
+  };
+
   return (
     <>
       <InputBox>
@@ -27,7 +32,7 @@ function SendMessage() {
             type="text"
             placeholder="Message RedBull Racing..."
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={(e) => handleChange(e)}
             onKeyDown={(event) =>
               event.key === "Enter" && handleMessageSubmit()
             }

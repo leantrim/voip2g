@@ -27,9 +27,9 @@ const MediaStreamProvider = ({ children }) => {
             audio: {
                 autoGainControl: false,
                 channelCount: 2,
-                echoCancellation: true,
+                echoCancellation: false,
                 latency: 0,
-                noiseSuppression: true,
+                noiseSuppression: false,
                 sampleRate: 48000,
                 sampleSize: 16,
                 volume: 1
