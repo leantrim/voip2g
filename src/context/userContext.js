@@ -23,17 +23,14 @@ const UserContextProvider = ({ children }) => {
         return customUser;
     }
 
-    useEffect(() => {
-        loadUserInfo();
-    }, []);
-
-
     return (
         <userContext.Provider value={{
             user,
             setUser,
             logOutUser,
             getCustomUser,
+            loadUserInfo,
+            setUser
         }}>
             {children}
 

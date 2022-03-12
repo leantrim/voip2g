@@ -35,11 +35,6 @@ function createWindow() {
             enableRemoteModule: false, // turn off remote
             webSecurity: false
         },
-        titleBarStyle: 'hidden',
-        titleBarOverlay: {
-            color: '#333',
-            symbolColor: '#74b1be'
-        }
     });
 
     win.loadURL(
@@ -91,8 +86,6 @@ app.whenReady().then(() => {
 
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') {
-        ioHook.unload();
-        ioHook.stop();
         app.quit()
     }
 })

@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import "@fortawesome/fontawesome-free/css/all.css";
 import { UserContextProvider } from './context/userContext';
+import { SoundContextProvider } from './context/soundNoticeContext';
 import { ChannelContextProvider } from './context/channelContext';
 import { ClientSocketProvider } from './context/clientSocketContext';
 import { ChannelSocketProvider } from './context/channelSocketContext';
@@ -15,24 +16,26 @@ import Page from "./pages/page"
 
 ReactDOM.render(
   <UserContextProvider>
-    <ChannelSocketProvider>
-      <ChatContextProvider>
-        <MediaStreamProvider>
-          <ChannelContextProvider>
-            <ClientSocketProvider>
-              <Router>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/register" element={<Signup />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/page" element={<Page />} />
-                </Routes>
-              </Router>
-            </ClientSocketProvider>
-          </ChannelContextProvider>
-        </MediaStreamProvider>
-      </ChatContextProvider>
-    </ChannelSocketProvider>
+    <SoundContextProvider>
+      <ChannelSocketProvider>
+        <ChatContextProvider>
+          <MediaStreamProvider>
+            <ChannelContextProvider>
+              <ClientSocketProvider>
+                <Router>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/register" element={<Signup />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/page" element={<Page />} />
+                  </Routes>
+                </Router>
+              </ClientSocketProvider>
+            </ChannelContextProvider>
+          </MediaStreamProvider>
+        </ChatContextProvider>
+      </ChannelSocketProvider>
+    </SoundContextProvider>
   </UserContextProvider>,
   document.getElementById("root")
 );

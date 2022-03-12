@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useContext, useEffect } from "react";
 import { Circle } from "better-react-spinkit";
 import auth from "./services/authService";
 import "./styles/Main.css";
@@ -8,6 +8,7 @@ import Header from "Components/Header";
 import SidebarLeft from "Components/SidebarLeft";
 import SidebarRight from "Components/SidebarRight";
 import InitUser from "Components/user/InitUser";
+import { userContext } from "context/userContext";
 
 const Chat = React.lazy(() => import("Components/chat/ChatContainer"));
 const VoiceChat = React.lazy(() => import("Components/voiceSystem/VoiceChat"));
@@ -15,12 +16,22 @@ const VoiceChat = React.lazy(() => import("Components/voiceSystem/VoiceChat"));
 const Login = React.lazy(() => import("./Components/user/Login"));
 
 function App() {
+  const { user, loadUserInfo } = useContext(userContext);
+
   if (!auth.getCurrentUser())
     return (
       <Suspense fallback={<Circle color="#e1b542" size={60} />}>
         <Login />
       </Suspense>
     );
+
+  const loadUserInformation = async () => {
+    await loadUserInfo();
+  };
+
+  if (!user) {
+    loadUserInfo();
+  }
 
   return (
     <div className="main-container">

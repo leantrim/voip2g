@@ -5,14 +5,15 @@ import { useContext } from "react";
 import { channelContext } from "../../context/channelContext";
 import DisplayMessage from "./DisplayMessage";
 import { chatContext } from "../../context/chatContext";
+import { userContext } from "context/userContext";
 
 function MessageList() {
   const { getCurrentChat, chatList } = useContext(chatContext);
 
-  const { currentChannel } = useContext(channelContext);
+  const { user, loadUserInfo } = useContext(userContext);
 
   useEffect(() => {
-    getCurrentChat(currentChannel);
+    getCurrentChat(user.channel);
   }, []);
 
   return (

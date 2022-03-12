@@ -3,6 +3,8 @@ import chan from "../services/channelService";
 import { channelSocketContext } from './channelSocketContext';
 import { chatContext } from './chatContext';
 import chatService from "../services/chatService";
+import { soundContext } from './soundNoticeContext';
+import { userContext } from './userContext';
 
 
 const channelContext = createContext();
@@ -21,10 +23,37 @@ const ChannelContextProvider = ({ children }) => {
     } = useContext(channelSocketContext);
 
     const {
+        playCustomSound
+    } = useContext(soundContext);
+
+    const {
         chatList,
         setChatList
     } = useContext(chatContext);
 
+    const { user, setUser } = useContext(userContext);
+
+
+    const handleChannelClick = async (user, channel) => {
+        if (currentChannel) {
+            if (currentChannel._id === channel._id) return;
+            if (currentChannel) {
+                await removeUserFromChannel(user, channel);
+            }
+        }
+
+        await addUserToChannel(user, channel);
+        playCustomSound();
+        loadChannels();
+
+    };
+
+
+    const handleClickDisconnect = async (user) => {
+        await removeUserFromChannel(user, currentChannel);
+        loadChannels();
+        playCustomSound();
+    };
 
 
 
@@ -117,6 +146,10 @@ const ChannelContextProvider = ({ children }) => {
 
         addChannelLog(channelId, user, 'has joined to the channel', '[CONNECT]');
 
+        user.channelId = channelId;
+
+        setUser(user);
+
         return channel;
     }
 
@@ -144,7 +177,9 @@ const ChannelContextProvider = ({ children }) => {
             createNewChannel,
             addUserToChannel,
             removeUserFromChannel,
-            setCurrentChannel
+            setCurrentChannel,
+            handleChannelClick,
+            handleClickDisconnect
         }}>
             {children}
 
