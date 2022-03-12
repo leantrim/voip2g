@@ -21,6 +21,7 @@ const ChatContextProvider = ({ children }) => {
     } = useContext(channelSocketContext);
 
     const getCurrentChat = async (userChannel) => {
+        console.log('getcurrentChat');
 
         if (!userChannel) {
 
@@ -45,9 +46,13 @@ const ChatContextProvider = ({ children }) => {
     };
 
     const viewModelToDb = (input) => {
+        console.log(user);
         const chat = {
             content: input,
-            author: user.name,
+            author: {
+                name: user.name,
+                userLogo: user.userLogo,
+            },
         };
         return chat;
     };

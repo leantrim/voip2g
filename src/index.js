@@ -12,7 +12,7 @@ import Home from "./App"
 import Login from './Components/user/Login';
 import Signup from './Components/user/Signup';
 import Page from "./pages/page"
-
+import ProtectedRoute from 'Components/common/ProtectedRoute';
 
 ReactDOM.render(
   <UserContextProvider>
@@ -24,7 +24,9 @@ ReactDOM.render(
               <ClientSocketProvider>
                 <Router>
                   <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route exact path='/' element={<ProtectedRoute />}>
+                      <Route exact path='/' element={<Home />} />
+                    </Route>
                     <Route path="/register" element={<Signup />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/page" element={<Page />} />

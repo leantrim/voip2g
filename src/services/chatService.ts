@@ -10,7 +10,7 @@ interface Channel {
 
 interface MessageContent {
   content: string;
-  author: string;
+  author: object;
 }
 
 function createChannelChat(channel: Channel) {
@@ -25,7 +25,7 @@ function getChat(_id: string) {
   return http.get(`${DATABASE_URL}/api/${SECOND_URL}/${_id}`);
 }
 
-function addMessageToChat(chat: MessageContent, _id: string) {
+function addMessageToChat(chat: any, _id: string) {
   return http.put(`${DATABASE_URL}/api/${SECOND_URL}/${_id}`, {
     chat,
   });

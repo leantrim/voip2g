@@ -26,25 +26,36 @@ function DisplayMessage({ message }: any) {
         </>
       )}
       {message.author && (
-        <>
+        <div className="chatfinal">
           <img
             className="chat-logo"
             src={
-              "https://www.bga.se/cache/e7/1200x1200-Affischer-Posters_2020-06_1926116.jpg"
+              message.author.userLogo ||
+              "https://media.discordapp.net/attachments/767507305410985996/891677533538484264/vp3-nobg.png?width=671&height=671"
             }
             alt="userLogo"
           />
-          <span className="authorName">{message.author}</span>
+          <span className="authorName">{message.author.name}</span>
           <div ref={bottomRef} className="message">
             {message.content}
           </div>
-        </>
+        </div>
       )}
     </Container>
   );
 }
 
 const Container = styled.div`
+  & .chatfinal {
+    display: inline-grid;
+    grid-template-columns: 6% 1fr;
+    grid-template-rows: 27% 1fr;
+    margin-left: -42px;
+    width: 99%;
+    margin-top: 3px;
+  }
+
+
   padding-left: 43px;
 
   & .log-channel {
@@ -61,6 +72,9 @@ const Container = styled.div`
     margin-left: 42px;
     font-size: 18px;
     color: #ffffff;
+    grid-column: 2;
+    margin-left: 4px;
+}
   }
 
   & .authorName {
@@ -76,6 +90,7 @@ const Container = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    margin-left: 6px;
   }
 `;
 export default DisplayMessage;
