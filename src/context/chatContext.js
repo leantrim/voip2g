@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import useLocalStorage from "hooks/useLocalStorage";
 import chatService from "../services/chatService";
 import chan from "../services/channelService";
 import { channelSocketContext } from './channelSocketContext';
@@ -11,48 +12,52 @@ const chatContext = createContext();
 const ChatContextProvider = ({ children }) => {
     const [showEmoji, setShowEmoji] = useState(false);
     const [emoji, setEmoji] = useState('');
-    const [chatList, setChatList] = useState([]);
+    //const [chatList, setChatList] = useState({ message: [] });
+    const [chatList, setChatList] = useLocalStorage("chatList", { message: [] });
     const { register, handleSubmit, watch, setValue, getValues } = useForm();
-    const { user, setUser, getCustomUser, loadUserInfo } = useContext(userContext);
+    const { user, setUser, currentChat, setCurrentChat } = useContext(userContext);
 
     const {
         channel: channelSocket,
         userSendMessageToChannel,
     } = useContext(channelSocketContext);
 
-    const getCurrentChat = async (userChannel) => {
-        console.log('getcurrentChat');
+    const getCurrentChat = async (currentChat) => {
 
-        if (!userChannel) {
+        console.log('CurrentChat called')
+        if (!currentChat._id) {
 
-            const channels = await chan.getChannels();
+            const findChannel = await chan.getChannels();
 
-            let channel = channels.data.find(chan => chan.isDefault);
-            const chat = await chatService.getChat(channel._id);
-            console.log(channel);
+            let channel = findChannel.data.find(chan => chan.isDefault);
 
-            setChatList(chat);
-            user.channel = channel;
-            setUser(user);
+            if (!channel) return console.log('FATAL ERROR(924): NO CHANNELS & CHATS CREATED, PLEASE MAKE A NEW CHANNEL ASAP.');
+
+            const { data: chat } = await chatService.getChat(channel._id);
+
+
+            setChatList({ ...chat });
+
+            console.log('getCurrentChat, SETCURRENTCHAT')
+            setCurrentChat(channel);
+
             return;
-
         }
-        const chat = await chatService.getChat(userChannel._id);
+        const { data: chat } = await chatService.getChat(currentChat._id);
 
-        setChatList(chat);
+        setChatList({ ...chat });
 
-        console.log('Downloaded chat', chat);
 
     };
 
     const viewModelToDb = (input) => {
-        console.log(user);
         const chat = {
             content: input,
             author: {
                 name: user.name,
                 userLogo: user.userLogo,
             },
+            date: Date.now()
         };
         return chat;
     };
@@ -66,16 +71,20 @@ const ChatContextProvider = ({ children }) => {
 
         setValue("message", "");
 
-        chatList.data.message.push(chat);
+        console.log(chatList.message);
+
+        chatList.message.push(chat);
 
         setChatList({ ...chatList })
 
-        userSendMessageToChannel(user.channel._id, chatList);
 
-        await chatService.addMessageToChat(chat, user.channel._id);
+        userSendMessageToChannel(currentChat._id, chatList);
+
+        await chatService.addMessageToChat(chat, currentChat._id);
     };
 
     useEffect(() => {
+        getCurrentChat(currentChat);
 
         channelSocket.on('user_receive_message_private_channel', (message) => {
             setChatListMessage(message);
@@ -84,7 +93,7 @@ const ChatContextProvider = ({ children }) => {
     }, [channelSocket])
 
     const setChatListMessage = (message) => {
-        getCurrentChat();
+        getCurrentChat(currentChat);
     }
 
     const toggleEmoji = (specific = '') => {

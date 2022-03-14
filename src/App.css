@@ -3,18 +3,18 @@
 }
 
 body {
-  background-color: #080d20;
+  background-color: #1b1e27;
   margin: 0px;
 }
 
 ::-webkit-scrollbar {
   height: 14px;
   width: 10px;
-  background: #152355;
+  background: #2b2d3a;
   border-radius: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #0c1532;
+  background: #2e86ab73;
   -webkit-border-radius: 1ex;
 }

@@ -1,28 +1,28 @@
-import { useState } from "react";
-import Joi from "joi";
+import { useContext, useState } from "react";
 import Modal from "react-modal";
-import "../../styles/NewChannel.css";
-import useForm from "../common/Form";
-import chan from "../../services/channelService";
-import chat from "../../services/chatService";
+import { useForm, SubmitHandler } from "react-hook-form";
+import styled from "styled-components";
+import chan from "services/channelService";
+import { channelContext } from "context/channelContext";
 
-interface newchannel {
+interface IFormInputs {
+  channelName: string;
+  isChat: boolean;
+  author: string;
   name: string;
 }
 
 function NewChannel() {
   const [modalIsOpen, setIsOpen] = useState(false);
+  const { loadChannels } = useContext(channelContext);
 
-  // Form
-  const [errors, setErrors] = useState<any>();
-  const data = { name: "" };
-  const style = "new-channel";
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<IFormInputs>();
 
-  const joiSchema = Joi.object({
-    name: Joi.string().min(3).required().label("channel-name"),
-  });
-
-  // Modal functions
+  // Modal fnctions
   const customStyles = {
     content: {
       top: "50%",
@@ -31,6 +31,8 @@ function NewChannel() {
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
+      backgroundColor: "#1b1e27",
+      border: "none",
     },
   };
 
@@ -46,49 +48,168 @@ function NewChannel() {
     setIsOpen(false);
   };
 
-  // Form
-  const doSubmit = async (data: newchannel) => {
-    try {
-      await chan.createChannel(data);
-      console.log(data);
-    } catch (error: any) {
-      if (error.response && error.response.status === 400) {
-        const errors = error.response.data;
-        setErrors(errors);
+  interface Channel {
+    channelName: string;
+    name: string;
+    author: string;
+    isChat: boolean;
+  }
+
+  const viewModelToDb = (data: Channel) => {
+    console.log(data);
+    const dataReturn = {
+      name: data.channelName,
+      isChat: data.isChat,
+      author: "Lean",
+    };
+    return dataReturn;
+  };
+
+  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+    console.log(data);
+    const datatoSend = viewModelToDb(data);
+    console.log("returned data", datatoSend);
+    await chan.createChannel(datatoSend);
+    closeModal();
+    loadChannels();
+  };
+
+  const displayError = (type: any) => {
+    if (type) {
+      switch (type) {
+        case "minLength":
+          return "Channel name needs to be atleast 3 characters long...";
+
+        case "maxLength":
+          return "Channel name cannot be longer than 16 characters long...";
+
+        case "required":
+          return "Channel name is required...";
+
+        default:
+          break;
       }
     }
   };
 
-  const { renderButton, renderInput, handleSubmit } = useForm<newchannel>({
-    initialData: data,
-    joiSchema,
-    doSubmit,
-    style,
-  });
-
   return (
-    <div>
+    <Container>
       <span onClick={openModal} className="create-new-channel">
         <i className="plus-sign fa-solid fa-plus"></i>
         <i className="new-channel-text">Create a new channel</i>
       </span>
-      <Modal
-        ariaHideApp={false}
-        isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <form onSubmit={handleSubmit} className={style + "-form-container"}>
-          <h1 className={style + `-createChannel-title`}> Create Channel</h1>
-          {errors && <h4 className={`${style}-errorresponse`}>{errors}</h4>}
-          {renderInput("name", "Channel Name")}
-          {renderButton("CREATE CHANNEL")}
-        </form>
-      </Modal>
-    </div>
+      <ModalContainer>
+        <Modal
+          ariaHideApp={false}
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <h5 className="modal-topic">Channel Name</h5>
+            <input
+              className="channel-name-input"
+              {...register("channelName", {
+                required: true,
+                minLength: 3,
+                maxLength: 16,
+              })}
+            />
+            <div className="errors">
+              {displayError(errors.channelName?.type)}
+            </div>
+            <label>
+              <input
+                className="checkbox"
+                type="checkbox"
+                {...register("isChat", { required: false })}
+              />
+              <div className="label-text">Is chat</div>
+            </label>
+            <input className="submit-button" type="submit" />
+          </Form>
+        </Modal>
+      </ModalContainer>
+    </Container>
   );
 }
+
+const Form = styled.form`
+  display: grid;
+  margin: 104px;
+  grid-template-rows: repeat(4, 3em);
+  grid-gap: 15px;
+
+  & .submit-button {
+    background-color: #103544;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 18px;
+    box-shadow: rgb(0 0 0 / 16%) 0px 1px 4px;
+    cursor: pointer;
+  }
+
+  & .checkbox {
+    height: 25px;
+    width: 26px;
+    color: #1b1e27;
+  }
+
+  & .modal-topic {
+    font-size: 18px;
+    color: #2e86ab;
+  }
+
+  & .channel-name-input {
+    background-color: #103544;
+    border: none;
+    outline: none;
+    color: #f3f3f3;
+    font-size: 18px;
+    border-radius: 8px;
+    box-shadow: rgb(0 0 0 / 16%) 0px 1px 4px;
+  }
+`;
+
+const ModalContainer = styled.div`
+  & .new-channel-form-container {
+    display: inline-grid;
+  }
+
+  & .new-channel-createChannel-title {
+    grid-row: 1;
+  }
+
+  & .new-channel-button {
+    background-color: #0d6efd;
+    color: black;
+    border-radius: 8px;
+    cursor: pointer;
+    transform: translate(0.3);
+    border: none;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 5px;
+    width: 72%;
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  & .new-channel-button:disabled {
+    opacity: 0.5;
+    cursor: default;
+    border: none;
+  }
+`;
+
+const Container = styled.div`
+  cursor: pointer;
+  background-color: #2b2d3a;
+  grid-row: 3;
+`;
 
 export default NewChannel;

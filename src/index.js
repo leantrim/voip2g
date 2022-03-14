@@ -24,8 +24,8 @@ ReactDOM.render(
               <ClientSocketProvider>
                 <Router>
                   <Routes>
-                    <Route exact path='/' element={<ProtectedRoute />}>
-                      <Route exact path='/' element={<Home />} />
+                    <Route path='/' element={<ProtectedRoute />}>
+                      <Route path='/' element={<Home />} />
                     </Route>
                     <Route path="/register" element={<Signup />} />
                     <Route path="/login" element={<Login />} />

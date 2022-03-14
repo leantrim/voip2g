@@ -2,7 +2,6 @@
   display: grid;
   height: 100vh;
   grid-template-rows: auto 1fr auto;
-  grid-gap: 8px;
   overflow: hidden;
 }
 
@@ -13,18 +12,24 @@
 }
 
 .sub-container {
-  grid-gap: 8px;
+  grid-gap: 0px;
   display: inline-grid;
   grid-template-columns: 15em 1fr 15em;
   overflow: hidden;
 }
 
 .sidebar-left {
-  background-color: #1b1e27;
+  background-color: #252832;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .sidebar-right {
-  background-color: #1b1e27;
+  background-color: #252832;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  border: 3px solid #2b2d3a;
 }
 
 .body-container {
@@ -32,6 +37,7 @@
   grid-column: 2;
   background-color: #1b1e27;
   overflow: hidden;
+  margin-top: 8px;
 }
 
 .footer {

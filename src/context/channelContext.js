@@ -13,7 +13,6 @@ const channelContext = createContext();
 
 const ChannelContextProvider = ({ children }) => {
     const [channel, setChannels] = useState([]);
-    const [currentChannel, setCurrentChannel] = useState();
 
     const {
         channel: channelSocket,
@@ -23,42 +22,21 @@ const ChannelContextProvider = ({ children }) => {
     } = useContext(channelSocketContext);
 
     const {
-        playCustomSound
+        playSound
     } = useContext(soundContext);
+
 
     const {
         chatList,
-        setChatList
+        setChatList,
     } = useContext(chatContext);
 
-    const { user, setUser } = useContext(userContext);
-
-
-    const handleChannelClick = async (user, channel) => {
-        if (currentChannel) {
-            if (currentChannel._id === channel._id) return;
-            if (currentChannel) {
-                await removeUserFromChannel(user, channel);
-            }
-        }
-
-        await addUserToChannel(user, channel);
-        playCustomSound();
-        loadChannels();
-
-    };
-
-
-    const handleClickDisconnect = async (user) => {
-        await removeUserFromChannel(user, currentChannel);
-        loadChannels();
-        playCustomSound();
-    };
-
+    const { currentChannel,
+        setCurrentChat,
+        setCurrentChannel } = useContext(userContext);
 
 
     useEffect(() => {
-        loadChannels();
 
 
         channelSocket.on("connect_error", error => {
@@ -67,6 +45,7 @@ const ChannelContextProvider = ({ children }) => {
         });
         channelSocket.on("channel-notification", (data) => {
             // Reading the message in a function
+            console.log('TRIGGERED channel-notification');
             loadChannels();
         });
 
@@ -100,6 +79,7 @@ const ChannelContextProvider = ({ children }) => {
     }
 
     const loadChannels = async () => {
+        console.log('LoadChannels Command ran!');
         const { data: channel } = await chan.getChannels();
         setChannels([...channel]);
     }
@@ -109,6 +89,7 @@ const ChannelContextProvider = ({ children }) => {
         const channel = await chan.getChannel(id);
         return channel;
     }
+
 
 
     const viewModelToDb = (user, msg, type) => {
@@ -125,41 +106,61 @@ const ChannelContextProvider = ({ children }) => {
         // Channel logging
         const message = viewModelToDb(user, msg, type);
 
-        chatList.data.message.push(message);
+        chatList.message.push(message);
 
         setChatList({ ...chatList })
-
-        console.log(channel);
 
         userSendMessageToChannel(channel._id, message);
 
         await chatService.addMessageToChat(message, channel._id);
     }
 
+    const handleChannelClick = async (user, channel) => {
+        if (currentChannel._id) {
+            if (currentChannel._id === channel._id) return;
+            await removeUserFromChannel(user, currentChannel);
+        }
+
+        await addUserToChannel(user, channel);
+        playSound();
+        console.log('handleChannelClick');
+    };
+
+
+    const handleClickDisconnect = async (user) => {
+        console.log('handleclickDisconnect triggered');
+        await removeUserFromChannel(user, currentChannel);
+        loadChannels();
+        playSound();
+    };
+
 
     const addUserToChannel = async (user, channelId) => {
-        const channel = await chan.addClientToChannel(user, channelId._id);
+        const { data: channel } = await chan.addClientToChannel(user, channelId._id);
+        addChannelLog(channelId, user, 'has joined to the channel', '[CONNECT]');
 
         userJoinChannel(channelId, user);
 
         setCurrentChannel(channelId);
+        setCurrentChat({ ...channelId });
 
-        addChannelLog(channelId, user, 'has joined to the channel', '[CONNECT]');
+        const { data: chat } = await chatService.getChat(channel._id);
+        setChatList({ ...chat });
 
-        user.channelId = channelId;
-
-        setUser(user);
+        loadChannels();
 
         return channel;
     }
 
     const removeUserFromChannel = async (user, channel) => {
-        if (!currentChannel) return;
+        if (!currentChannel._id) return;
 
         // Logging
         addChannelLog(channel, user, 'has left the channel', '[DISCONNECT]');
 
-        await chan.removeClientFromChannel(user, channel);
+        userLeaveChannel(channel, user);
+
+        await chan.removeClientFromChannel(user, currentChannel);
 
         setCurrentChannel('');
 
@@ -170,14 +171,12 @@ const ChannelContextProvider = ({ children }) => {
     return (
         <channelContext.Provider value={{
             channel,
-            currentChannel,
             setChannels,
             loadChannels,
             loadChannel,
             createNewChannel,
             addUserToChannel,
             removeUserFromChannel,
-            setCurrentChannel,
             handleChannelClick,
             handleClickDisconnect
         }}>

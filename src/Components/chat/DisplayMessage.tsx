@@ -1,16 +1,56 @@
-import { useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
+import { userContext } from "context/userContext";
+import { useContext, useEffect, useRef } from "react";
+import moment from "moment";
+import styled from "styled-components";
 
 function DisplayMessage({ message }: any) {
   const bottomRef = useRef<HTMLDivElement>(null);
+  const { channelLogging } = useContext(userContext);
 
   useEffect(() => {
     bottomRef?.current?.scrollIntoView();
   }, [message]);
 
+  const formatDate = (date: any) => {
+    // Format date
+    let message_date = moment(date).format("YYYY-MM-DD H:mm z");
+
+    // Format current date
+    let dateToday = Date.now();
+    const constcurrentDate = moment(dateToday).format("YYYY-MM-DD H:mm z");
+
+    const difference = (Date.now() - date) / 1000;
+
+    const timer = Math.floor(difference);
+
+    const messageDay = new Date(date).getDate();
+    const currentDay = new Date(dateToday).getDate();
+
+    if (timer < 10) return "just now ";
+
+    if (timer < 60) {
+      return timer + "s ago ";
+    }
+
+    if (currentDay - messageDay === 1) {
+      message_date = moment(date).format("H:mm z");
+      return "yesterday " + message_date;
+    }
+
+    // if message was sent within 3600 seconds (one hour);
+    if (timer < 3600) return Math.floor(timer / 60) + "m ago ";
+
+    if (messageDay === currentDay) {
+      message_date = moment(date).format("H:mm z");
+      return "today " + message_date;
+    }
+
+    return message_date;
+  };
+
   return (
     <Container>
-      {message.isLog && (
+      {channelLogging && message.isLog && (
         <>
           <div
             ref={bottomRef}
@@ -21,6 +61,7 @@ function DisplayMessage({ message }: any) {
               }
             }
           >
+            {formatDate(message.date)}
             {message.content}
           </div>
         </>
@@ -36,6 +77,7 @@ function DisplayMessage({ message }: any) {
             alt="userLogo"
           />
           <span className="authorName">{message.author.name}</span>
+          <span className="date">{formatDate(message.date)}</span>
           <div ref={bottomRef} className="message">
             {message.content}
           </div>
@@ -47,12 +89,15 @@ function DisplayMessage({ message }: any) {
 
 const Container = styled.div`
   & .chatfinal {
-    display: inline-grid;
+    display: grid;
     grid-template-columns: 6% 1fr;
     grid-template-rows: 27% 1fr;
-    margin-left: -42px;
+    margin-left: -28px;
+    padding-left: 17px;
     width: 99%;
     margin-top: 3px;
+    padding-top: 10px;
+    border-top: 2px solid #2b2d3a;
   }
 
 
@@ -61,7 +106,7 @@ const Container = styled.div`
   & .log-channel {
     text-align: center;
     font-size: 12px;
-    background-color: #2b2d3a;
+    background-color: #103544;
     margin-right: 14rem;
     margin-left: 14rem;
     border-radius: 18px;
@@ -75,6 +120,13 @@ const Container = styled.div`
     grid-column: 2;
     margin-left: 4px;
 }
+  }
+
+  & .date {
+    grid-row: 2 span;
+    grid-column: 3;
+    margin-top: -16px;
+    color: grey;
   }
 
   & .authorName {

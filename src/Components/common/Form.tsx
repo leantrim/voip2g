@@ -2,7 +2,6 @@ import { useState } from "react";
 import DropDownInput from "../common/DropdownInput";
 import Input from "../common/Input";
 import "../../styles/Signup.css";
-import "../../styles/NewChannel.css";
 import { ObjectSchema } from "joi";
 
 interface Form<Type> {

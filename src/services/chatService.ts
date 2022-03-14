@@ -8,11 +8,6 @@ interface Channel {
   channel: object;
 }
 
-interface MessageContent {
-  content: string;
-  author: object;
-}
-
 function createChannelChat(channel: Channel) {
   return http.post(`${DATABASE_URL}/api/${SECOND_URL}/${channel._id}`);
 }

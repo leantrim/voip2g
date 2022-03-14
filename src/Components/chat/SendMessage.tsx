@@ -1,7 +1,7 @@
+import { userContext } from "context/userContext";
 import { useContext, useRef } from "react";
 import styled from "styled-components";
 import { chatContext } from "../../context/chatContext";
-import electronApi from "services/electronApi";
 
 function UseFocus<T extends HTMLInputElement>() {
   const htmlElRef = useRef<T>(null);
@@ -22,6 +22,8 @@ function SendMessage() {
   const { handleMessageSubmit, register, handleSubmit } =
     useContext(chatContext);
 
+  const { currentChat } = useContext(userContext);
+
   //setChatFocus();
 
   const onSubmit = (data: data) => {
@@ -33,7 +35,7 @@ function SendMessage() {
       body: data.message,
     };
 
-    electronApi.sendCustomNotification(options);
+    // electronApi.sendCustomNotification(options);
   };
 
   return (
@@ -43,7 +45,7 @@ function SendMessage() {
           <input
             ref={chatRef}
             {...register("message")}
-            placeholder="Message RedBull Racing..."
+            placeholder={`Message ${currentChat.name}...`}
           />
         </form>
       </InputBox>
@@ -52,9 +54,9 @@ function SendMessage() {
 }
 
 const InputBox = styled.div`
-  display: inline-grid;
-  grid-row: 3;
-  grid-template-columns: 5% auto 8%;
+display: inline-grid;
+    grid-row: 3;
+    grid-template-columns: 1% auto;
 
   & Form {
     width: 103%;
@@ -64,18 +66,19 @@ const InputBox = styled.div`
 
   & input {
     border-radius: 8px;
-    width: 100%;
+    width: 95%;
     border: 0px solid;
-    color: #cea335;
+    color: white;
     padding: 9px;
-    background-color: #0c1532;
+    background-color: #2b2d3a;
     outline: none;
     font-size: 18px;
+}
   }
 
   & ::placeholder {
-    font-weight: bold;
     font-size: 15px;
+    color: #ffffff8b;
   }
 
   & .fa-solid {

@@ -11,13 +11,13 @@ export enum ChannelType {
 
 interface Channel {
   [ChannelType.name]: string;
+  [ChannelType.isChat]: boolean;
+  [ChannelType.author]: string;
 }
 
 function createChannel(channel: Channel) {
   return http.post(`${DATABASE_URL}/api/${SECOND_URL}`, {
-    [ChannelType.name]: ChannelType.name,
-    [ChannelType.isChat]: ChannelType.isChat,
-    [ChannelType.author]: ChannelType.author,
+    channel,
   });
 }
 

@@ -32,7 +32,6 @@ const ClientSocketProvider = ({ children }) => {
 
 
     const lobbySocketMessage = (data) => {
-        console.log(data);
         //TODO friends list should reload here
         // GetFriendList();
     }

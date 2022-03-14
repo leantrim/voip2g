@@ -155,7 +155,7 @@ const MediaStreamProvider = ({ children }) => {
 
     return (
         <>
-            <button onClick={() => handle()}></button>
+            <i style={{ visibility: 'hidden' }} onClick={() => handle()}></i>
 
             <mediaStreamContext.Provider value={{
                 disableMic,

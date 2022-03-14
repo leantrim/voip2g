@@ -1,6 +1,5 @@
 import DropDownInputType from "../../types/DropdownInput";
 import "../../styles/Signup.css";
-import "../../styles/NewChannel.css";
 
 function DropDownInput({
   name,

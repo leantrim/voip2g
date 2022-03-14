@@ -1,12 +1,12 @@
-import { useContext } from "react";
-
+import { useContext, useEffect, useState } from "react";
+import styled from "styled-components";
 import { userContext } from "../../context/userContext";
-import { mediaStreamContext } from "../../context/mediaStreamContext";
+import ListChannelUser from "./ListChannelUser";
 
-function ListChannel({ chan, handleChannelClick, handleClickDisconnect }) {
-  const { toggleMic } = useContext(mediaStreamContext);
-
+function ListChannel({ chan, handleChannelClick }) {
   const { user } = useContext(userContext);
+  const [channelDraggedTo, setChannelDraggedTo] = useState();
+  const [userBeingDragged, setUserBeingDragged] = useState();
 
   const renderChannelIcon = (channel) => {
     let classes = "channel-icon fas ";
@@ -16,94 +16,84 @@ function ListChannel({ chan, handleChannelClick, handleClickDisconnect }) {
 
   const handleChannelRightClick = (channel) => {};
 
-  const handleUserClickMember = (channelMember) => {};
+  let userBeing = "";
 
-  const handleUserRightClick = (channelMember) => {};
-
-  const renderMic = () => {
-    let style = "user-microphone fa-solid fa-microphone";
-    if (user.micMuted) style += "-slash";
-    return style;
+  const handleUserMoveOfficial = (channel) => {
+    console.log(userBeing);
+    console.log(channel);
   };
 
-  const handleClickMic = () => {
-    toggleMic();
-  };
-
-  let userBeingDragged = {};
-  let channelDraggedTo;
-
-  const handleUserMoveOfficial = () => {
-    console.log(
-      "user was moved to channel",
-      userBeingDragged.name,
-      channelDraggedTo.name
-    );
-  };
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
 
   return (
-    <li key={chan._id} className="li-style">
-      <i className={renderChannelIcon(chan)}></i>
-      <div
-        onClick={() => handleChannelClick(user, chan)}
-        onContextMenu={() => handleChannelRightClick(chan)}
-        className="channel-list"
-        onDragEnter={() => (channelDraggedTo = chan)}
-      >
-        {chan.name}
-      </div>
-      <i className="gear-icon fa-solid fa-gear"></i>
-      {chan.currentUsers &&
-        chan.currentUsers.map((channelMember) => (
-          <div key={channelMember._id}>
-            <h5
-              onClick={() => handleUserClickMember(channelMember)}
-              onContextMenu={() => handleUserRightClick(channelMember)}
-              className="channel-user"
-              draggable={true}
-              onDrag={() => (userBeingDragged = channelMember)}
-              onDragEnd={() => handleUserMoveOfficial()}
-            >
-              {channelMember.userLogo && (
-                <img
-                  className="channel-user-image"
-                  src={channelMember.userLogo}
-                  alt="userLogo"
-                />
-              )}
-              {channelMember.name}
-            </h5>
-            {channelMember.micMuted && (
-              <span className="fa-solid fa-microphone-slash"></span>
-            )}
-          </div>
-        ))}
-    </li>
+    <ChannelList>
+      <li key={chan._id} className="li-style">
+        <i className={renderChannelIcon(chan)}></i>
+        <div
+          onClick={() => handleChannelClick(user, chan)}
+          onContextMenu={() => handleChannelRightClick(chan)}
+          className="channel-list"
+          onDrop={() => handleUserMoveOfficial(chan)}
+          onDragOver={(ev) => allowDrop(ev)}
+          onDragEnd={(ev) => allowDrop(ev)}
+        >
+          {chan.name}
+        </div>
+        <i className="gear-icon fa-solid fa-gear"></i>
+        {chan.currentUsers &&
+          chan.currentUsers.map((channelMember) => (
+            <ListChannelUser
+              key={channelMember._id}
+              channelMember={channelMember}
+              setUserBeingDragged={setUserBeingDragged}
+            />
+          ))}
+      </li>
+    </ChannelList>
   );
 }
 
-// {user && (
-//   <div className="user-container">
-//     {currentChannel && (
-//       <>
-//         <i className="connection-signal fa-solid fa-signal"></i>
-//         <i className="voice-connected">Voice Connected</i>
-//         <i
-//           onClick={() => handleClickDisconnect()}
-//           className="disconnect-logo fa-solid fa-phone-slash"
-//         ></i>
-//       </>
-//     )}
-//     <img
-//       key={user._id}
-//       className="user-bottom-logo channel-user-image"
-//       src={user.userLogo}
-//       alt="userLogo"
-//     />
-//     <i className="user-bottom-name">{user.name}</i>
-//     <i onClick={() => handleClickMic()} className={renderMic()}></i>
-//     <i className="user-headset fa-solid fa-headphones"></i>
-//     <i className="user-settings fa-solid fa-gear"></i>
-//   </div>
+const ChannelList = styled.div`
+  & .li-style {
+    background-color: #2b2d3a;
+    margin-bottom: 25px;
+    border-radius: 18px;
+  }
+
+  & li {
+    list-style-type: none;
+    grid-column: 1;
+  }
+  & .channel-list {
+    color: #ffffff;
+    display: inline;
+    font-size: 22px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  & .channel-icon {
+    font-size: 24px;
+    color: #2e86ab;
+    margin: 10px;
+  }
+  & .sidebar-container .gear {
+    grid-column: 2;
+    cursor: pointer;
+  }
+
+  & .gear-icon {
+    cursor: pointer;
+    float: right;
+    margin-right: 10px;
+    margin-top: 18px;
+  }
+
+  & .fa-comment-alt {
+    font-size: 18px;
+  }
+`;
 
 export default ListChannel;

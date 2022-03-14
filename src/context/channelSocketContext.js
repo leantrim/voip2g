@@ -15,6 +15,7 @@ const ChannelSocketProvider = ({ children }) => {
     const [channel] = useState(channelSocketConnection);
 
     useEffect(() => {
+        console.log('RENDER');
         channel.on("user joined", payload => {
         });
     }, [channel])
@@ -30,7 +31,6 @@ const ChannelSocketProvider = ({ children }) => {
     }
 
     const userSendMessageToChannel = (channelID, message) => {
-        console.log('message sent', channelID, message);
         channel.emit('user_send_message_to_channel', channelID, message);
     }
 

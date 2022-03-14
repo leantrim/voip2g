@@ -6,7 +6,7 @@ import useForm from "../common/Form";
 import { logo } from "../../config.json";
 import { login } from "../../types/LoginType";
 import { LoginType } from "../../types/LoginFormType";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../../styles/Login.css";
 
 export default function Login() {
@@ -14,10 +14,6 @@ export default function Login() {
   const [errors, setErrors] = useState<any>();
 
   const style = LoginType.classname;
-
-  interface stateType {
-    from: { pathname: string };
-  }
 
   const joiSchema = Joi.object({
     [LoginType.email]: Joi.string()

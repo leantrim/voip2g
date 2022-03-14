@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import ChatHeader from "./ChatHeader";
 import MessageList from "./MessageList";
 import SendMessage from "./SendMessage";
 
@@ -6,7 +7,7 @@ function SendChatMessage() {
   return (
     <Container>
       {/* Message Header */}
-      <ChatHeader>Chat Header</ChatHeader>
+      <ChatHeader />
 
       {/* Messages List */}
       <MessageList />
@@ -17,20 +18,18 @@ function SendChatMessage() {
   );
 }
 
-const ChatHeader = styled.div`
-  grid-row: 1;
-`;
-
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 95%;
+  height: 99%;
   display: grid;
   grid-template-rows: 7% auto 7%;
   grid-template-columns: 100%;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
   justify-content: center;
+  border: 6px solid #2b2d3a;
+  border-radius: 8px;
+  margin-left: 29px;
+  margin-right: 9px;
+  background-color: #252832;
 `;
 
 /* CSS Nice To have in future :)

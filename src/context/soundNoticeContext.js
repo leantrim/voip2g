@@ -1,11 +1,12 @@
-import { useRef, createContext, useState } from 'react';
+import { useRef, createContext, useState, useEffect } from 'react';
 import useSound from "use-sound";
 import boopSfx from "../sounds/chanjoin.mp3";
 
 const soundContext = createContext();
 
-function UseFocus() {
+function useFocus() {
     const htmlElRef = useRef(null);
+
     const setFocus = () => {
         htmlElRef.current && htmlElRef.current.click();
     };
@@ -14,7 +15,7 @@ function UseFocus() {
 }
 
 const SoundContextProvider = ({ children }) => {
-    const [soundRef, playSound] = UseFocus();
+    const [soundRef, playSound] = useFocus();
     const [sound, setSound] = useState();
     const [play] = useSound(boopSfx);
 
@@ -22,16 +23,16 @@ const SoundContextProvider = ({ children }) => {
         play();
     }
 
-    const playCustomSound = () => {
+
+    useEffect(() => {
         playSound();
-    }
+    }, [soundRef, playSound])
 
     return (
         <>
-            <button ref={soundRef} onClick={() => handleSoundPlay}></button>
+            <i style={{ visibility: 'hidden' }} ref={soundRef} onClick={handleSoundPlay}></i>
             <soundContext.Provider value={{
-                playCustomSound
-
+                playSound
             }}>
                 {children}
 
