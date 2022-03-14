@@ -19,6 +19,10 @@ function SendChatMessage() {
 }
 
 const Container = styled.div`
+  grid-row: 1;
+  grid-column: 2;
+  background-color: #1b1e27;
+  overflow: hidden;
   width: 92%;
   height: 99%;
   display: grid;

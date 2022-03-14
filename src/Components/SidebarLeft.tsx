@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 import NewChannel from "./voiceSystem/NewChannel";
 import ChannelList from "./voiceSystem/ChannelList";
 import SidebarHeader from "./SidebarHeader";
@@ -21,6 +20,7 @@ const Container = styled.div`
   height: 99%;
   border: 4px solid #2b2d3a;
   border-radius: 8px;
+  background-color: #252832;
 
   & .create-new-channel {
     cursor: pointer;

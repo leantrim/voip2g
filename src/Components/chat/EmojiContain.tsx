@@ -1,4 +1,4 @@
-import React, { Suspense, useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext } from "react";
 import styled from "styled-components";
 import { chatContext } from "../../context/chatContext";
 import { Circle } from "better-react-spinkit";

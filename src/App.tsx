@@ -1,6 +1,6 @@
 import React, { Suspense, useContext, useEffect } from "react";
 import { Circle } from "better-react-spinkit";
-import "./styles/Main.css";
+import styled from "styled-components";
 import "./App.css";
 import Footer from "Components/Footer";
 import Header from "Components/Header";
@@ -8,7 +8,7 @@ import SidebarLeft from "Components/SidebarLeft";
 import SidebarRight from "Components/SidebarRight";
 import { userContext } from "context/userContext";
 
-const Chat = React.lazy(() => import("Components/chat/ChatContainer"));
+const ChatContainer = React.lazy(() => import("Components/chat/ChatContainer"));
 const VoiceChat = React.lazy(() => import("Components/voiceSystem/VoiceChat"));
 
 function App() {
@@ -17,29 +17,34 @@ function App() {
   useEffect(() => {}, [loadUserInfo]);
 
   return (
-    <div className="main-container">
-      <div className="footer">
-        <Footer />
-      </div>
-      <div className="header-container">
-        <Header />
-      </div>
+    <Container>
+      <Header />
       <div className="sub-container">
-        <div className="sidebar-left">
-          <SidebarLeft />
-        </div>
-        <div className="sidebar-right">
-          <SidebarRight />
-        </div>
-        <div className="body-container">
-          <Suspense fallback={<Circle color="#e1b542" size={65} />}>
-            <Chat />
-            <VoiceChat />
-          </Suspense>
-        </div>
+        <SidebarLeft />
+        <SidebarRight />
+
+        <Suspense fallback={<Circle color="#e1b542" size={65} />}>
+          <ChatContainer />
+          <VoiceChat />
+        </Suspense>
       </div>
-    </div>
+      <Footer />
+    </Container>
   );
 }
+
+const Container = styled.div`
+  display: grid;
+  height: 100vh;
+  grid-template-rows: 5% 90% 5%;
+  overflow: hidden;
+
+  & .sub-container {
+    grid-gap: 0px;
+    display: inline-grid;
+    grid-template-columns: 15em 1fr 15em;
+    overflow: hidden;
+  }
+`;
 
 export default App;

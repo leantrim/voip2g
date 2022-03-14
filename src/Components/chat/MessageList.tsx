@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { useContext } from "react";
 import DisplayMessage from "./DisplayMessage";
 import { chatContext } from "../../context/chatContext";
-import { userContext } from "context/userContext";
 
 function MessageList() {
   const { chatList } = useContext(chatContext);
