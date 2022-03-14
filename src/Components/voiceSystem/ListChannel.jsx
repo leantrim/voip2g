@@ -56,6 +56,7 @@ function ListChannel({ chan, handleChannelClick }) {
 }
 
 const ChannelList = styled.div`
+  grid-row: 2;
   & .li-style {
     background-color: #2b2d3a;
     margin-bottom: 25px;
