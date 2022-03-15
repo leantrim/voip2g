@@ -17,6 +17,11 @@ const UserContextProvider = ({ children }) => {
         auth.logout();
     }
 
+    const getUsers = async () => {
+        const { data: users } = await client.getUsers();
+        return users;
+    }
+
     const loadUserInfo = async () => {
         const { data: user } = await client.getUser();
         setUser(user);
@@ -44,7 +49,8 @@ const UserContextProvider = ({ children }) => {
             currentChat,
             currentChannel,
             channelLogging,
-            setChannelLogging
+            setChannelLogging,
+            getUsers
         }}>
             {children}
 

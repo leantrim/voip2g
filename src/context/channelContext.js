@@ -96,8 +96,9 @@ const ChannelContextProvider = ({ children }) => {
         const chat = {
             content: `${type} ${user.name} ${msg}`,
             isLog: true,
+            date: Date.now(),
         };
-        if (type === '[CONNECT]') chat.isJoining = 1;
+        if (type === '[JOIN]') chat.isJoining = 1;
         else chat.isJoining = 0;
         return chat;
     };
@@ -137,7 +138,7 @@ const ChannelContextProvider = ({ children }) => {
 
     const addUserToChannel = async (user, channelId) => {
         const { data: channel } = await chan.addClientToChannel(user, channelId._id);
-        addChannelLog(channelId, user, 'has joined to the channel', '[CONNECT]');
+        addChannelLog(channelId, user, 'has joined to the channel', '[JOIN]');
 
         userJoinChannel(channelId, user);
 
@@ -156,7 +157,7 @@ const ChannelContextProvider = ({ children }) => {
         if (!currentChannel._id) return;
 
         // Logging
-        addChannelLog(channel, user, 'has left the channel', '[DISCONNECT]');
+        addChannelLog(channel, user, 'has left the channel', '[LEAVE]');
 
         userLeaveChannel(channel, user);
 

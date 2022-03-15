@@ -2,6 +2,7 @@ import { userContext } from "context/userContext";
 import { useContext, useRef } from "react";
 import styled from "styled-components";
 import { chatContext } from "../../context/chatContext";
+import electronApi from "services/electronApi";
 
 function UseFocus<T extends HTMLInputElement>() {
   const htmlElRef = useRef<T>(null);
@@ -35,7 +36,7 @@ function SendMessage() {
       body: data.message,
     };
 
-    // electronApi.sendCustomNotification(options);
+    electronApi.sendCustomNotification(options);
   };
 
   return (

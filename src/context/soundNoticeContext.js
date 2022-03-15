@@ -24,9 +24,9 @@ const SoundContextProvider = ({ children }) => {
     }
 
 
-    useEffect(() => {
-        playSound();
-    }, [soundRef, playSound])
+    // useEffect(() => {
+    //     playSound();
+    // }, [soundRef, playSound])
 
     return (
         <>

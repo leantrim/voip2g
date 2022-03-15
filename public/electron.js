@@ -10,6 +10,30 @@ const {
 const isDev = require('electron-is-dev');
 const path = require('path');
 
+// Detects keybind
+// var gkm = require('gkm');
+// gkm.events.on('key.*', function (data) {
+//     console.log(this.event + ' ' + data);
+// });
+
+// gkm.events.on('mouse.*', function (data) {
+//     if (this.event === 'mouse.pressed') {
+//         console.log(this.event + ' ' + data);
+//     }
+//     if (this.event === 'mouse.released') {
+//         console.log(this.event + ' ' + data);
+//     }
+// });
+
+// GET PLAYING!!
+// desktopCapturer.getSources({
+//     types: ['window', 'screen']
+//   }, (error, sources) => {
+//     if (error) throw error
+//     for (let i = 0; i < sources.length; ++i) {
+//       log(sources[i]);
+//     }
+//   });
 
 
 let win;
@@ -53,10 +77,9 @@ function createWindow() {
     //     return { action: 'deny' }
     // })
 
-    win.on('close', function (event) {
-        if (!application.isQuiting) {
-            event.preventDefault();
-            win.hide();
+    win.on('window-all-closed', function (event) {
+        if (process.platform !== 'darwin') {
+            app.quit();
         }
 
 
@@ -110,6 +133,7 @@ ipcMain.on('getIdleTime', (_) => {
     console.log(idleThreshold);
     win.webContents.send('message', idleThreshold);
 })
+
 
 
 

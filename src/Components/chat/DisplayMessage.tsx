@@ -33,7 +33,7 @@ function DisplayMessage({ message }: any) {
     }
 
     if (currentDay - messageDay === 1) {
-      message_date = moment(date).format("H:mm z");
+      message_date = moment(date).format("HH:mm z");
       return "yesterday " + message_date;
     }
 
@@ -41,8 +41,8 @@ function DisplayMessage({ message }: any) {
     if (timer < 3600) return Math.floor(timer / 60) + "m ago ";
 
     if (messageDay === currentDay) {
-      message_date = moment(date).format("H:mm z");
-      return "today " + message_date;
+      message_date = moment(date).format("HH:mm z");
+      return "today at " + message_date;
     }
 
     return message_date;
@@ -88,6 +88,8 @@ function DisplayMessage({ message }: any) {
 }
 
 const Container = styled.div`
+  padding-left: 43px;
+
   & .chatfinal {
     display: grid;
     grid-template-columns: 6% 1fr;
@@ -100,17 +102,15 @@ const Container = styled.div`
     border-top: 2px solid #2b2d3a;
   }
 
-
-  padding-left: 43px;
-
   & .log-channel {
     text-align: center;
     font-size: 12px;
-    background-color: #103544;
+    background-color: #2b2d3a;
     margin-right: 14rem;
     margin-left: 14rem;
     border-radius: 18px;
     margin-bottom: 8px;
+}
   }
 
   & .message {
@@ -127,6 +127,8 @@ const Container = styled.div`
     grid-column: 3;
     margin-top: -16px;
     color: grey;
+    font-size: 12px;
+    
   }
 
   & .authorName {

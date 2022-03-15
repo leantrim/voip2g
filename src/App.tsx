@@ -40,7 +40,7 @@ const Container = styled.div`
   overflow: hidden;
 
   & .sub-container {
-    grid-gap: 0px;
+    grid-gap: 18px;
     display: inline-grid;
     grid-template-columns: 15em 1fr 15em;
     overflow: hidden;

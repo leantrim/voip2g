@@ -46,12 +46,11 @@ const ListUser = styled.div`
   }
 
   & .channel-user-image {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    padding-right: 5px;
     vertical-align: middle;
-    margin-bottom: 10px;
+    margin: 10px;
   }
 
   & .user-muted-icon {

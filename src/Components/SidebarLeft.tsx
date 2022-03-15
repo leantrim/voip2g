@@ -18,9 +18,10 @@ const Container = styled.div`
   grid-gap: 20px;
   grid-template-rows: 3.6em 4fr 3em;
   height: 99%;
+  width: 100%;
   border: 4px solid #2b2d3a;
   border-radius: 8px;
-  background-color: #252832;
+  background-color: #1b1e27;
 
   & .create-new-channel {
     cursor: pointer;

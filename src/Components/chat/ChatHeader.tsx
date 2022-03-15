@@ -3,6 +3,7 @@ import { userContext } from "context/userContext";
 import styled from "styled-components";
 import { channelContext } from "context/channelContext";
 import { mediaStreamContext } from "context/mediaStreamContext";
+import ScreenShare from "Components/screen/ScreenShare";
 
 function ChatHeader() {
   const {
@@ -52,7 +53,7 @@ function ChatHeader() {
       {(currentChannel._id && (
         <>
           <i className="connection-signal fa-solid fa-signal"></i>
-          <i className="screen-share fa-solid fa-desktop"></i>
+          <ScreenShare />
           <i
             onClick={() => handleClickDisconnect(user)}
             className="disconnect-logo fa-solid fa-phone-slash"
@@ -86,6 +87,12 @@ const Container = styled.div`
     & .info-text {
       padding-bottom: 2em;
     grid-column: end;
+    margin: 20px;
+    font-size: 16px;
+    color: grey;
+    text-align: center;
+    font-weight: 800;
+}
     }
 
     & .toggle-button {
@@ -129,16 +136,7 @@ const Container = styled.div`
     padding-bottom: 5px;
   }
 
-  & .screen-share {
-    grid-column: 4;
-    font-size: 20px;
-    color: #2e86ab;
-  }
 
-  & .screen-share:hover{
-    color: green;
-    cursor: pointer;
-  }
 
   & .disconnect-logo {
     grid-column: 7;

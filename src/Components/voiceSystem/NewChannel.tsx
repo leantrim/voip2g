@@ -95,8 +95,8 @@ function NewChannel() {
   return (
     <Container>
       <span onClick={openModal} className="create-new-channel">
+        <i className="header-title">Channels</i>
         <i className="plus-sign fa-solid fa-plus"></i>
-        <i className="new-channel-text">Create a new channel</i>
       </span>
       <ModalContainer>
         <Modal
@@ -209,7 +209,15 @@ const ModalContainer = styled.div`
 const Container = styled.div`
   cursor: pointer;
   background-color: #2b2d3a;
-  grid-row: 3;
+  grid-row: 1;
+
+  & .header-title {
+    font-size: 17px;
+    text-align: start;
+    margin-top: 10px;
+    margin-left: 10px;
+    color: #3ba6d3;
+  }
 `;
 
 export default NewChannel;
