@@ -23,8 +23,6 @@ const getConsole = async () => {
 }
 
 
-
-
 const exportedObject = {
     sendCustomNotification,
     openNewWindow,
