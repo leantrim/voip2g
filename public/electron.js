@@ -57,10 +57,10 @@ function createWindow() {
         autoHideMenuBar: true,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
-            nodeIntegration: true, // is default value after Electron v5
-            contextIsolation: false, // protect against prototype pollution
+            nodeIntegration: false, // is default value after Electron v5
+            contextIsolation: true, // protect against prototype pollution
             enableRemoteModule: true, // turn off remote
-            webSecurity: false
+            webSecurity: true
         },
     });
 

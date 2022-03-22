@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.css";
 import { UserContextProvider } from "./context/userContext";
 import { SoundContextProvider } from "./context/soundNoticeContext";
-import { ChannelContextProvider } from "./context/ChannelContext";
 import { ClientSocketProvider } from "./context/clientSocketContext";
 import { ChannelSocketProvider } from "./context/channelSocketContext";
 import { MediaStreamProvider } from "./context/mediaStreamContext";
@@ -11,8 +10,7 @@ import React, { Suspense, useContext, useState } from "react";
 import { Circle } from "better-react-spinkit";
 import styled from "styled-components";
 import "./App.css";
-import Footer from "./Components/Footer";
-import Header from "./Components/Header";
+
 import SidebarLeft from "./Components/SidebarLeft";
 import SidebarRight from "./Components/SidebarRight";
 
@@ -21,6 +19,7 @@ import Signup from "./Components/user/Signup";
 import ScreenSharePage from "./pages/ScreenSharePage";
 import ProtectedRoute from "./Components/common/ProtectedRoute";
 import { ScreenContextProvider } from "context/screenShareContext";
+import { ChannelContextProvider } from "context/ChannelContext";
 
 const ChatContainer = React.lazy(
   () => import("./Components/chat/ChatContainer")

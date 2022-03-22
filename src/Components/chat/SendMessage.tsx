@@ -40,7 +40,7 @@ function SendMessage({ watchingStream }: IProps) {
       body: data.message,
     };
 
-    //electronApi.sendCustomNotification(options);
+    // electronApi.sendCustomNotification(options);
   };
 
   return (

@@ -3,7 +3,6 @@ import Modal from "react-modal";
 import { useContext, useEffect, useState } from "react";
 import electronApi from "services/electronApi";
 import { screenContext } from "context/screenShareContext";
-const electron = window.require("electron");
 
 const customStyles = {
   content: {
@@ -36,7 +35,6 @@ function ScreenShare() {
   };
 
   const onClickScreenIcon = async () => {
-    electron.ipcRenderer.send("getVideoSources");
     // electronApi.getVideoSources();
     // electronApi.getConsole();
   };
@@ -67,13 +65,6 @@ function ScreenShare() {
 
     setWatchingStream(true);
   };
-
-  useEffect(() => {
-    electron.ipcRenderer.on("selectedScreen", function (evt: any, src: any) {
-      console.log("SRC RECEIVED !!!", src);
-      startStreaming(src);
-    });
-  }, [electron]);
 
   return (
     <>
