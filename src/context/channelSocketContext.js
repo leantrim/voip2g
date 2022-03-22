@@ -15,7 +15,6 @@ const ChannelSocketProvider = ({ children }) => {
     const [channel] = useState(channelSocketConnection);
 
     useEffect(() => {
-        console.log('RENDER');
         channel.on("user joined", payload => {
         });
     }, [channel])

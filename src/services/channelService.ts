@@ -1,18 +1,15 @@
 import http from "./httpService";
 import { DATABASE_URL } from "../config.json";
 
+import Users from "types/Users";
+import Channel from "types/Channel";
+
 const SECOND_URL = "channels";
 
 export enum ChannelType {
   name = "name",
   isChat = "isChat",
   author = "author",
-}
-
-interface Channel {
-  [ChannelType.name]: string;
-  [ChannelType.isChat]: boolean;
-  [ChannelType.author]: string;
 }
 
 function createChannel(channel: Channel) {
@@ -29,7 +26,7 @@ function getChannel(_id: string) {
   return http.get(`${DATABASE_URL}/api/${SECOND_URL}/${_id}`);
 }
 
-function addClientToChannel(user: string, _id: string) {
+function addClientToChannel(user: Users, _id: string) {
   return http.put(`${DATABASE_URL}/api/${SECOND_URL}/addMember/${_id}`, {
     user,
   });
@@ -44,7 +41,7 @@ interface channel {
   _id: string;
 }
 
-function removeClientFromChannel(user: string, channel: channel) {
+function removeClientFromChannel(user: Users, channel: Channel) {
   return http.put(
     `${DATABASE_URL}/api/${SECOND_URL}/removeMember/${channel._id}`,
     user

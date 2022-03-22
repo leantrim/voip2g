@@ -12,7 +12,6 @@ const chatContext = createContext();
 const ChatContextProvider = ({ children }) => {
     const [showEmoji, setShowEmoji] = useState(false);
     const [emoji, setEmoji] = useState('');
-    //const [chatList, setChatList] = useState({ message: [] });
     const [chatList, setChatList] = useLocalStorage("chatList", { message: [] });
     const { register, handleSubmit, watch, setValue, getValues } = useForm();
     const { user, setUser, currentChat, setCurrentChat } = useContext(userContext);
@@ -24,7 +23,6 @@ const ChatContextProvider = ({ children }) => {
 
     const getCurrentChat = async (currentChat) => {
 
-        console.log('CurrentChat called')
         if (!currentChat._id) {
 
             const findChannel = await chan.getChannels();
@@ -35,10 +33,8 @@ const ChatContextProvider = ({ children }) => {
 
             const { data: chat } = await chatService.getChat(channel._id);
 
-
             setChatList({ ...chat });
 
-            console.log('getCurrentChat, SETCURRENTCHAT')
             setCurrentChat(channel);
 
             return;
@@ -76,7 +72,6 @@ const ChatContextProvider = ({ children }) => {
         chatList.message.push(chat);
 
         setChatList({ ...chatList })
-
 
         userSendMessageToChannel(currentChat._id, chatList);
 

@@ -6,7 +6,10 @@ const {
     powerMonitor,
     Menu,
     Tray,
+    desktopCapturer,
+    remote
 } = require('electron')
+
 const isDev = require('electron-is-dev');
 const path = require('path');
 
@@ -51,18 +54,18 @@ function createWindow() {
         title: 'VOIP2G Speak better with friends',
         show: true,
         icon: icon,
-        //TODO:Enabble this later!   autoHideMenuBar: true,
+        autoHideMenuBar: true,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
-            nodeIntegration: false, // is default value after Electron v5
-            contextIsolation: true, // protect against prototype pollution
-            enableRemoteModule: false, // turn off remote
+            nodeIntegration: true, // is default value after Electron v5
+            contextIsolation: false, // protect against prototype pollution
+            enableRemoteModule: true, // turn off remote
             webSecurity: false
         },
     });
 
     win.loadURL(
-        isDev ? "http://localhost:3000" : path.join(__dirname, '/index.html')
+        isDev ? "http://localhost:3000" : path.join(__dirname, 'index.html')
     )
 
     win.maximize();
@@ -122,7 +125,11 @@ ipcMain.on('newWindow', (_, url) => {
     const window = new BrowserWindow({
         backgroundColor: '#2e2c29',
         webPreferences: {
-        }
+            nodeIntegration: true, // is default value after Electron v5
+            contextIsolation: false, // protect against prototype pollution
+            enableRemoteModule: true, // turn off remote
+            webSecurity: false
+        },
     })
     window.loadURL("http://localhost:3000/" + url);
 })
@@ -134,8 +141,35 @@ ipcMain.on('getIdleTime', (_) => {
     win.webContents.send('message', idleThreshold);
 })
 
+ipcMain.on('reloadElectronPage', (_) => {
+    win.webContents.reload();
+    console.log('Page should reload!');
+})
 
 
+ipcMain.on('getVideoSources', async (_) => {
+    const inputSources = await desktopCapturer.getSources({
+        types: ['window', 'screen', 'audio']
+    });
+
+    win.webContents.send('screens', inputSources);
+
+    const videoOptionsMenu = Menu.buildFromTemplate(
+        inputSources.map(source => {
+            return {
+                label: source.name,
+                click: () => selectSource(source)
+            };
+        })
+    )
+    videoOptionsMenu.popup();
+
+    return inputSources;
+})
+
+const selectSource = (source) => {
+    win.webContents.send('selectedScreen', source);
+}
 
 
 

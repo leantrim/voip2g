@@ -1,6 +1,6 @@
 import { userContext } from "context/userContext";
 import { useContext, useRef } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { chatContext } from "../../context/chatContext";
 import electronApi from "services/electronApi";
 
@@ -18,7 +18,11 @@ interface data {
   message: string;
 }
 
-function SendMessage() {
+interface IProps {
+  watchingStream: boolean;
+}
+
+function SendMessage({ watchingStream }: IProps) {
   const [chatRef, setChatFocus] = UseFocus();
   const { handleMessageSubmit, register, handleSubmit } =
     useContext(chatContext);
@@ -36,12 +40,12 @@ function SendMessage() {
       body: data.message,
     };
 
-    electronApi.sendCustomNotification(options);
+    //electronApi.sendCustomNotification(options);
   };
 
   return (
     <>
-      <InputBox>
+      <InputBox watchingStream={watchingStream}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <input
             ref={chatRef}
@@ -54,10 +58,10 @@ function SendMessage() {
   );
 }
 
-const InputBox = styled.div`
+const InputBox = styled.div<IProps>`
 display: inline-grid;
-    grid-row: 3;
-    grid-template-columns: 1% auto;
+grid-template-columns: 1% auto;
+
 
   & Form {
     width: 103%;
@@ -97,6 +101,14 @@ display: inline-grid;
 
   & .Picker {
   }
+
+  ${({ watchingStream }) =>
+    watchingStream &&
+    css`
+      grid-template-rows: 1fr 7% 10% 6%;
+    `}
+
+
 `;
 
 export default SendMessage;

@@ -14,7 +14,7 @@ const MediaStreamProvider = ({ children }) => {
 
     const [peers, setPeers] = useState([]);
     const socketRef = useRef();
-    const userVideo = useRef();
+    const userAudio = useRef();
     const peersRef = useRef([]);
     const [micMuted, setMicMuted] = useState(false);
 
@@ -34,7 +34,7 @@ const MediaStreamProvider = ({ children }) => {
                 volume: 1
             }
         }).then((stream) => {
-            userVideo.current = stream;
+            userAudio.current = stream;
             socketRef.current.on("all users", (users) => {
                 const peers = [];
                 users.forEach((userID) => {
@@ -112,7 +112,7 @@ const MediaStreamProvider = ({ children }) => {
     }
 
     const toggleMic = () => {
-        const audioTrack = userVideo.current
+        const audioTrack = userAudio.current
             .getTracks()
             .find((track) => track.kind === "audio");
         audioTrack.enabled = true;
@@ -129,7 +129,7 @@ const MediaStreamProvider = ({ children }) => {
     };
 
     const enableMic = () => {
-        const audioTrack = userVideo.current
+        const audioTrack = userAudio.current
             .getTracks()
             .find((track) => track.kind === "audio");
 
@@ -139,7 +139,7 @@ const MediaStreamProvider = ({ children }) => {
     };
 
     const disableMic = () => {
-        const audioTrack = userVideo.current
+        const audioTrack = userAudio.current
             .getTracks()
             .find((track) => track.kind === "audio");
 
@@ -162,7 +162,7 @@ const MediaStreamProvider = ({ children }) => {
                 enableMic,
                 toggleMic,
                 micMuted,
-                userVideo,
+                userAudio,
                 peers,
                 peersRef
             }}>

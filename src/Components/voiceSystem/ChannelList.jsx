@@ -1,23 +1,22 @@
 import { useContext, useEffect } from "react";
 
-import { channelContext } from "../../context/channelContext";
+import { ChannelContext } from "../../context/ChannelContext";
 import ListChannel from "./ListChannel";
 
 function ChannelList() {
   const { channel, handleChannelClick, handleClickDisconnect, loadChannels } =
-    useContext(channelContext);
+    useContext(ChannelContext);
 
   useEffect(() => {
     loadChannels();
-    console.log("RAN");
   }, []);
 
   return (
     <div>
-      {channel.map((chan) => (
+      {channel.map((channel) => (
         <ListChannel
-          key={chan._id}
-          chan={chan}
+          key={channel._id}
+          chan={channel}
           handleChannelClick={handleChannelClick}
           handleClickDisconnect={handleClickDisconnect}
         />

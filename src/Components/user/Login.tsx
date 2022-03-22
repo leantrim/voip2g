@@ -8,10 +8,13 @@ import { login } from "../../types/LoginType";
 import { LoginType } from "../../types/LoginFormType";
 import { Link } from "react-router-dom";
 import "../../styles/Login.css";
+import electronApi from "services/electronApi";
 
 export default function Login() {
   const data = { email: "", password: "" };
   const [errors, setErrors] = useState<any>();
+
+  console.log("LOGIN PAGE SHOWED");
 
   const style = LoginType.classname;
 
@@ -28,7 +31,7 @@ export default function Login() {
   const doSubmit = async (data: login) => {
     try {
       await auth.login(data);
-      window.location.href = "/";
+      electronApi.reloadWindow();
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         const errors = error.response.data;

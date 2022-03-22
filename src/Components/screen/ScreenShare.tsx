@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import Modal from "react-modal";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import electronApi from "services/electronApi";
+import { screenContext } from "context/screenShareContext";
+const electron = window.require("electron");
 
 const customStyles = {
   content: {
@@ -17,6 +19,8 @@ const customStyles = {
 };
 
 function ScreenShare() {
+  const { setUserVideo, userVideo, setWatchingStream } =
+    useContext(screenContext);
   const [modalIsOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
@@ -31,31 +35,55 @@ function ScreenShare() {
     setIsOpen(false);
   };
 
-  const onClickScreenIcon = () => {
-    electronApi.getVideoSources();
+  const onClickScreenIcon = async () => {
+    electron.ipcRenderer.send("getVideoSources");
+    // electronApi.getVideoSources();
+    // electronApi.getConsole();
   };
-  return (
-    <Container>
-      <i
-        onClick={() => onClickScreenIcon()}
-        className="screen-share fa-solid fa-desktop"
-      ></i>
 
-      <span onClick={openModal} className="create-new-channel">
-        <i className="header-title">Channels</i>
-        <i className="plus-sign fa-solid fa-plus"></i>
-      </span>
-      <ModalContainer>
-        <Modal
-          ariaHideApp={false}
-          isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        ></Modal>
-      </ModalContainer>
-    </Container>
+  const startStreaming = async (source: any) => {
+    const constrains: any = {
+      audio: {
+        mandatory: {
+          chromeMediaSource: "desktop",
+          chromeMediaSourceId: source.id,
+        },
+      },
+      video: {
+        mandatory: {
+          chromeMediaSource: "desktop",
+          chromeMediaSourceId: source.id,
+          minHeight: 720,
+          maxFrameRate: 60,
+          minWidth: 1280,
+        },
+      },
+    };
+    const stream: any = await navigator.mediaDevices.getUserMedia(constrains);
+
+    setUserVideo(stream);
+
+    console.log(stream);
+
+    setWatchingStream(true);
+  };
+
+  useEffect(() => {
+    electron.ipcRenderer.on("selectedScreen", function (evt: any, src: any) {
+      console.log("SRC RECEIVED !!!", src);
+      startStreaming(src);
+    });
+  }, [electron]);
+
+  return (
+    <>
+      <Container>
+        <i
+          onClick={() => onClickScreenIcon()}
+          className="screen-share fa-solid fa-desktop"
+        ></i>
+      </Container>
+    </>
   );
 }
 

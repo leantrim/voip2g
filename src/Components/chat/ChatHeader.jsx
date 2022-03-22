@@ -1,11 +1,11 @@
 import { useContext, useEffect } from "react";
 import { userContext } from "context/userContext";
-import styled from "styled-components";
-import { channelContext } from "context/channelContext";
+import styled, { css } from "styled-components";
+import { ChannelContext } from "context/ChannelContext";
 import { mediaStreamContext } from "context/mediaStreamContext";
 import ScreenShare from "Components/screen/ScreenShare";
 
-function ChatHeader() {
+function ChatHeader({ watchingStream }) {
   const {
     currentChat,
     user,
@@ -14,7 +14,7 @@ function ChatHeader() {
     setChannelLogging,
   } = useContext(userContext);
   const { channel, handleChannelClick, handleClickDisconnect } =
-    useContext(channelContext);
+    useContext(ChannelContext);
   const { toggleMic } = useContext(mediaStreamContext);
 
   const handleClickMic = () => {
@@ -44,8 +44,8 @@ function ChatHeader() {
   };
 
   return (
-    <Container>
-      <h3 className="chat-header">{currentChat.name}</h3>
+    <Container watchingStream={watchingStream}>
+      <div className="chat-header">{currentChat.name}</div>
       <div className="info-text">
         {(channelLogging && "Disable Log") || "Enable Log"}
       </div>
@@ -77,6 +77,7 @@ const Container = styled.div`
     text-align: center;
     align-items: center;
     border-radius: 3px;
+
 
     & .chat-icon {
       grid-row: 1;
@@ -112,9 +113,9 @@ const Container = styled.div`
     & .chat-header {
       grid-column: 2;
     grid-row: 1;
-    margin-top: 15px;
     color: white;
     text-align: start;
+    font-weight: 600;
     }
     
   & .voice-connected {
@@ -172,6 +173,14 @@ const Container = styled.div`
     cursor: pointer;
     grid-row: 1;
   }
+
+  ${({ watchingStream }) =>
+    watchingStream &&
+    css`
+      height: 6vh;
+    `}
+
+
 `;
 
 export default ChatHeader;

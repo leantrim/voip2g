@@ -3,27 +3,30 @@ import styled from "styled-components";
 import { userContext } from "../../context/userContext";
 import ListChannelUser from "./ListChannelUser";
 
-function ListChannel({ chan, handleChannelClick }) {
+import Channel from "types/Channel";
+import User from "types/Channel";
+
+function ListChannel({ chan, handleChannelClick }: any) {
   const { user } = useContext(userContext);
   const [channelDraggedTo, setChannelDraggedTo] = useState();
   const [userBeingDragged, setUserBeingDragged] = useState();
 
-  const renderChannelIcon = (channel) => {
+  const renderChannelIcon = (channel: any) => {
     let classes = "channel-icon fas ";
     classes += channel.isChat ? "fa-regular fa-comment-dots" : "fa-headset";
     return classes;
   };
 
-  const handleChannelRightClick = (channel) => {};
+  const handleChannelRightClick = (channel: Channel) => {};
 
   let userBeing = "";
 
-  const handleUserMoveOfficial = (channel) => {
+  const handleUserMoveOfficial = (channel: Channel) => {
     console.log(userBeing);
     console.log(channel);
   };
 
-  function allowDrop(ev) {
+  function allowDrop(ev: any) {
     ev.preventDefault();
   }
 
@@ -43,7 +46,7 @@ function ListChannel({ chan, handleChannelClick }) {
         </div>
         <i className="gear-icon fa-solid fa-gear"></i>
         {chan.currentUsers &&
-          chan.currentUsers.map((channelMember) => (
+          chan.currentUsers.map((channelMember: User) => (
             <ListChannelUser
               key={channelMember._id}
               channelMember={channelMember}
@@ -71,6 +74,14 @@ const ChannelList = styled.div`
     color: #ffffff;
     display: inline;
     font-size: 22px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  & .channel-list:hover {
+    color: grey;
+    display: inline;
+    font-size: 24px;
     cursor: pointer;
     font-weight: 500;
   }

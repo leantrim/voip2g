@@ -1,3 +1,4 @@
+
 const sendCustomNotification = async (options) => {
     window.App.notificationApi.sendNotification(options);
 };
@@ -10,16 +11,27 @@ const getIdleTime = async () => {
 };
 
 const getVideoSources = async () => {
-    console.log(window);
-    window.App.notificationApi.getVideoSources();
+    window.App.notificationApi.getVideoSource();
 };
+
+const reloadWindow = async () => {
+    window.App.notificationApi.reloadPage();
+};
+
+const getConsole = async () => {
+    console.log(window.App);
+}
+
+
 
 
 const exportedObject = {
     sendCustomNotification,
     openNewWindow,
     getIdleTime,
-    getVideoSources
+    getVideoSources,
+    reloadWindow,
+    getConsole
 };
 
 export default exportedObject;

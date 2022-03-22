@@ -1,7 +1,7 @@
 import { userContext } from "context/userContext";
 import { useContext, useEffect, useRef } from "react";
-import moment from "moment";
 import styled from "styled-components";
+import formatDate from "services/formatMessageDate";
 
 function DisplayMessage({ message }: any) {
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -11,48 +11,11 @@ function DisplayMessage({ message }: any) {
     bottomRef?.current?.scrollIntoView();
   }, [message]);
 
-  const formatDate = (date: any) => {
-    // Format date
-    let message_date = moment(date).format("YYYY-MM-DD H:mm z");
-
-    // Format current date
-    let dateToday = Date.now();
-    const constcurrentDate = moment(dateToday).format("YYYY-MM-DD H:mm z");
-
-    const difference = (Date.now() - date) / 1000;
-
-    const timer = Math.floor(difference);
-
-    const messageDay = new Date(date).getDate();
-    const currentDay = new Date(dateToday).getDate();
-
-    if (timer < 10) return "just now ";
-
-    if (timer < 60) {
-      return timer + "s ago ";
-    }
-
-    if (currentDay - messageDay === 1) {
-      message_date = moment(date).format("HH:mm z");
-      return "yesterday " + message_date;
-    }
-
-    // if message was sent within 3600 seconds (one hour);
-    if (timer < 3600) return Math.floor(timer / 60) + "m ago ";
-
-    if (messageDay === currentDay) {
-      message_date = moment(date).format("HH:mm z");
-      return "today at " + message_date;
-    }
-
-    return message_date;
-  };
-
   return (
     <Container>
       {channelLogging && message.isLog && (
-        <>
-          <div
+        <div className="log-container">
+          <i
             ref={bottomRef}
             className="log-channel"
             style={
@@ -63,8 +26,8 @@ function DisplayMessage({ message }: any) {
           >
             {formatDate(message.date)}
             {message.content}
-          </div>
-        </>
+          </i>
+        </div>
       )}
       {message.author && (
         <div className="chatfinal">
@@ -90,6 +53,7 @@ function DisplayMessage({ message }: any) {
 const Container = styled.div`
   padding-left: 43px;
 
+
   & .chatfinal {
     display: grid;
     grid-template-columns: 6% 1fr;
@@ -102,14 +66,18 @@ const Container = styled.div`
     border-top: 2px solid #2b2d3a;
   }
 
+  & .log-container {
+    margin-bottom: 18px;
+  }
+
   & .log-channel {
     text-align: center;
     font-size: 12px;
     background-color: #2b2d3a;
-    margin-right: 14rem;
-    margin-left: 14rem;
+    margin-left: 15rem;
+    padding: 4px;
+    padding-right: 8px;
     border-radius: 18px;
-    margin-bottom: 8px;
 }
   }
 

@@ -28,6 +28,11 @@ const Container = styled.div`
     vertical-align: middle;
     margin: 10px;
   }
+
+  // Offline
+  & .user-logo:hover {
+    border: 3px solid #2ca856;
+  }
 `;
 
 export default UserList;

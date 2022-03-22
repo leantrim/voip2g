@@ -3,9 +3,11 @@ import styled from "styled-components";
 import { userContext } from "context/userContext";
 import UserList from "./user/UserList";
 
+import Users from "types/Users";
+
 function SidebarRight() {
   const { getUsers, user } = useContext(userContext);
-  const [users, setCurrentUsers] = useState([""]);
+  const [users, setCurrentUsers] = useState<Users[]>([]);
 
   const getAllUsers = async () => {
     const clients = await getUsers();
@@ -19,7 +21,7 @@ function SidebarRight() {
   return (
     <Container>
       <h5>VOIP2G Users ❤️</h5>
-      {users.map((client: any) => (
+      {users.map((client: Users) => (
         <UserList key={client._id} user={client} />
       ))}
     </Container>

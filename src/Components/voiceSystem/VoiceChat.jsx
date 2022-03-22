@@ -18,7 +18,7 @@ import { mediaStreamContext } from "../../context/mediaStreamContext";
 //   };
 
 const Audio = (props) => {
-  const ref = useRef();
+  const ref = useRef("");
 
   useEffect(() => {
     if (props?.peer?.on) {

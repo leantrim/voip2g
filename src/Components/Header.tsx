@@ -27,9 +27,9 @@ const Container = styled.header`
   }
 
   & .logo > img {
-    grid-column: 3;
-    width: 50px;
-    height: 50px;
+    grid-column: 3 / auto;
+    width: 37px;
+    height: 37px;
   }
 `;
 

@@ -3,24 +3,19 @@ import Modal from "react-modal";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "styled-components";
 import chan from "services/channelService";
-import { channelContext } from "context/channelContext";
 
-interface IFormInputs {
-  channelName: string;
-  isChat: boolean;
-  author: string;
-  name: string;
-}
+import Channel from "types/Channel";
+import { ChannelContext } from "context/ChannelContext";
 
 function NewChannel() {
   const [modalIsOpen, setIsOpen] = useState(false);
-  const { loadChannels } = useContext(channelContext);
+  const { loadChannels } = useContext(ChannelContext);
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<IFormInputs>();
+  } = useForm();
 
   // Modal fnctions
   const customStyles = {
@@ -48,24 +43,17 @@ function NewChannel() {
     setIsOpen(false);
   };
 
-  interface Channel {
-    channelName: string;
-    name: string;
-    author: string;
-    isChat: boolean;
-  }
-
-  const viewModelToDb = (data: Channel) => {
+  const viewModelToDb = (data) => {
     console.log(data);
     const dataReturn = {
-      name: data.channelName,
+      name: data.name,
       isChat: data.isChat,
       author: "Lean",
     };
     return dataReturn;
   };
 
-  const onSubmit: SubmitHandler<IFormInputs> = async (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
     const datatoSend = viewModelToDb(data);
     console.log("returned data", datatoSend);
@@ -74,7 +62,7 @@ function NewChannel() {
     loadChannels();
   };
 
-  const displayError = (type: any) => {
+  const displayError = (type) => {
     if (type) {
       switch (type) {
         case "minLength":
@@ -111,15 +99,13 @@ function NewChannel() {
             <h5 className="modal-topic">Channel Name</h5>
             <input
               className="channel-name-input"
-              {...register("channelName", {
+              {...register("name", {
                 required: true,
                 minLength: 3,
                 maxLength: 16,
               })}
             />
-            <div className="errors">
-              {displayError(errors.channelName?.type)}
-            </div>
+            {/* <div className="errors">{displayError(errors.name.type)}</div> */}
             <label>
               <input
                 className="checkbox"
