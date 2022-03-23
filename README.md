@@ -9,11 +9,21 @@ Min nästa stora utmaning är att kunna dela skärm. Funktionaliteten finns där
 
 Det är lite rörigt i koden då jag mest lagt fokus på att få till dem viktiga delarna i koden. När dem väl är på plats kommer jag lägga fokus på att snygga till det & refaktorisera koden). Du får helt enkelt ha en aning mjuka ögon :)
 
+Detta är i grunden en Elektron app som man kan använda react i.
+
+Electron är ett framework som gör att man kan skapa windows/mac/linux applicationer.
+
+Mer info om Electron
+https://www.electronjs.org/
+
+# Bilder
+![bild](https://user-images.githubusercontent.com/84809937/159674478-9a289680-c082-476e-822f-46c85b4688a8.png)
+![bild](https://user-images.githubusercontent.com/84809937/159674532-c3087d81-f515-4128-8b37-d3b973a59e06.png)
+![bild](https://user-images.githubusercontent.com/84809937/159674639-d41c3b98-3194-48d8-8a0b-4dab46f4bc29.png)
+![bild](https://user-images.githubusercontent.com/84809937/159674839-dc523c35-cda6-43bf-be1f-82a6d4bd36d1.png)
 
 
-
-
-
+OBS: Backend delen ligger i seperat repository men du får en invite till den med.
 
 
 # Getting Started with Create React App
