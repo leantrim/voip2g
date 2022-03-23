@@ -1,0 +1,10 @@
+PUSH TO TALK
+Vrickad - Mouse4 (använder PTT endast till att prata )
+B-Bad - PTT (mouse4/5?)
+Oskaarn - PTT (mouse4/5?)
+Markku - PTT (mouse4/5)
+
+
+Voice Activity Detection
+Gabbe
+Ahmed

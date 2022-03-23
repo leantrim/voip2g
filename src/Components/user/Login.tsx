@@ -1,24 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Joi from "joi";
-import auth from "../services/authService";
-import useForm from "./common/Form";
-import { logo } from "../config.json";
-import { login } from "../types/LoginType";
-import { LoginType } from "../types/LoginFormType";
-import { Link, useLocation } from "react-router-dom";
-import "../styles/Login.css";
+import auth from "../../services/authService";
+import useForm from "../common/Form";
+import { logo } from "../../config.json";
+import { login } from "../../types/LoginType";
+import { LoginType } from "../../types/LoginFormType";
+import { Link } from "react-router-dom";
+import "../../styles/Login.css";
+import electronApi from "services/electronApi";
 
 export default function Login() {
   const data = { email: "", password: "" };
-  const { state } = useLocation<stateType>();
   const [errors, setErrors] = useState<any>();
 
-  const style = LoginType.classname;
+  console.log("LOGIN PAGE SHOWED");
 
-  interface stateType {
-    from: { pathname: string };
-  }
+  const style = LoginType.classname;
 
   const joiSchema = Joi.object({
     [LoginType.email]: Joi.string()
@@ -33,7 +31,7 @@ export default function Login() {
   const doSubmit = async (data: login) => {
     try {
       await auth.login(data);
-      window.location.href = state ? state.from.pathname : "/";
+      electronApi.reloadWindow();
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         const errors = error.response.data;

@@ -4,7 +4,6 @@ import Peer from "simple-peer";
 import { userContext } from './userContext';
 
 
-
 const mediaStreamContext = createContext();
 
 
@@ -15,28 +14,27 @@ const MediaStreamProvider = ({ children }) => {
 
     const [peers, setPeers] = useState([]);
     const socketRef = useRef();
-    const userVideo = useRef();
+    const userAudio = useRef();
     const peersRef = useRef([]);
     const [micMuted, setMicMuted] = useState(false);
-    const [stream, setStream] = useState();
 
     socketRef.current = socket;
 
-    const loadMediaDevices = () => {
+
+    useEffect(() => {
         navigator.mediaDevices.getUserMedia({
             audio: {
                 autoGainControl: false,
                 channelCount: 2,
-                echoCancellation: true,
+                echoCancellation: false,
                 latency: 0,
-                noiseSuppression: true,
+                noiseSuppression: false,
                 sampleRate: 48000,
                 sampleSize: 16,
                 volume: 1
             }
         }).then((stream) => {
-            setStream(stream);
-            userVideo.current = stream;
+            userAudio.current = stream;
             socketRef.current.on("all users", (users) => {
                 const peers = [];
                 users.forEach((userID) => {
@@ -49,34 +47,31 @@ const MediaStreamProvider = ({ children }) => {
                 });
                 setPeers(peers);
             });
-        });
-    }
 
-    useEffect(() => {
-        loadMediaDevices();
-        socketRef.current.on("user joined", (payload) => {
-            const peer = addPeer(payload.signal, payload.callerID, stream);
-            peersRef.current.push({
-                peerID: payload.callerID,
-                peer,
+            socketRef.current.on("user joined", (payload) => {
+                const peer = addPeer(payload.signal, payload.callerID, stream);
+                peersRef.current.push({
+                    peerID: payload.callerID,
+                    peer,
+                });
+
+                setPeers((users) => [...users, peer]);
             });
 
-            setPeers((users) => [...users, peer]);
-        });
+            socketRef.current.on("receiving returned signal", (payload) => {
+                const item = peersRef.current.find((p) => p.peerID === payload.id);
+                item.peer.signal(payload.signal);
+            });
 
-        socketRef.current.on("receiving returned signal", (payload) => {
-            const item = peersRef.current.find((p) => p.peerID === payload.id);
-            item.peer.signal(payload.signal);
-        });
-
-        socketRef.current.on("user left", (id) => {
-            const peerObj = peersRef.current.find((p) => p.peerID === id);
-            if (peerObj) {
-                peerObj.peer.destroy();
-            }
-            const peers = peersRef.current.filter((p) => p.peerID !== id);
-            peersRef.current = peers;
-            setPeers(peers);
+            socketRef.current.on("user left", (id) => {
+                const peerObj = peersRef.current.find((p) => p.peerID === id);
+                if (peerObj) {
+                    peerObj.peer.destroy();
+                }
+                const peers = peersRef.current.filter((p) => p.peerID !== id);
+                peersRef.current = peers;
+                setPeers(peers);
+            });
         });
     }, []);
 
@@ -117,7 +112,7 @@ const MediaStreamProvider = ({ children }) => {
     }
 
     const toggleMic = () => {
-        const audioTrack = userVideo.current
+        const audioTrack = userAudio.current
             .getTracks()
             .find((track) => track.kind === "audio");
         audioTrack.enabled = true;
@@ -134,7 +129,7 @@ const MediaStreamProvider = ({ children }) => {
     };
 
     const enableMic = () => {
-        const audioTrack = userVideo.current
+        const audioTrack = userAudio.current
             .getTracks()
             .find((track) => track.kind === "audio");
 
@@ -144,7 +139,7 @@ const MediaStreamProvider = ({ children }) => {
     };
 
     const disableMic = () => {
-        const audioTrack = userVideo.current
+        const audioTrack = userAudio.current
             .getTracks()
             .find((track) => track.kind === "audio");
 
@@ -153,19 +148,28 @@ const MediaStreamProvider = ({ children }) => {
         user.micMuted = true;
     };
 
+    const handle = () => {
+        console.log(peers);
+    }
+
 
     return (
-        <mediaStreamContext.Provider value={{
-            disableMic,
-            enableMic,
-            toggleMic,
-            micMuted,
-            userVideo,
-            peers,
-            peersRef
-        }}>
-            {children}
-        </mediaStreamContext.Provider>
+        <>
+            <i style={{ visibility: 'hidden' }} onClick={() => handle()}></i>
+
+            <mediaStreamContext.Provider value={{
+                disableMic,
+                enableMic,
+                toggleMic,
+                micMuted,
+                userAudio,
+                peers,
+                peersRef
+            }}>
+                {children}
+            </mediaStreamContext.Provider>
+        </>
+
     );
 };
 

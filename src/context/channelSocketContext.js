@@ -9,7 +9,7 @@ const jwtToken = auth.getJwt();
 const namespace = 'channel';
 
 
-const channelSocketConnection = io(`http://192.168.1.52:5001/${namespace}`, { auth: { token: jwtToken } });
+const channelSocketConnection = io(`http://176.10.174.108:5001/${namespace}`, { auth: { token: jwtToken } });
 
 const ChannelSocketProvider = ({ children }) => {
     const [channel] = useState(channelSocketConnection);
@@ -29,12 +29,17 @@ const ChannelSocketProvider = ({ children }) => {
         channel.emit('user_leave_channel', channelID, user);
     }
 
+    const userSendMessageToChannel = (channelID, message) => {
+        channel.emit('user_send_message_to_channel', channelID, message);
+    }
+
 
     return (
         <channelSocketContext.Provider value={{
             channel,
             userJoinChannel,
-            userLeaveChannel
+            userLeaveChannel,
+            userSendMessageToChannel
         }}>
             {children}
         </channelSocketContext.Provider>

@@ -17,6 +17,7 @@ ipcRenderer.on('selectedScreen', function (evt, src) {
 
 
 contextBridge.exposeInMainWorld('App', {
+    getVideoSource: () => ipcRenderer.invoke('getVideoSources'),
     notificationApi: {
         sendNotification(options) {
             ipcRenderer.send('notification', options);
@@ -27,9 +28,9 @@ contextBridge.exposeInMainWorld('App', {
         getSystemIdleTime() {
             ipcRenderer.send('getIdleTime');
         },
-        getVideoSource() {
-            ipcRenderer.send('getVideoSources');
-        },
+        // getVideoSource() {
+        //     ipcRenderer.send('getVideoSources');
+        // },
         reloadPage() {
             ipcRenderer.send('reloadElectronPage');
         }

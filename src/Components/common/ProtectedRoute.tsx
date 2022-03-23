@@ -1,17 +1,9 @@
-import { Redirect, Route } from "react-router";
+import { Navigate, Outlet } from "react-router-dom";
 import auth from "../../services/authService";
-import Login from "../Login";
 
-function ProtectedRoute({ component: Component, render, ...restProps }: any) {
-  return (
-    <Route
-      {...restProps}
-      render={(props) => {
-        if (!auth.getCurrentUser()) return <Login />;
-        return Component ? <Component {...props} /> : render(props);
-      }}
-    />
-  );
-}
+const PrivateRoute = () => {
+  const authed = auth.getCurrentUser(); // determine if authorized, from context or
+  return authed ? <Outlet /> : <Navigate to="/login" />;
+};
 
-export default ProtectedRoute;
+export default PrivateRoute;

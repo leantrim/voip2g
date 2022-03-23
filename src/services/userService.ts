@@ -19,6 +19,10 @@ function register(user: User) {
   });
 }
 
+function getUsers() {
+  return http.get(`${DATABASE_URL}/api/users/`);
+}
+
 function getUser() {
   return http.get(`${DATABASE_URL}/api/users/me`);
 }
@@ -37,6 +41,7 @@ const exportObject = {
   getUser,
   getCustomUser,
   updateUser,
+  getUsers,
 };
 
 export default exportObject;

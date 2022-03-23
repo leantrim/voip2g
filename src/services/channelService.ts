@@ -1,6 +1,9 @@
 import http from "./httpService";
 import { DATABASE_URL } from "../config.json";
 
+import Users from "types/Users";
+import Channel from "types/Channel";
+
 const SECOND_URL = "channels";
 
 export enum ChannelType {
@@ -9,15 +12,9 @@ export enum ChannelType {
   author = "author",
 }
 
-interface Channel {
-  [ChannelType.name]: string;
-}
-
 function createChannel(channel: Channel) {
   return http.post(`${DATABASE_URL}/api/${SECOND_URL}`, {
-    [ChannelType.name]: ChannelType.name,
-    [ChannelType.isChat]: ChannelType.isChat,
-    [ChannelType.author]: ChannelType.author,
+    channel,
   });
 }
 
@@ -29,14 +26,24 @@ function getChannel(_id: string) {
   return http.get(`${DATABASE_URL}/api/${SECOND_URL}/${_id}`);
 }
 
-function addClientToChannel(user: string, _id: string) {
+function addClientToChannel(user: Users, _id: string) {
   return http.put(`${DATABASE_URL}/api/${SECOND_URL}/addMember/${_id}`, {
     user,
   });
 }
-function removeClientFromChannel(user: string, _id: string) {
+
+function addChatToChannel(message: string, _id: string) {
+  return http.put(`${DATABASE_URL}/api/${SECOND_URL}/sendChat/${_id}`, {
+    message,
+  });
+}
+interface channel {
+  _id: string;
+}
+
+function removeClientFromChannel(user: Users, channel: Channel) {
   return http.put(
-    `${DATABASE_URL}/api/${SECOND_URL}/removeMember/${_id}`,
+    `${DATABASE_URL}/api/${SECOND_URL}/removeMember/${channel._id}`,
     user
   );
 }
@@ -47,6 +54,7 @@ const exportObject = {
   getChannel,
   addClientToChannel,
   removeClientFromChannel,
+  addChatToChannel,
 };
 
 export default exportObject;

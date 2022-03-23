@@ -40,7 +40,7 @@ const path = require('path');
 
 
 let win;
-const icon = isDev ? 'public/icon.png' : (__dirname, 'build/icon.png');
+const icon = isDev ? 'src/main/icon.png' : (__dirname, 'build/icon.png');
 let tray
 
 app.disableHardwareAcceleration();
@@ -91,10 +91,26 @@ function createWindow() {
 
 }
 
+const handleGetVideoSources = async () => {
+
+    const inputSources = await desktopCapturer.getSources({
+        thumbnailSize: {
+            height: 90,
+            width: 150,
+        },
+        fetchWindowIcons: true,
+        types: ["window", "screen", 'audio'],
+    });
+
+    // Update the thumbnail png
+    inputSources.map((source) => source.thumbnailImg = source.thumbnail.toDataURL())
+
+    return inputSources;
+
+};
+
 
 app.whenReady().then(() => {
-    createWindow();
-
     tray = new Tray(icon)
     const contextMenu = Menu.buildFromTemplate([
         { label: 'Mute Microphone' },
@@ -105,6 +121,10 @@ app.whenReady().then(() => {
 
     tray.setToolTip('VOIP2G');
     tray.setContextMenu(contextMenu);
+
+    ipcMain.handle('getVideoSources', handleGetVideoSources);
+
+    createWindow();
 })
 
 
@@ -159,18 +179,6 @@ ipcMain.on('getVideoSources', async (_) => {
 
     console.log(inputSources);
     return inputSources;
-    win.webContents.send('screens', inputSources);
-
-    const videoOptionsMenu = Menu.buildFromTemplate(
-        inputSources.map(source => {
-            return {
-                label: source.name,
-                click: () => selectSource(source)
-            };
-        })
-    )
-    videoOptionsMenu.popup();
-
 })
 
 const selectSource = (source) => {

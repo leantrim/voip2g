@@ -1,7 +1,8 @@
 {
   "name": "voip2g",
+  "homepage": ".",
   "version": "0.1.0",
-  "main": "public/electron.js",
+  "main": "src/main/electron.js",
   "private": true,
   "author": "Leutrim Bunjaku@leutrimbunjaku5@gmail.com",
   "dependencies": {
@@ -19,18 +20,22 @@
     "cross-env": "^7.0.3",
     "electromon": "^1.0.10",
     "electron-is-dev": "^2.0.0",
+    "emoji-picker-react": "^3.5.1",
+    "gkm": "^0.2.0",
     "install": "^0.13.0",
     "joi": "^17.6.0",
     "jwt-decode": "^3.1.2",
+    "moment": "^2.29.1",
+    "mousetrap": "^1.6.5",
     "next": "^11.1.4",
     "nextjs": "0.0.3",
     "peer": "^0.6.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.4",
     "react-dom": "^17.0.2",
-    "react-hook-form": "^7.17.4",
+    "react-hook-form": "^7.27.1",
     "react-modal": "^3.14.4",
-    "react-router-dom": "^5.3.0",
+    "react-router-dom": "^6.2.2",
     "react-scripts": "4.0.3",
     "simple-peer": "^9.11.1",
     "socket.io-client": "^4.4.1",
@@ -39,10 +44,20 @@
     "styled-react-modal": "^3.0.0",
     "typescript": "^4.5.5",
     "use-sound": "^4.0.1",
+    "uuid": "^8.3.2",
     "web-vitals": "^1.1.2"
   },
   "build": {
-    "appId": "Voip2G"
+    "appId": "voip2g",
+    "icon": "public/icon.png",
+    "files": [
+      "*.js",
+      "build",
+      "node_modules"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
   },
   "scripts": {
     "react-start": "react-scripts start",
@@ -73,8 +88,11 @@
   },
   "devDependencies": {
     "@types/react-modal": "^3.13.1",
+    "@types/react-native-webrtc": "^1.75.5",
     "@types/react-router-dom": "^5.3.3",
+    "@types/simple-peer": "^9.11.4",
     "@types/styled-react-modal": "^1.2.2",
+    "@types/uuid": "^8.3.4",
     "concurrently": "^6.3.0",
     "electron": "^17.0.1",
     "electron-builder": "^22.14.13",

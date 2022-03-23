@@ -4,7 +4,7 @@ import { DATABASE_URL } from "../config.json";
 import { LoginType } from "../types/LoginFormType";
 
 const SECOND_URL = "auth";
-const tokenKey = "token";
+const tokenKey = "x-auth-token";
 
 http.setAuthHeader(getJwt());
 

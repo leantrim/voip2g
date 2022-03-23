@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Joi from "joi";
-import user from "../services/userService";
-import auth from "../services/authService";
-import useForm from "./common/Form";
-import { logo } from "../config.json";
-import { signup } from "../types/Signup";
-import { RegisterType } from "../types/RegisterFormType";
-import "../styles/Signup.css";
+import user from "../../services/userService";
+import auth from "../../services/authService";
+import useForm from "../common/Form";
+import { logo } from "../../config.json";
+import { signup } from "../../types/Signup";
+import { RegisterType } from "../../types/RegisterFormType";
+import "../../styles/Signup.css";
 import { Link } from "react-router-dom";
 
 export default function Signup() {
@@ -33,7 +33,7 @@ export default function Signup() {
     try {
       const { headers } = await user.register(data);
       auth.loginWithJwt(headers["x-auth-token"]);
-      window.location.href = "/"; // Fungerar ej
+      window.location.href = "/";
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         const errors = error.response.data;
