@@ -1,3 +1,21 @@
+# Hej Jonathan!
+
+Detta är ett projekt jag drömde om att bygga i början på min utbildning, men med tiden så lärde jag mig mer i utbildningen och gav mig på att bygga detta.
+
+Mina stora utmaningar för detta projektet har varit att bygga röstkommunikations/skärmdelnings systemet då jag har varit tvungen att lära mig socket.io samt Peerjs som vi ej har fått lära oss i utbildningen. Jag har lyckats med det och flera användare kan använda röstkommunikationen!
+Jag använder socket.io för att skicka information mellan klienter och peerJS för sammankopplingen. 
+
+Min nästa stora utmaning är att kunna dela skärm. Funktionaliteten finns där men jag håller på att klura ut ett bra sätt att återanvända röstkommunikations delen för skärmdelning så man slipper flera peerJS anslutningar.
+
+Det är lite rörigt i koden då jag mest lagt fokus på att få till dem viktiga delarna i koden. När dem väl är på plats kommer jag lägga fokus på att snygga till det & refaktorisera koden). Du får helt enkelt ha en aning mjuka ögon :)
+
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
