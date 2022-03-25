@@ -31,7 +31,7 @@ export default function Login() {
   const doSubmit = async (data: login) => {
     try {
       await auth.login(data);
-      electronApi.reloadWindow();
+      window.location.href = "/";
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         const errors = error.response.data;

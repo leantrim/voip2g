@@ -10,8 +10,12 @@ function SidebarRight() {
   const [users, setCurrentUsers] = useState<Users[]>([]);
 
   const getAllUsers = async () => {
-    const clients = await getUsers();
-    setCurrentUsers(clients);
+    try {
+      const clients = await getUsers();
+      setCurrentUsers(clients);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
