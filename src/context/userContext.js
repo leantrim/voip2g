@@ -11,6 +11,7 @@ const UserContextProvider = ({ children }) => {
     const [currentChat, setCurrentChat] = useState({ message: [] });
     const [currentChannel, setCurrentChannel] = useState({});
     const [channelLogging, setChannelLogging] = useLocalStorage("channelLogging", true);
+    const authed = auth.getCurrentUser();
 
 
     const logOutUser = () => {
@@ -23,8 +24,14 @@ const UserContextProvider = ({ children }) => {
     }
 
     const loadUserInfo = async () => {
-        const { data: user } = await client.getUser();
-        setUser(user);
+        if (!authed) return;
+
+        try {
+            const { data: user } = await client.getUser();
+            setUser(user);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const getCustomUser = async (id) => {

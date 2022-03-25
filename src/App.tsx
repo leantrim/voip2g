@@ -6,6 +6,7 @@ import { ClientSocketProvider } from "./context/clientSocketContext";
 import { ChannelSocketProvider } from "./context/channelSocketContext";
 import { MediaStreamProvider } from "./context/mediaStreamContext";
 import { ChatContextProvider } from "./context/chatContext";
+import { ScreenContextProvider } from "context/screenShareContext";
 import React, { Suspense, useContext, useState } from "react";
 import { Circle } from "better-react-spinkit";
 import styled from "styled-components";
@@ -18,7 +19,6 @@ import Login from "./Components/user/Login";
 import Signup from "./Components/user/Signup";
 import ScreenSharePage from "./pages/ScreenSharePage";
 import ProtectedRoute from "./Components/common/ProtectedRoute";
-import { ScreenContextProvider } from "context/screenShareContext";
 import { ChannelContextProvider } from "context/ChannelContext";
 
 const ChatContainer = React.lazy(

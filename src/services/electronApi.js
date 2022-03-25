@@ -15,7 +15,8 @@ const getVideoSources = async () => {
 };
 
 const reloadWindow = async () => {
-    window.App.notificationApi.reloadPage();
+    // window.App.notificationApi.reloadPage();
+    //window.location.reload(true);
 };
 
 const getConsole = async () => {
