@@ -1,5 +1,3 @@
-# Hej Jonathan!
-
 Detta är ett projekt jag drömde om att bygga i början på min utbildning, men med tiden så lärde jag mig mer i utbildningen och gav mig på att bygga detta.
 
 Mina stora utmaningar för detta projektet har varit att bygga röstkommunikations/skärmdelnings systemet då jag har varit tvungen att lära mig socket.io samt Peerjs som vi ej har fått lära oss i utbildningen. Jag har lyckats med det och flera användare kan använda röstkommunikationen!
