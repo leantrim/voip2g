@@ -5,8 +5,6 @@ Jag använder socket.io för att skicka information mellan klienter och peerJS f
 
 Min nästa stora utmaning är att kunna dela skärm. Funktionaliteten finns där men jag håller på att klura ut ett bra sätt att återanvända röstkommunikations delen för skärmdelning så man slipper flera peerJS anslutningar.
 
-Det är lite rörigt i koden då jag mest lagt fokus på att få till dem viktiga delarna i koden. När dem väl är på plats kommer jag lägga fokus på att snygga till det & refaktorisera koden). Du får helt enkelt ha en aning mjuka ögon :)
-
 Detta är i grunden en Elektron app som man kan använda react i.
 
 Electron är ett framework som gör att man kan skapa windows/mac/linux applicationer.
