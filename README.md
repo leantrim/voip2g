@@ -19,9 +19,6 @@ https://www.electronjs.org/
 ![bild](https://user-images.githubusercontent.com/84809937/159674839-dc523c35-cda6-43bf-be1f-82a6d4bd36d1.png)
 
 
-OBS: Backend delen ligger i seperat repository men du får en invite till den med.
-
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
